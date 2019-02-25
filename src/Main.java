@@ -16,66 +16,95 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Main {
 	private static final int FRAME_BORDER = 20;
-	private static JButton jBtnRandom = new JButton("Random");
+	private static int LATEST_XKCD_NUM;
 	
 	public static void main(String[] args) throws JSONException, IOException {
 		JSONObject jsonLatest = readJsonFromUrl("https://xkcd.com/info.0.json");
 		Image image = getImageFromJson(jsonLatest);
+		LATEST_XKCD_NUM = jsonLatest.getInt("num");
+		
+		JButton jBtnRandom = new JButton("Random");
+		JButton jBtnNum = new JButton("Go!");
+		JTextField jTextNum = new JTextField(10);
 		
 		JFrame frame = new JFrame("XKCD Viewer");
 		JPanel mainPanel = new JPanel();
 		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel selectPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		
 		setupFrame(frame, image);
-
 		setupTitle(titlePanel, jsonLatest);
+		
 		imagePanel.add(new JLabel(new ImageIcon(image)));
 		selectPanel.add(jBtnRandom);
+		selectPanel.add(jTextNum);
+		selectPanel.add(jBtnNum);
 		
 		jBtnRandom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JSONObject jsonRand = null;
-				try {
-					jsonRand = readJsonFromUrl("https://xkcd.com/" + (int)(Math.random() * jsonLatest.getInt("num")) + "/info.0.json");
-				} catch (JSONException | IOException e2) {
-					e2.printStackTrace();
+				panelRewrite(titlePanel, imagePanel, errorPanel, frame, (int)(Math.random() * LATEST_XKCD_NUM));
+			}
+		});
+		
+		jBtnNum.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!jTextNum.getText().isEmpty() && Integer.parseInt(jTextNum.getText()) <= LATEST_XKCD_NUM) {
+					panelRewrite(titlePanel, imagePanel, errorPanel, frame, Integer.parseInt(jTextNum.getText()));
+					jTextNum.setText("");
+				} else {
+					errorPanel.removeAll();
+					errorPanel.add(new JLabel("ERROR: No XKCD found for this number"));
+					frame.revalidate();
+					frame.repaint();
 				}
-				titlePanel.removeAll();
-				setupTitle(titlePanel, jsonRand);
-				
-				imagePanel.removeAll();
-				Image imgRand = null;
-				try {
-					imgRand = getImageFromJson(jsonRand);
-				} catch (JSONException | IOException e2) {
-					e2.printStackTrace();
-				}
-				imagePanel.add(new JLabel(new ImageIcon(imgRand)));
-				
-				setupFrame(frame, imgRand);
-				
-				frame.revalidate();
-				frame.repaint();
 			}
 		});
 		
 		mainPanel.add(titlePanel);
 		mainPanel.add(imagePanel);
 		mainPanel.add(selectPanel);
+		mainPanel.add(errorPanel);
 		frame.add(mainPanel);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+	}
+	
+	private static void panelRewrite(JPanel titlePanel, JPanel imagePanel, JPanel errorPanel, JFrame frame, int numReq) {
+		JSONObject json = null;
+		try {
+			json = readJsonFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
+		} catch (JSONException | IOException e2) {
+			e2.printStackTrace();
+		}
+		titlePanel.removeAll();
+		errorPanel.removeAll();
+		setupTitle(titlePanel, json);
+		
+		imagePanel.removeAll();
+		Image imgRand = null;
+		try {
+			imgRand = getImageFromJson(json);
+		} catch (JSONException | IOException e2) {
+			e2.printStackTrace();
+		}
+		imagePanel.add(new JLabel(new ImageIcon(imgRand)));
+		
+		setupFrame(frame, imgRand);
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
@@ -94,7 +123,7 @@ public class Main {
 	}
 	
 	private static void setupFrame(JFrame frame, Image image) {
-		frame.setSize(image.getWidth(frame) + FRAME_BORDER, image.getHeight(frame) + 6 * FRAME_BORDER);
+		frame.setSize(image.getWidth(frame) + FRAME_BORDER, image.getHeight(frame) + 7 * FRAME_BORDER);
 		
 	}
 	
