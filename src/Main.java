@@ -25,6 +25,13 @@ public class Main {
 	private static final int FRAME_BORDER = 20;
 	private static int LATEST_XKCD_NUM;
 	
+	private static JFrame FRAME = new JFrame("XKCD Viewer");
+	private static JPanel MAIN_PANEL = new JPanel();
+	private static JPanel TITLE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel IMAGE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel SELECT_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel ERROR_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	
 	public static void main(String[] args) throws JSONException, IOException {
 		JSONObject jsonLatest = readJsonFromUrl("https://xkcd.com/info.0.json");
 		Image image = getImageFromJson(jsonLatest);
@@ -34,26 +41,19 @@ public class Main {
 		JButton jBtnNum = new JButton("Go!");
 		JTextField jTextNum = new JTextField(10);
 		
-		JFrame frame = new JFrame("XKCD Viewer");
-		JPanel mainPanel = new JPanel();
-		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JPanel selectPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JPanel errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+		setupFrame(image);
+		setupTitle(jsonLatest);
 		
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		setupFrame(frame, image);
-		setupTitle(titlePanel, jsonLatest);
-		
-		imagePanel.add(new JLabel(new ImageIcon(image)));
-		selectPanel.add(jBtnRandom);
-		selectPanel.add(jTextNum);
-		selectPanel.add(jBtnNum);
+		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
+		SELECT_PANEL.add(jBtnRandom);
+		SELECT_PANEL.add(jTextNum);
+		SELECT_PANEL.add(jBtnNum);
 		
 		jBtnRandom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelRewrite(titlePanel, imagePanel, errorPanel, frame, (int)(Math.random() * LATEST_XKCD_NUM));
+				panelRewrite((int)(Math.random() * LATEST_XKCD_NUM));
 			}
 		});
 		
@@ -61,50 +61,50 @@ public class Main {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!jTextNum.getText().isEmpty() && Integer.parseInt(jTextNum.getText()) <= LATEST_XKCD_NUM) {
-					panelRewrite(titlePanel, imagePanel, errorPanel, frame, Integer.parseInt(jTextNum.getText()));
+					panelRewrite(Integer.parseInt(jTextNum.getText()));
 					jTextNum.setText("");
 				} else {
-					errorPanel.removeAll();
-					errorPanel.add(new JLabel("ERROR: No XKCD found for this number"));
-					frame.revalidate();
-					frame.repaint();
+					ERROR_PANEL.removeAll();
+					ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
+					FRAME.revalidate();
+					FRAME.repaint();
 				}
 			}
 		});
 		
-		mainPanel.add(titlePanel);
-		mainPanel.add(imagePanel);
-		mainPanel.add(selectPanel);
-		mainPanel.add(errorPanel);
-		frame.add(mainPanel);
+		MAIN_PANEL.add(TITLE_PANEL);
+		MAIN_PANEL.add(IMAGE_PANEL);
+		MAIN_PANEL.add(SELECT_PANEL);
+		MAIN_PANEL.add(ERROR_PANEL);
+		FRAME.add(MAIN_PANEL);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		FRAME.setVisible(true);
 	}
 	
-	private static void panelRewrite(JPanel titlePanel, JPanel imagePanel, JPanel errorPanel, JFrame frame, int numReq) {
+	private static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
 			json = readJsonFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e2) {
 			e2.printStackTrace();
 		}
-		titlePanel.removeAll();
-		errorPanel.removeAll();
-		setupTitle(titlePanel, json);
+		TITLE_PANEL.removeAll();
+		ERROR_PANEL.removeAll();
+		setupTitle(json);
 		
-		imagePanel.removeAll();
+		IMAGE_PANEL.removeAll();
 		Image imgRand = null;
 		try {
 			imgRand = getImageFromJson(json);
 		} catch (JSONException | IOException e2) {
 			e2.printStackTrace();
 		}
-		imagePanel.add(new JLabel(new ImageIcon(imgRand)));
+		IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
 		
-		setupFrame(frame, imgRand);
-		frame.revalidate();
-		frame.repaint();
+		setupFrame(imgRand);
+		FRAME.revalidate();
+		FRAME.repaint();
 	}
 
 	private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
@@ -122,12 +122,12 @@ public class Main {
 		return ImageIO.read(new URL(jsonObj.getString("img")));
 	}
 	
-	private static void setupFrame(JFrame frame, Image image) {
-		frame.setSize(image.getWidth(frame) + FRAME_BORDER, image.getHeight(frame) + 7 * FRAME_BORDER);
+	private static void setupFrame(Image image) {
+		FRAME.setSize(image.getWidth(FRAME) + FRAME_BORDER, image.getHeight(FRAME) + 7 * FRAME_BORDER);
 		
 	}
 	
-	private static void setupTitle(JPanel titlePanel, JSONObject jsonLatest) {
-		titlePanel.add(new JLabel(jsonLatest.getString("title") + " - #" + jsonLatest.getInt("num")));
+	private static void setupTitle(JSONObject jsonLatest) {
+		TITLE_PANEL.add(new JLabel(jsonLatest.getString("title") + " - #" + jsonLatest.getInt("num")));
 	}
 }
