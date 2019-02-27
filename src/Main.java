@@ -1,5 +1,6 @@
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.json.JSONException;
@@ -23,7 +25,7 @@ import org.json.JSONObject;
 
 public class Main {
 	private static final int FRAME_BORDER = 20;
-	private static int LATEST_XKCD_NUM;
+	private static int LATEST_XKCD_NUM = 844;
 	
 	private static JFrame FRAME = new JFrame("XKCD Viewer");
 	private static JPanel MAIN_PANEL = new JPanel();
@@ -31,6 +33,7 @@ public class Main {
 	private static JPanel IMAGE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel SELECT_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel ERROR_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JTextField TEXT_INPUT = new JTextField(10);
 	
 	public static void main(String[] args) throws JSONException, IOException {
 		JSONObject jsonLatest = readJsonFromUrl("https://xkcd.com/info.0.json");
@@ -39,15 +42,19 @@ public class Main {
 		
 		JButton jBtnRandom = new JButton("Random");
 		JButton jBtnNum = new JButton("Go!");
-		JTextField jTextNum = new JTextField(10);
 		
 		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 		setupFrame(image);
 		setupTitle(jsonLatest);
 		
+		FRAME.add(new JScrollPane(MAIN_PANEL, 
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+		FRAME.getRootPane().setDefaultButton(jBtnNum);
+		
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
 		SELECT_PANEL.add(jBtnRandom);
-		SELECT_PANEL.add(jTextNum);
+		SELECT_PANEL.add(TEXT_INPUT);
 		SELECT_PANEL.add(jBtnNum);
 		
 		jBtnRandom.addActionListener(new ActionListener() {
@@ -60,14 +67,16 @@ public class Main {
 		jBtnNum.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!jTextNum.getText().isEmpty() && Integer.parseInt(jTextNum.getText()) <= LATEST_XKCD_NUM) {
-					panelRewrite(Integer.parseInt(jTextNum.getText()));
-					jTextNum.setText("");
-				} else {
-					ERROR_PANEL.removeAll();
-					ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
-					FRAME.revalidate();
-					FRAME.repaint();
+				int numRequest = 0;
+				try {
+					numRequest = Integer.parseInt(TEXT_INPUT.getText());
+					if(!TEXT_INPUT.getText().isEmpty() && numRequest <= LATEST_XKCD_NUM && numRequest > 0) {
+						panelRewrite(Integer.parseInt(TEXT_INPUT.getText()));
+					} else {
+						resetOnJSONError();
+					}
+				} catch (NumberFormatException e0) {
+					resetOnJSONError();
 				}
 			}
 		});
@@ -76,7 +85,6 @@ public class Main {
 		MAIN_PANEL.add(IMAGE_PANEL);
 		MAIN_PANEL.add(SELECT_PANEL);
 		MAIN_PANEL.add(ERROR_PANEL);
-		FRAME.add(MAIN_PANEL);
 		
 		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FRAME.setVisible(true);
@@ -89,6 +97,7 @@ public class Main {
 		} catch (JSONException | IOException e2) {
 			e2.printStackTrace();
 		}
+		TEXT_INPUT.setText("");
 		TITLE_PANEL.removeAll();
 		ERROR_PANEL.removeAll();
 		setupTitle(json);
@@ -123,11 +132,23 @@ public class Main {
 	}
 	
 	private static void setupFrame(Image image) {
-		FRAME.setSize(image.getWidth(FRAME) + FRAME_BORDER, image.getHeight(FRAME) + 7 * FRAME_BORDER);
+		int height = image.getHeight(FRAME);
+		int maxHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+		if(height >= maxHeight) {
+			height = maxHeight - (7 * FRAME_BORDER);
+		}
+		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 7 * FRAME_BORDER);
 		
 	}
 	
 	private static void setupTitle(JSONObject jsonLatest) {
 		TITLE_PANEL.add(new JLabel(jsonLatest.getString("title") + " - #" + jsonLatest.getInt("num")));
+	}
+	
+	private static void resetOnJSONError() {
+		ERROR_PANEL.removeAll();
+		ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
+		FRAME.revalidate();
+		FRAME.repaint();
 	}
 }
