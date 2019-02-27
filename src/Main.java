@@ -47,9 +47,11 @@ public class Main {
 		setupFrame(image);
 		setupTitle(jsonLatest);
 		
-		FRAME.add(new JScrollPane(MAIN_PANEL, 
+		JScrollPane scroll = new JScrollPane(MAIN_PANEL, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.getVerticalScrollBar().setUnitIncrement(20);
+		FRAME.add(scroll);
 		FRAME.getRootPane().setDefaultButton(jBtnNum);
 		
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
@@ -135,7 +137,7 @@ public class Main {
 		int height = image.getHeight(FRAME);
 		int maxHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 		if(height >= maxHeight) {
-			height = maxHeight - (7 * FRAME_BORDER);
+			height = maxHeight - (9 * FRAME_BORDER);
 		}
 		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 7 * FRAME_BORDER);
 		
