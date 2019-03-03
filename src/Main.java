@@ -1,9 +1,11 @@
 import java.awt.FlowLayout;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,9 +16,12 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -26,6 +31,7 @@ import org.json.JSONObject;
 public class Main {
 	private static final int FRAME_BORDER = 20;
 	private static int LATEST_XKCD_NUM = 844;
+	private static int DISPLAYED_XKCD_NUM;
 	
 	private static JFrame FRAME = new JFrame("XKCD Viewer");
 	private static JPanel MAIN_PANEL = new JPanel();
@@ -42,6 +48,8 @@ public class Main {
 		
 		JButton jBtnRandom = new JButton("Random");
 		JButton jBtnNum = new JButton("Go!");
+		JPopupMenu imagePopup = new JPopupMenu();
+		JMenuItem saveImage = new JMenuItem("Save Image");
 		
 		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 		setupFrame(image);
@@ -58,6 +66,18 @@ public class Main {
 		SELECT_PANEL.add(jBtnRandom);
 		SELECT_PANEL.add(TEXT_INPUT);
 		SELECT_PANEL.add(jBtnNum);
+		imagePopup.add(saveImage);
+		
+		saveImage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					saveImage(readJsonFromUrl("https://xkcd.com/" + DISPLAYED_XKCD_NUM + "/info.0.json"));
+				} catch (JSONException | IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		jBtnRandom.addActionListener(new ActionListener() {
 			@Override
@@ -73,7 +93,7 @@ public class Main {
 				try {
 					numRequest = Integer.parseInt(TEXT_INPUT.getText());
 					if(!TEXT_INPUT.getText().isEmpty() && numRequest <= LATEST_XKCD_NUM && numRequest > 0) {
-						panelRewrite(Integer.parseInt(TEXT_INPUT.getText()));
+						panelRewrite(numRequest);
 					} else {
 						resetOnJSONError();
 					}
@@ -87,7 +107,8 @@ public class Main {
 		MAIN_PANEL.add(IMAGE_PANEL);
 		MAIN_PANEL.add(SELECT_PANEL);
 		MAIN_PANEL.add(ERROR_PANEL);
-		
+
+		IMAGE_PANEL.setComponentPopupMenu(imagePopup);
 		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FRAME.setVisible(true);
 	}
@@ -135,16 +156,18 @@ public class Main {
 	
 	private static void setupFrame(Image image) {
 		int height = image.getHeight(FRAME);
-		int maxHeight = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 		if(height >= maxHeight) {
-			height = maxHeight - (9 * FRAME_BORDER);
+			height = maxHeight - (7 * FRAME_BORDER);
 		}
 		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 7 * FRAME_BORDER);
 		
 	}
 	
-	private static void setupTitle(JSONObject jsonLatest) {
-		TITLE_PANEL.add(new JLabel(jsonLatest.getString("title") + " - #" + jsonLatest.getInt("num")));
+	private static void setupTitle(JSONObject json) {
+		TITLE_PANEL.add(new JLabel(json.getString("title") + " - #" + json.getInt("num")));
+		FRAME.setTitle("XKCD Viewer | #" + json.getInt("num"));
+		DISPLAYED_XKCD_NUM = json.getInt("num");
 	}
 	
 	private static void resetOnJSONError() {
@@ -152,5 +175,14 @@ public class Main {
 		ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
 		FRAME.revalidate();
 		FRAME.repaint();
+	}
+	
+	private static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
+		JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
+		fileChooser.setSelectedFile(new File("XKCD_" + DISPLAYED_XKCD_NUM + ".jpeg"));
+		if(fileChooser.showSaveDialog(FRAME) == JFileChooser.APPROVE_OPTION) {
+			ImageIO.write((RenderedImage)(getImageFromJson(json)), "jpeg", fileChooser.getSelectedFile());
+		}
+		
 	}
 }
