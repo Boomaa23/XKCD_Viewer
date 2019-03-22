@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,9 +38,11 @@ public class Main {
 	private static JPanel MAIN_PANEL = new JPanel();
 	private static JPanel TITLE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel IMAGE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	private static JPanel SELECT_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel SELECT_PANEL_A = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel SELECT_PANEL_B = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel ERROR_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JTextField TEXT_INPUT = new JTextField(10);
+	private static JButton JBTN_FWD = new JButton(" > ");
 	
 	public static void main(String[] args) throws JSONException, IOException {
 		JSONObject jsonLatest = readJsonFromUrl("https://xkcd.com/info.0.json");
@@ -48,12 +51,16 @@ public class Main {
 		
 		JButton jBtnRandom = new JButton("Random");
 		JButton jBtnNum = new JButton("Go!");
+		
+		JButton jBtnBack = new JButton(" < ");
+		
 		JPopupMenu imagePopup = new JPopupMenu();
 		JMenuItem saveImage = new JMenuItem("Save Image");
 		
 		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 		setupFrame(image);
 		setupTitle(jsonLatest);
+		JBTN_FWD.setVisible(false);
 		
 		JScrollPane scroll = new JScrollPane(MAIN_PANEL, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
@@ -63,9 +70,11 @@ public class Main {
 		FRAME.getRootPane().setDefaultButton(jBtnNum);
 		
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
-		SELECT_PANEL.add(jBtnRandom);
-		SELECT_PANEL.add(TEXT_INPUT);
-		SELECT_PANEL.add(jBtnNum);
+		SELECT_PANEL_A.add(jBtnRandom);
+		SELECT_PANEL_A.add(TEXT_INPUT);
+		SELECT_PANEL_A.add(jBtnNum);
+		SELECT_PANEL_B.add(jBtnBack);
+		SELECT_PANEL_B.add(JBTN_FWD);
 		imagePopup.add(saveImage);
 		
 		saveImage.addActionListener(new ActionListener() {
@@ -103,9 +112,25 @@ public class Main {
 			}
 		});
 		
+		JBTN_FWD.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+					panelRewrite(DISPLAYED_XKCD_NUM + 1);
+			}
+		});
+		
+		jBtnBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panelRewrite(DISPLAYED_XKCD_NUM - 1);
+			}
+		});
+		
 		MAIN_PANEL.add(TITLE_PANEL);
 		MAIN_PANEL.add(IMAGE_PANEL);
-		MAIN_PANEL.add(SELECT_PANEL);
+		MAIN_PANEL.add(SELECT_PANEL_A);
+		MAIN_PANEL.add(SELECT_PANEL_B);
 		MAIN_PANEL.add(ERROR_PANEL);
 
 		IMAGE_PANEL.setComponentPopupMenu(imagePopup);
@@ -124,7 +149,8 @@ public class Main {
 		TITLE_PANEL.removeAll();
 		ERROR_PANEL.removeAll();
 		setupTitle(json);
-		
+		JBTN_FWD.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
+			
 		IMAGE_PANEL.removeAll();
 		Image imgRand = null;
 		try {
@@ -158,9 +184,9 @@ public class Main {
 		int height = image.getHeight(FRAME);
 		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 		if(height >= maxHeight) {
-			height = maxHeight - (7 * FRAME_BORDER);
+			height = maxHeight - (9 * FRAME_BORDER);
 		}
-		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 7 * FRAME_BORDER);
+		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 9 * FRAME_BORDER);
 		
 	}
 	
