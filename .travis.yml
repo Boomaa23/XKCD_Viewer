@@ -1,41 +1,10 @@
 language: java
 jdk: oraclejdk8
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b9ce0b4... Another X11 fix
 
 services:
   - xvfb
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9807f25... Another X11 fix, again
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-install: ant deps
->>>>>>> 5dc8bf1... Adds test target for ant/Travis
-=======
->>>>>>> 951e56a... Fix #1000 for Travis
-=======
-=======
->>>>>>> b9ce0b4... Another X11 fix
-script: xvfb-run make test
->>>>>>> 9a5b777... Fixes X11 display missing
-=======
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-=======
->>>>>>> fcdfb57... Travis timeout fix
-
->>>>>>> 9807f25... Another X11 fix, again

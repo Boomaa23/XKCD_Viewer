@@ -1,9 +1,2 @@
 *.log
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 *.class
->>>>>>> e709bac... Re-adds classpath for ant and Travis
-=======
->>>>>>> 5ec9030... Travis continues whining
-
