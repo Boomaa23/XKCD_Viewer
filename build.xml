@@ -70,10 +70,7 @@
 >>>>>>> 33de362... Adds ant build file for Travis
 =======
     <target name="test">
-      	<java classname="Main" failonerror="true" fork="yes">
-      		<classpath refid="XKCD_Viewer.classpath"/>
-      		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-      	</java>
+    	<javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="XKCD_Viewer.classpath"></javac>
     </target>
 >>>>>>> 5dc8bf1... Adds test target for ant/Travis
 </project>
