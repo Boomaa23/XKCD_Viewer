@@ -48,12 +48,19 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+<<<<<<< HEAD
     <target name="Main">
+=======
+    <target name="Main (1)">
+>>>>>>> 33de362... Adds ant build file for Travis
         <java classname="Main" failonerror="true" fork="yes">
             <classpath refid="XKCD_Viewer.classpath"/>
         </java>
     </target>
+<<<<<<< HEAD
     <target name="test">
     	<javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="XKCD_Viewer.classpath"></javac>
     </target>
+=======
+>>>>>>> 33de362... Adds ant build file for Travis
 </project>
