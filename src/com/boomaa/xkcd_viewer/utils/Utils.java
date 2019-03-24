@@ -37,7 +37,7 @@ public class Utils {
 	public static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
 		JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
 		fileChooser.setSelectedFile(new File("XKCD_" + Display.DISPLAYED_XKCD_NUM + ".jpeg"));
-		if(fileChooser.showSaveDialog(Display.FRAME) == JFileChooser.APPROVE_OPTION) {
+		if(fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
 			ImageIO.write((RenderedImage)(getImageFromJson(json)), "jpeg", fileChooser.getSelectedFile());
 		}
 	}
