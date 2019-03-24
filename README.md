@@ -1,4 +1,7 @@
 # XKCD Viewer
+[![Build Status](https://travis-ci.org/Boomaa23/XKCD_Viewer.svg?branch=master)](https://travis-ci.org/Boomaa23/XKCD_Viewer)
+[![Maintainability](https://api.codeclimate.com/v1/badges/edf7c3297c6996d6c547/maintainability)](https://codeclimate.com/github/Boomaa23/XKCD_Viewer/maintainability)
+
 A standalone viewer for XKCD built using Java
 
 Credit to Randall Munroe of xkcd.com for all xkcd content. Uses JSONs provided by xkcd.com.
