@@ -1,9 +1,9 @@
-package com.boomaa.xkcd_viewer.listeners;
+package com.boomaa.XKCDViewer.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.boomaa.xkcd_viewer.display.Display;
+import com.boomaa.XKCDViewer.display.Display;
 
 public class RandomSelect implements ActionListener {
 	@Override

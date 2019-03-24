@@ -1,4 +1,4 @@
-package com.boomaa.xkcd_viewer.utils;
+package com.boomaa.XKCDViewer.utils;
 
 import java.awt.FlowLayout;
 

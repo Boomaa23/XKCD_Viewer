@@ -1,4 +1,4 @@
-package com.boomaa.xkcd_viewer.utils;
+package com.boomaa.XKCDViewer.utils;
 
 import java.awt.Image;
 import java.awt.image.RenderedImage;
@@ -16,7 +16,7 @@ import javax.swing.JFileChooser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boomaa.xkcd_viewer.display.Display;
+import com.boomaa.XKCDViewer.display.Display;
 
 public class Utils {
 	public static JSONObject readJSONFromUrl(String url) throws IOException, JSONException {

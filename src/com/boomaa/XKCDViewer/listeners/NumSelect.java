@@ -1,10 +1,10 @@
-package com.boomaa.xkcd_viewer.listeners;
+package com.boomaa.XKCDViewer.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.boomaa.xkcd_viewer.display.Display;
-import com.boomaa.xkcd_viewer.utils.JDEC;
+import com.boomaa.XKCDViewer.display.Display;
+import com.boomaa.XKCDViewer.utils.JDEC;
 
 public class NumSelect implements ActionListener {
 	@Override

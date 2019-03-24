@@ -1,4 +1,4 @@
-package com.boomaa.xkcd_viewer.listeners;
+package com.boomaa.XKCDViewer.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import com.boomaa.xkcd_viewer.display.Display;
-import com.boomaa.xkcd_viewer.utils.Utils;
+import com.boomaa.XKCDViewer.display.Display;
+import com.boomaa.XKCDViewer.utils.Utils;
 
 public class SaveAction implements ActionListener {
 	@Override
