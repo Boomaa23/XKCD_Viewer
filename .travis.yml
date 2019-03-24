@@ -2,6 +2,7 @@ language: java
 jdk: oraclejdk8
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 services:
   - xvfb
@@ -17,3 +18,6 @@ install: ant deps
 >>>>>>> 5dc8bf1... Adds test target for ant/Travis
 =======
 >>>>>>> 951e56a... Fix #1000 for Travis
+=======
+script: xvfb-run make test
+>>>>>>> 9a5b777... Fixes X11 display missing
