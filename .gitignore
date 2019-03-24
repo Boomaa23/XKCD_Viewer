@@ -1,2 +1,6 @@
 *.log
+<<<<<<< HEAD
+=======
+*.class
+>>>>>>> e709bac... Re-adds classpath for ant and Travis
 
