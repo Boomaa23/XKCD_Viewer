@@ -1,5 +1,6 @@
 language: java
 jdk: oraclejdk8
+<<<<<<< HEAD
 
 services:
   - xvfb
@@ -10,3 +11,6 @@ before_script:
   - sleep 3
 
 
+=======
+install: ant deps
+>>>>>>> 5dc8bf1... Adds test target for ant/Travis
