@@ -1,4 +1,5 @@
 # XKCD Viewer
+[![Version](https://img.shields.io/github/release/Boomaa23/XKCD_Viewer.svg)](https://github.com/Boomaa23/XKCD_Viewer/releases/latest)
 [![Build Status](https://travis-ci.org/Boomaa23/XKCD_Viewer.svg?branch=master)](https://travis-ci.org/Boomaa23/XKCD_Viewer)
 [![Maintainability](https://api.codeclimate.com/v1/badges/edf7c3297c6996d6c547/maintainability)](https://codeclimate.com/github/Boomaa23/XKCD_Viewer/maintainability)
 
