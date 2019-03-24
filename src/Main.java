@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,6 +28,8 @@ import javax.swing.JTextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import net.sf.image4j.codec.ico.ICODecoder;
+
 public class Main {
 	private static final int FRAME_BORDER = 20;
 	private static int LATEST_XKCD_NUM = 844;
@@ -38,21 +39,22 @@ public class Main {
 	private static JPanel MAIN_PANEL = new JPanel();
 	private static JPanel TITLE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel IMAGE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	private static JPanel SELECT_PANEL_A = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	private static JPanel SELECT_PANEL_B = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel SELECT_PANEL_UPPER = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private static JPanel SELECT_PANEL_LOWER = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JPanel ERROR_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	private static JTextField TEXT_INPUT = new JTextField(10);
-	private static JButton JBTN_FWD = new JButton(" > ");
+	private static JButton FWD_BTN = new JButton(" > ");
 	
 	public static void main(String[] args) throws JSONException, IOException {
-		JSONObject jsonLatest = readJsonFromUrl("https://xkcd.com/info.0.json");
+		FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+		
+		JSONObject jsonLatest = readJSONFromUrl("https://xkcd.com/info.0.json");
 		Image image = getImageFromJson(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
-		JButton jBtnRandom = new JButton("Random");
-		JButton jBtnNum = new JButton("Go!");
-		
-		JButton jBtnBack = new JButton(" < ");
+		JButton randomBtn = new JButton("Random");
+		JButton numBtn = new JButton("Go!");
+		JButton backBtn = new JButton(" < ");
 		
 		JPopupMenu imagePopup = new JPopupMenu();
 		JMenuItem saveImage = new JMenuItem("Save Image");
@@ -60,42 +62,42 @@ public class Main {
 		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 		setupFrame(image);
 		setupTitle(jsonLatest);
-		JBTN_FWD.setVisible(false);
+		FWD_BTN.setVisible(false);
 		
 		JScrollPane scroll = new JScrollPane(MAIN_PANEL, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(20);
 		FRAME.add(scroll);
-		FRAME.getRootPane().setDefaultButton(jBtnNum);
+		FRAME.getRootPane().setDefaultButton(numBtn);
 		
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
-		SELECT_PANEL_A.add(jBtnRandom);
-		SELECT_PANEL_A.add(TEXT_INPUT);
-		SELECT_PANEL_A.add(jBtnNum);
-		SELECT_PANEL_B.add(jBtnBack);
-		SELECT_PANEL_B.add(JBTN_FWD);
+		SELECT_PANEL_UPPER.add(randomBtn);
+		SELECT_PANEL_UPPER.add(TEXT_INPUT);
+		SELECT_PANEL_UPPER.add(numBtn);
+		SELECT_PANEL_LOWER.add(backBtn);
+		SELECT_PANEL_LOWER.add(FWD_BTN);
 		imagePopup.add(saveImage);
 		
 		saveImage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					saveImage(readJsonFromUrl("https://xkcd.com/" + DISPLAYED_XKCD_NUM + "/info.0.json"));
+					saveImage(readJSONFromUrl("https://xkcd.com/" + DISPLAYED_XKCD_NUM + "/info.0.json"));
 				} catch (JSONException | IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 		
-		jBtnRandom.addActionListener(new ActionListener() {
+		randomBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelRewrite((int)(Math.random() * LATEST_XKCD_NUM));
 			}
 		});
 		
-		jBtnNum.addActionListener(new ActionListener() {
+		numBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int numRequest = 0;
@@ -112,7 +114,7 @@ public class Main {
 			}
 		});
 		
-		JBTN_FWD.addActionListener(new ActionListener() {
+		FWD_BTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -120,7 +122,7 @@ public class Main {
 			}
 		});
 		
-		jBtnBack.addActionListener(new ActionListener() {
+		backBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				panelRewrite(DISPLAYED_XKCD_NUM - 1);
@@ -129,8 +131,8 @@ public class Main {
 		
 		MAIN_PANEL.add(TITLE_PANEL);
 		MAIN_PANEL.add(IMAGE_PANEL);
-		MAIN_PANEL.add(SELECT_PANEL_A);
-		MAIN_PANEL.add(SELECT_PANEL_B);
+		MAIN_PANEL.add(SELECT_PANEL_UPPER);
+		MAIN_PANEL.add(SELECT_PANEL_LOWER);
 		MAIN_PANEL.add(ERROR_PANEL);
 
 		IMAGE_PANEL.setComponentPopupMenu(imagePopup);
@@ -141,7 +143,7 @@ public class Main {
 	private static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
-			json = readJsonFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
+			json = readJSONFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e2) {
 			e2.printStackTrace();
 		}
@@ -149,7 +151,7 @@ public class Main {
 		TITLE_PANEL.removeAll();
 		ERROR_PANEL.removeAll();
 		setupTitle(json);
-		JBTN_FWD.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
+		FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
 			
 		IMAGE_PANEL.removeAll();
 		Image imgRand = null;
@@ -165,7 +167,7 @@ public class Main {
 		FRAME.repaint();
 	}
 
-	private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+	private static JSONObject readJSONFromUrl(String url) throws IOException, JSONException {
 		InputStream is = new URL(url).openStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
@@ -187,7 +189,6 @@ public class Main {
 			height = maxHeight - (9 * FRAME_BORDER);
 		}
 		FRAME.setSize(image.getWidth(FRAME) + 2 * FRAME_BORDER, height + 9 * FRAME_BORDER);
-		
 	}
 	
 	private static void setupTitle(JSONObject json) {
@@ -209,6 +210,5 @@ public class Main {
 		if(fileChooser.showSaveDialog(FRAME) == JFileChooser.APPROVE_OPTION) {
 			ImageIO.write((RenderedImage)(getImageFromJson(json)), "jpeg", fileChooser.getSelectedFile());
 		}
-		
 	}
 }
