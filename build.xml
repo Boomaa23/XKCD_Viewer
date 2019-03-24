@@ -72,6 +72,7 @@
     <target name="test">
       	<java classname="Main" failonerror="true" fork="yes">
       		<classpath refid="XKCD_Viewer.classpath"/>
+      		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
       	</java>
     </target>
 >>>>>>> 5dc8bf1... Adds test target for ant/Travis
