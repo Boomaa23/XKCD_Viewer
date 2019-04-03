@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.display.Display;
 
-public class Utils {
+public class JSONUtils {
 	public static JSONObject readJSONFromUrl(String url) throws IOException, JSONException {
 		InputStream is = new URL(url).openStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));

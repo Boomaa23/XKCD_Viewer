@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boomaa.XKCDViewer.listeners.*;
 import com.boomaa.XKCDViewer.utils.*;
 
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -25,8 +24,8 @@ public class Display {
 	public static int DISPLAYED_XKCD_NUM;
 	
 	public static void main(String[] args) throws JSONException, IOException {
-		JSONObject jsonLatest = Utils.readJSONFromUrl("https://xkcd.com/info.0.json");
-		Image image = Utils.getImageFromJson(jsonLatest);
+		JSONObject jsonLatest = JSONUtils.readJSONFromUrl("https://xkcd.com/info.0.json");
+		Image image = JSONUtils.getImageFromJson(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
 		JDEC.FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
@@ -50,7 +49,7 @@ public class Display {
 	public static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
-			json = Utils.readJSONFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
+			json = JSONUtils.readJSONFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
@@ -63,7 +62,7 @@ public class Display {
 		JDEC.IMAGE_PANEL.removeAll();
 		Image imgRand = null;
 		try {
-			imgRand = Utils.getImageFromJson(json);
+			imgRand = JSONUtils.getImageFromJson(json);
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
@@ -75,12 +74,13 @@ public class Display {
 	}
 	
 	private static void setupFrame(Image image) {
+		int width = image.getWidth(JDEC.FRAME) + 2 * FRAME_BORDER;
 		int height = image.getHeight(JDEC.FRAME);
 		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 		if(height >= maxHeight) {
 			height = maxHeight - (9 * FRAME_BORDER);
 		}
-		JDEC.FRAME.setSize(image.getWidth(JDEC.FRAME) + 2 * FRAME_BORDER, height + 9 * FRAME_BORDER);
+		JDEC.FRAME.setSize(width, height + 9 * FRAME_BORDER);
 	}
 	
 	private static void setupTitle(JSONObject json) {
@@ -112,11 +112,11 @@ public class Display {
 	}
 
 	private static void addButtonListeners() {
-		JDEC.FWD_BTN.addActionListener(new FwdAction());
-		JDEC.BACK_BTN.addActionListener(new BackAction());
-		JDEC.RANDOM_BTN.addActionListener(new RandomSelect());
-		JDEC.NUM_BTN.addActionListener(new NumSelect());
-		JDEC.SAVE_IMAGE.addActionListener(new SaveAction());
+		JDEC.FWD_BTN.addActionListener(Listener.fwdAction());
+		JDEC.BACK_BTN.addActionListener(Listener.backAction());
+		JDEC.RANDOM_BTN.addActionListener(Listener.randomSelect());
+		JDEC.NUM_BTN.addActionListener(Listener.numSelect());
+		JDEC.SAVE_IMAGE.addActionListener(Listener.saveAction());
 	}
 	
 	public static void resetOnJSONError() {
