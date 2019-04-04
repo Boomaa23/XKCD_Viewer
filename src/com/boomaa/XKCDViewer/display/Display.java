@@ -18,34 +18,46 @@ import com.boomaa.XKCDViewer.utils.*;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
-public class Display {
+/** <p>Instigates display and houses main method</p> */
+@SuppressWarnings("deprecation")
+public class Display extends JDEC {
 	private static final int FRAME_BORDER = 20;
 	public static int LATEST_XKCD_NUM = 844;
 	public static int DISPLAYED_XKCD_NUM;
 	
+	/**
+	 * <p>Displays JFrame with everything added to it. Main running method.</p>
+	 * @param args default main method.
+	 * @throws JSONException if the latest XKCD JSON cannot be read.
+	 * @throws IOException if the URL of the latest XKCD JSON is invalid.
+	 */
 	public static void main(String[] args) throws JSONException, IOException {
 		JSONObject jsonLatest = JSONUtils.readJSONFromUrl("https://xkcd.com/info.0.json");
 		Image image = JSONUtils.getImageFromJson(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
-		JDEC.FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-		JDEC.MAIN_PANEL.setLayout(new BoxLayout(JDEC.MAIN_PANEL, BoxLayout.Y_AXIS));
-		JDEC.FRAME.getRootPane().setDefaultButton(JDEC.NUM_BTN);
-		JDEC.FWD_BTN.setVisible(false);
+		FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+		FRAME.getRootPane().setDefaultButton(NUM_BTN);
+		FWD_BTN.setVisible(false);
 		setupFrame(image);
 		setupTitle(jsonLatest);
 		setupScroll();
 		
-		JDEC.IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
-		JDEC.IMAGE_POPUP.add(JDEC.SAVE_IMAGE);
+		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
+		IMAGE_POPUP.add(SAVE_IMAGE);
 		addFrameElements();
 		addButtonListeners();
 		
-		JDEC.IMAGE_PANEL.setComponentPopupMenu(JDEC.IMAGE_POPUP);
-		JDEC.FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JDEC.FRAME.setVisible(true);
+		IMAGE_PANEL.setComponentPopupMenu(IMAGE_POPUP);
+		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		FRAME.setVisible(true);
 	}
 	
+	/**
+	 * <p>Reformats main panel and frame with new XKCD image from JSON.</p>
+	 * @param numReq the XKCD image number requested.
+	 */
 	public static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
@@ -53,76 +65,93 @@ public class Display {
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
-		JDEC.TEXT_INPUT.setText("");
-		JDEC.TITLE_PANEL.removeAll();
-		JDEC.ERROR_PANEL.removeAll();
+		TEXT_INPUT.setText("");
+		TITLE_PANEL.removeAll();
+		ERROR_PANEL.removeAll();
 		setupTitle(json);
-		JDEC.FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
+		FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
 			
-		JDEC.IMAGE_PANEL.removeAll();
+		IMAGE_PANEL.removeAll();
 		Image imgRand = null;
 		try {
 			imgRand = JSONUtils.getImageFromJson(json);
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
-		JDEC.IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
+		IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
 		
 		setupFrame(imgRand);
-		JDEC.FRAME.revalidate();
-		JDEC.FRAME.repaint();
+		FRAME.revalidate();
+		FRAME.repaint();
 	}
 	
+	/**
+	 * <p>Sizes frame around XKCD image.</p>
+	 * @param image the image upon which sizing is based.
+	 */
 	private static void setupFrame(Image image) {
-		int width = image.getWidth(JDEC.FRAME) + 2 * FRAME_BORDER;
-		int height = image.getHeight(JDEC.FRAME);
+		int minWidth = 300;
+		int width = image.getWidth(FRAME) + 2 * FRAME_BORDER;
+		int height = image.getHeight(FRAME);
 		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
+		
 		if(height >= maxHeight) {
 			height = maxHeight - (9 * FRAME_BORDER);
 		}
-		JDEC.FRAME.setSize(width, height + 9 * FRAME_BORDER);
+		if(width < minWidth) {
+			width = minWidth;
+		}
+		FRAME.setSize(width, height + 9 * FRAME_BORDER);
 	}
 	
+	/**
+	 * <p>Sets window title with currently displayed XKCD number.</p>
+	 * @param json the XKCD JSON to pull the displayed number from.
+	 */
 	private static void setupTitle(JSONObject json) {
-		JDEC.TITLE_PANEL.add(new JLabel(json.getString("title") + " - #" + json.getInt("num")));
-		JDEC.FRAME.setTitle("XKCD Viewer | #" + json.getInt("num"));
+		TITLE_PANEL.add(new JLabel(json.getString("title") + " - #" + json.getInt("num")));
+		FRAME.setTitle("XKCD Viewer | #" + json.getInt("num"));
 		DISPLAYED_XKCD_NUM = json.getInt("num");
 	}
 
+	/** <p>Determines if a vertical scrollbar is needed and displays if so.</p> */
 	private static void setupScroll() {
-		JScrollPane scroll = new JScrollPane(JDEC.MAIN_PANEL, 
+		JScrollPane scroll = new JScrollPane(MAIN_PANEL, 
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(20);
-		JDEC.FRAME.add(scroll);
+		FRAME.add(scroll);
 	}
 
+	/** <p>Adds individual items to Select and Main JPanels.</p> */
 	private static void addFrameElements() {
-		JDEC.SELECT_PANEL_UPPER.add(JDEC.RANDOM_BTN);
-		JDEC.SELECT_PANEL_UPPER.add(JDEC.TEXT_INPUT);
-		JDEC.SELECT_PANEL_UPPER.add(JDEC.NUM_BTN);
-		JDEC.SELECT_PANEL_LOWER.add(JDEC.BACK_BTN);
-		JDEC.SELECT_PANEL_LOWER.add(JDEC.FWD_BTN);
+		SELECT_PANEL_UPPER.add(RANDOM_BTN);
+		SELECT_PANEL_UPPER.add(TEXT_INPUT);
+		SELECT_PANEL_UPPER.add(NUM_BTN);
+		SELECT_PANEL_LOWER.add(BACK_BTN);
+		SELECT_PANEL_LOWER.add(FWD_BTN);
 		
-		JDEC.MAIN_PANEL.add(JDEC.TITLE_PANEL);
-		JDEC.MAIN_PANEL.add(JDEC.IMAGE_PANEL);
-		JDEC.MAIN_PANEL.add(JDEC.SELECT_PANEL_UPPER);
-		JDEC.MAIN_PANEL.add(JDEC.SELECT_PANEL_LOWER);
-		JDEC.MAIN_PANEL.add(JDEC.ERROR_PANEL);
+		MAIN_PANEL.add(TITLE_PANEL);
+		MAIN_PANEL.add(IMAGE_PANEL);
+		MAIN_PANEL.add(SELECT_PANEL_UPPER);
+		MAIN_PANEL.add(SELECT_PANEL_LOWER);
+		MAIN_PANEL.add(ERROR_PANEL);
 	}
 
+	/** <p>Adds ActionListeners on buttons.</p> */
 	private static void addButtonListeners() {
-		JDEC.FWD_BTN.addActionListener(Listener.fwdAction());
-		JDEC.BACK_BTN.addActionListener(Listener.backAction());
-		JDEC.RANDOM_BTN.addActionListener(Listener.randomSelect());
-		JDEC.NUM_BTN.addActionListener(Listener.numSelect());
-		JDEC.SAVE_IMAGE.addActionListener(Listener.saveAction());
+		FWD_BTN.addActionListener(Listener.fwdAction());
+		BACK_BTN.addActionListener(Listener.backAction());
+		RANDOM_BTN.addActionListener(Listener.randomSelect());
+		NUM_BTN.addActionListener(Listener.numSelect());
+		SAVE_IMAGE.addActionListener(Listener.saveAction());
 	}
 	
+	/** <p>Error message display for JSON retrieval error.</p> */
 	public static void resetOnJSONError() {
-		JDEC.ERROR_PANEL.removeAll();
-		JDEC.ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
-		JDEC.FRAME.revalidate();
-		JDEC.FRAME.repaint();
+		ERROR_PANEL.removeAll();
+		ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
+		FRAME.revalidate();
+		FRAME.repaint();
 	}
 }

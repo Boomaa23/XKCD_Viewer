@@ -8,13 +8,44 @@ import org.json.JSONException;
 
 import com.boomaa.XKCDViewer.display.Display;
 
+/** <p>Nested ActionListener classes with getters</p> */
 public class Listener {
+	/** @deprecated No constructor needed, Listener is a wrapper class for other listeners. */
+	public Listener() {}
+	
+	
+	/** 
+	 * <p>Getter for forward action class.</p>
+	 * @return static nested FwdAction class 
+	 */
 	public static FwdAction fwdAction() { return new FwdAction(); }
+	
+	/** 
+	 * <p>Getter for back action class.</p>
+	 * @return static nested BackAction class 
+	 */
 	public static BackAction backAction() { return new BackAction(); }
+	
+	/** 
+	 * <p>Getter for num select class.</p>
+	 * @return static nested NumSelect class 
+	 */
 	public static NumSelect numSelect() { return new NumSelect(); }
+	
+	/** 
+	 * <p>Getter for random select class.</p>
+	 * @return static nested RandomSelect class 
+	 */
 	public static RandomSelect randomSelect() { return new RandomSelect(); }
+	
+	/** 
+	 * <p>Getter for save action class.</p>
+	 * @return static nested SaveAction class 
+	 */
 	public static SaveAction saveAction() { return new SaveAction(); }
 	
+	
+	/** <p>Increments displayed XKCD image upon actionPerformed()</p> */
 	static class FwdAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
@@ -26,6 +57,7 @@ public class Listener {
 		}
 	}
 	
+	/** <p>Decrements displayed XKCD image upon actionPerformed()</p> */
 	static class BackAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
@@ -37,6 +69,7 @@ public class Listener {
 		}
 	}
 	
+	/** <p>Navigates to and displays input XKCD imgage upon actionPerformed()</p> */
 	static class NumSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -54,6 +87,7 @@ public class Listener {
 		}
 	}
 	
+	/** <p>Selects and displays a random XKCD image upon actionPerformed()</p> */
 	static class RandomSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -61,6 +95,7 @@ public class Listener {
 		}
 	}
 	
+	/** <p>Saves XKCD image currently displayed upon actionPerformed()</p> */
 	static class SaveAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/APCS5/Downloads/PortableGit/clone/XKCD_Viewer/image4j-0.7.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/APCS5/Downloads/PortableGit/clone/XKCD_Viewer/json-20180813.jar"/>
+	<classpathentry kind="lib" path="image4j-0.7.2.jar"/>
+	<classpathentry kind="lib" path="json-20180813.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
