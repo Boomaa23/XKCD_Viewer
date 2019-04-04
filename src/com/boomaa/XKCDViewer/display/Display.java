@@ -19,7 +19,6 @@ import com.boomaa.XKCDViewer.utils.*;
 import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Instigates display and houses main method</p> */
-@SuppressWarnings("deprecation")
 public class Display extends JDEC {
 	/** <p>The number of pixels of the frame border.</p> */
 	private static final int FRAME_BORDER = 20;
@@ -32,7 +31,6 @@ public class Display extends JDEC {
 	
 	/** @deprecated No constructor needed, Display contains a main method. */
 	public Display() {}
-	
 	
 	/**
 	 * <p>Displays JFrame with everything added to it. Main running method.</p>
