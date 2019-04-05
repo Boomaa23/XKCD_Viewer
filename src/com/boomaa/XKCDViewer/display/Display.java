@@ -147,11 +147,12 @@ public class Display extends JDEC {
 
 	/** <p>Adds ActionListeners on buttons.</p> */
 	private static void addButtonListeners() {
-		FWD_BTN.addActionListener(Listener.fwdAction());
-		BACK_BTN.addActionListener(Listener.backAction());
-		RANDOM_BTN.addActionListener(Listener.randomSelect());
-		NUM_BTN.addActionListener(Listener.numSelect());
-		SAVE_IMAGE.addActionListener(Listener.saveAction());
+		Listener listener = new Listener();
+		FWD_BTN.addActionListener(listener.new FwdAction());
+		BACK_BTN.addActionListener(listener.new BackAction());
+		RANDOM_BTN.addActionListener(listener.new BackAction());
+		NUM_BTN.addActionListener(listener.new NumSelect());
+		SAVE_IMAGE.addActionListener(listener.new SaveAction());
 	}
 	
 	/** <p>Error message display for JSON retrieval error.</p> */
