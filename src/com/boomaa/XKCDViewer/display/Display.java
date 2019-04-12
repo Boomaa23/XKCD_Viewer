@@ -28,10 +28,7 @@ public class Display extends JDEC {
 	
 	/** <p>The number of the currently displayed XKCD comic.</p> */
 	public static int DISPLAYED_XKCD_NUM;
-	
-	/** @deprecated No constructor needed, Display contains a main method. */
-	public Display() {}
-	
+
 	/**
 	 * <p>Displays JFrame with everything added to it. Main running method.</p>
 	 * @param args default main method.

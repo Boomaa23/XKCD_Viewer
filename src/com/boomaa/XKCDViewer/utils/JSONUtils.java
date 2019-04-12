@@ -20,9 +20,6 @@ import com.boomaa.XKCDViewer.display.Display;
 
 /** <p>Assorted utils for JSON reading and image manipulation.</p> */
 public class JSONUtils {
-	/** @deprecated No constructor needed, JSONUtils is all static. */
-	public JSONUtils() {}
-	
 	/**
 	 * <p>Reads the address of a URL of a JSON and returns it back to use.</p>
 	 * @param url the address of the JSON requested to read.

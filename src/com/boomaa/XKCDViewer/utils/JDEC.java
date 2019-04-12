@@ -11,9 +11,6 @@ import javax.swing.JTextField;
 
 /** <p><b>J</b>ava <b>D</b>isplay <b>E</b>lement <b>C</b>onstants.</p> */
 public class JDEC {
-	/** @deprecated No constructor needed, JDEC stores constants.*/
-	public JDEC() {}
-	
 	/** <p>JFrame displayed which everything is added to.</p> */
 	public static JFrame FRAME = new JFrame("XKCD Viewer");
 	
