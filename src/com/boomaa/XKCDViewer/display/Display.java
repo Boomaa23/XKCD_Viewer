@@ -20,6 +20,8 @@ import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Instigates display and houses main method</p> */
 public class Display extends JDEC {
+	public Display() {}
+	
 	/** <p>The number of pixels of the frame border.</p> */
 	private static final int FRAME_BORDER = 20;
 	

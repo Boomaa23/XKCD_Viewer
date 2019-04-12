@@ -10,6 +10,8 @@ import com.boomaa.XKCDViewer.display.Display;
 
 /** <p>Nested ActionListener classes with getters</p> */
 public class Listener {
+	public Listener() {}
+	
 	/** <p>Increments displayed XKCD image upon actionPerformed()</p> */
 	public class FwdAction implements ActionListener {
 		@Override
