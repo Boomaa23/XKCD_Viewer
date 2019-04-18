@@ -57,7 +57,7 @@
     	<javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="XKCD_Viewer.classpath"></javac>
 	</target>
   	<target name="javadoc" depends="build" description="generate documentation">
-  		<javadoc destdir="doc">
+  		<javadoc destdir="xkcd-viewer-javadoc">
   			<fileset dir="src" />
   			<classpath>
 	  			<fileset dir="">
