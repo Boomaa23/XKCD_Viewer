@@ -8,35 +8,27 @@ import org.json.JSONException;
 
 import com.boomaa.XKCDViewer.display.Display;
 
-/** <p>Nested ActionListener classes with getters</p> */
+/** <p>Nested ActionListener classes with getters.</p> */
 public class Listener {
 	public Listener() {}
 	
-	/** <p>Increments displayed XKCD image upon actionPerformed()</p> */
-	public class FwdAction implements ActionListener {
+	/** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
+	public class LatestSelect implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e0) {
-			try {
-				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM + 1);
-			} catch (JSONException e1) {
-				Display.resetOnJSONError();
-			}
+		public void actionPerformed(ActionEvent e) {
+			Display.panelRewrite(Display.LATEST_XKCD_NUM);
 		}
 	}
 	
-	/** <p>Decrements displayed XKCD image upon actionPerformed()</p> */
-	public class BackAction implements ActionListener {
+	/** <p>Selects and displays a random XKCD image upon actionPerformed().</p> */
+	public class RandomSelect implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e0) {
-			try {
-				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM - 1);
-			} catch (JSONException e1) {
-				Display.resetOnJSONError();
-			}
+		public void actionPerformed(ActionEvent e) {
+			Display.panelRewrite((int)(Math.random() * Display.LATEST_XKCD_NUM));
 		}
 	}
 	
-	/** <p>Navigates to and displays input XKCD imgage upon actionPerformed()</p> */
+	/** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
 	public class NumSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -54,15 +46,31 @@ public class Listener {
 		}
 	}
 	
-	/** <p>Selects and displays a random XKCD image upon actionPerformed()</p> */
-	public class RandomSelect implements ActionListener {
+	/** <p>Increments displayed XKCD image upon actionPerformed().</p> */
+	public class FwdAction implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			Display.panelRewrite((int)(Math.random() * Display.LATEST_XKCD_NUM));
+		public void actionPerformed(ActionEvent e0) {
+			try {
+				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM + 1);
+			} catch (JSONException e1) {
+				Display.resetOnJSONError();
+			}
 		}
 	}
 	
-	/** <p>Saves XKCD image currently displayed upon actionPerformed()</p> */
+	/** <p>Decrements displayed XKCD image upon actionPerformed().</p> */
+	public class BackAction implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e0) {
+			try {
+				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM - 1);
+			} catch (JSONException e1) {
+				Display.resetOnJSONError();
+			}
+		}
+	}
+	
+	/** <p>Saves XKCD image currently displayed upon actionPerformed().</p> */
 	public class SaveAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

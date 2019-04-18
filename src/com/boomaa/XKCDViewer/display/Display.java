@@ -71,7 +71,7 @@ public class Display extends JDEC {
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
-		TEXT_INPUT.setText("");
+		TEXT_INPUT.reset();
 		TITLE_PANEL.removeAll();
 		ERROR_PANEL.removeAll();
 		setupTitle(json);
@@ -101,13 +101,11 @@ public class Display extends JDEC {
 		int height = image.getHeight(FRAME);
 		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 		
-		if(height >= maxHeight) {
-			height = maxHeight - (9 * FRAME_BORDER);
-		}
-		if(width < minWidth) {
-			width = minWidth;
-		}
-		FRAME.setSize(width, height + 9 * FRAME_BORDER);
+		height += 11 * FRAME_BORDER;
+		height = (height >= maxHeight) ? maxHeight : height;
+		width = (width < minWidth) ? minWidth : width;
+		
+		FRAME.setSize(width, height);
 	}
 	
 	/**
@@ -131,15 +129,17 @@ public class Display extends JDEC {
 
 	/** <p>Adds individual items to Select and Main JPanels.</p> */
 	private static void addFrameElements() {
+		SELECT_PANEL_UPPER.add(LATEST_BTN);
 		SELECT_PANEL_UPPER.add(RANDOM_BTN);
-		SELECT_PANEL_UPPER.add(TEXT_INPUT);
-		SELECT_PANEL_UPPER.add(NUM_BTN);
+		SELECT_PANEL_MIDDLE.add(TEXT_INPUT);
+		SELECT_PANEL_MIDDLE.add(NUM_BTN);
 		SELECT_PANEL_LOWER.add(BACK_BTN);
 		SELECT_PANEL_LOWER.add(FWD_BTN);
 		
 		MAIN_PANEL.add(TITLE_PANEL);
 		MAIN_PANEL.add(IMAGE_PANEL);
 		MAIN_PANEL.add(SELECT_PANEL_UPPER);
+		MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
 		MAIN_PANEL.add(SELECT_PANEL_LOWER);
 		MAIN_PANEL.add(ERROR_PANEL);
 	}
@@ -147,10 +147,11 @@ public class Display extends JDEC {
 	/** <p>Adds ActionListeners on buttons.</p> */
 	private static void addButtonListeners() {
 		Listener listener = new Listener();
+		LATEST_BTN.addActionListener(listener.new LatestSelect());
+		RANDOM_BTN.addActionListener(listener.new RandomSelect());
+		NUM_BTN.addActionListener(listener.new NumSelect());
 		FWD_BTN.addActionListener(listener.new FwdAction());
 		BACK_BTN.addActionListener(listener.new BackAction());
-		RANDOM_BTN.addActionListener(listener.new BackAction());
-		NUM_BTN.addActionListener(listener.new NumSelect());
 		SAVE_IMAGE.addActionListener(listener.new SaveAction());
 	}
 	

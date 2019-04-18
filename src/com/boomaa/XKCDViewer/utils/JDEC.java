@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 
 /** <p><b>J</b>ava <b>D</b>isplay <b>E</b>lement <b>C</b>onstants.</p> */
 public class JDEC {
@@ -26,8 +25,11 @@ public class JDEC {
 	/** <p>Displays selected XKCD Image.</p> */
 	public static JPanel IMAGE_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	
-	/** <p>Houses random button, input field, and input selector.</p> */
+	/** <p>Houses latest and random button </p> */
 	public static JPanel SELECT_PANEL_UPPER = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	
+	/** <p>Houses input field, and input selector.</p> */
+	public static JPanel SELECT_PANEL_MIDDLE = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	
 	/** <p>Houses forwards and backwards buttons.</p> */
 	public static JPanel SELECT_PANEL_LOWER = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -48,9 +50,12 @@ public class JDEC {
 	/** <p>Displays a random XKCD image.</p> */
 	public static JButton RANDOM_BTN = new JButton("Random");
 	
+	/** <p>Displays the most recent XKCD image.</p> */
+	public static JButton LATEST_BTN = new JButton("Latest");
+	
 	
 	/** <p>Input for specific number XKCD image to be displayed.</p> */
-	public static JTextField TEXT_INPUT = new JTextField(10);
+	public static HintTextField TEXT_INPUT = new HintTextField(" XKCD Number", 10);
 	
 	/** <p>Right-click dialog box while over image to save.</p> */
 	public static JPopupMenu IMAGE_POPUP = new JPopupMenu();
