@@ -23,7 +23,7 @@ public class Display extends JDEC {
 	public Display() {}
 	
 	/** <p>The number of pixels of the frame border.</p> */
-	private static final int FRAME_BORDER = 20;
+	public static final int FRAME_BORDER = 20;
 	
 	/** <p>The number of the latest XKCD comic number.</p> */
 	public static int LATEST_XKCD_NUM = 844;
@@ -38,6 +38,7 @@ public class Display extends JDEC {
 	 * @throws IOException if the URL of the latest XKCD JSON is invalid.
 	 */
 	public static void main(String[] args) throws JSONException, IOException {
+		SCALE_CHECKBOX.setSelected(true);
 		JSONObject jsonLatest = JSONUtils.readJSONFromUrl("https://xkcd.com/info.0.json");
 		Image image = JSONUtils.getImageFromJson(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
@@ -101,7 +102,7 @@ public class Display extends JDEC {
 		int height = image.getHeight(FRAME);
 		int maxHeight = (int)(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 		
-		height += 11 * FRAME_BORDER;
+		height += 12 * FRAME_BORDER;
 		height = (height >= maxHeight) ? maxHeight : height;
 		width = (width < minWidth) ? minWidth : width;
 		
@@ -129,6 +130,8 @@ public class Display extends JDEC {
 
 	/** <p>Adds individual items to Select and Main JPanels.</p> */
 	private static void addFrameElements() {
+		SCALING_PANEL.add(SCALE_CHECKBOX);
+		
 		SELECT_PANEL_UPPER.add(LATEST_BTN);
 		SELECT_PANEL_UPPER.add(RANDOM_BTN);
 		SELECT_PANEL_MIDDLE.add(TEXT_INPUT);
@@ -138,6 +141,7 @@ public class Display extends JDEC {
 		
 		MAIN_PANEL.add(TITLE_PANEL);
 		MAIN_PANEL.add(IMAGE_PANEL);
+		MAIN_PANEL.add(SCALING_PANEL);
 		MAIN_PANEL.add(SELECT_PANEL_UPPER);
 		MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
 		MAIN_PANEL.add(SELECT_PANEL_LOWER);
@@ -153,6 +157,7 @@ public class Display extends JDEC {
 		FWD_BTN.addActionListener(listener.new FwdAction());
 		BACK_BTN.addActionListener(listener.new BackAction());
 		SAVE_IMAGE.addActionListener(listener.new SaveAction());
+		SCALE_CHECKBOX.addActionListener(listener.new ScaleSelect());
 	}
 	
 	/** <p>Error message display for JSON retrieval error.</p> */

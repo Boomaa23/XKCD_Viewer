@@ -7,6 +7,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JTextField;
 
 /** <p>A text field with hint text while not selected.</p> */
+@SuppressWarnings("serial")
 public class HintTextField extends JTextField implements FocusListener {
 	/** <p>The text of the hint.</p> */
 	private final String hint;
@@ -29,8 +30,10 @@ public class HintTextField extends JTextField implements FocusListener {
 	
 	/** <p>Resets to show hint after changing image.</p> */
 	public void reset() {
+		super.setVisible(false);
 		super.setText(hint);
 		showingHint = true;
+		super.setVisible(true);
 	}
 	
 	/** <p>Hides hint when cursor is active on the text field.</p> */

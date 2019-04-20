@@ -1,6 +1,8 @@
 package com.boomaa.XKCDViewer.utils;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,7 +51,24 @@ public class JSONUtils {
 	 * @throws IOException if the URL is invalid or could not be read from.
 	 */
 	public static Image getImageFromJson(JSONObject jsonObj) throws MalformedURLException, JSONException, IOException {
-		return ImageIO.read(new URL(jsonObj.getString("img")));
+		return resizeImage(ImageIO.read(new URL(jsonObj.getString("img"))));
+	}
+	
+	/**
+	 * <p>Resizes images to fit on screens without scrolling.</p>
+	 * @param image the originally pulled image to resize
+	 * @return the resized image proportional to the screen size if the scaling image is checked
+	 */
+	public static Image resizeImage(Image image) {
+		double width = image.getWidth(JDEC.FRAME);
+		double height = image.getHeight(JDEC.FRAME);
+		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+		if(height >= screen.getHeight() - 12 * Display.FRAME_BORDER) {
+			height = (screen.getHeight()) - (12 * Display.FRAME_BORDER);
+			width -= height / (screen.getHeight() / screen.getWidth());
+		}
+		return JDEC.SCALE_CHECKBOX.isSelected() ? image.getScaledInstance((int)(width), (int)(height), Image.SCALE_SMOOTH) : image;
 	}
 	
 	/**

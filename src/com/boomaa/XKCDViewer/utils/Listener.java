@@ -81,4 +81,12 @@ public class Listener {
 			}
 		}
 	}
+	
+	/** <p>Rewrites image as scaled or non-scaled upon actionPerformed().</p> */
+	public class ScaleSelect implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Display.panelRewrite(Display.DISPLAYED_XKCD_NUM);
+		}
+	}
 }
