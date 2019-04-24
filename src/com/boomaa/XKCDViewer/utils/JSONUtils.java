@@ -31,7 +31,7 @@ public class JSONUtils {
 	 * @throws IOException if a URL stream could not be opened or data could not be read.
 	 * @throws JSONException if a JSONObject could not be made from StringBuilder.
 	 */
-	public static JSONObject readJSONFromUrl(String url) throws IOException, JSONException {
+	public static JSONObject readJSONFromURL(String url) throws IOException, JSONException {
 		InputStream is = new URL(url).openStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
@@ -50,7 +50,7 @@ public class JSONUtils {
 	 * @throws JSONException if the tag "img" could not be found in the JSONObject parameter.
 	 * @throws IOException if the URL is invalid or could not be read from.
 	 */
-	public static Image getImageFromJson(JSONObject jsonObj) throws MalformedURLException, JSONException, IOException {
+	public static Image getImageFromJSON(JSONObject jsonObj) throws MalformedURLException, JSONException, IOException {
 		return resizeImage(ImageIO.read(new URL(jsonObj.getString("img"))));
 	}
 	
@@ -82,7 +82,7 @@ public class JSONUtils {
 		JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
 		fileChooser.setSelectedFile(new File("XKCD_" + Display.DISPLAYED_XKCD_NUM + ".jpeg"));
 		if(fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
-			ImageIO.write((RenderedImage)(getImageFromJson(json)), "jpeg", fileChooser.getSelectedFile());
+			ImageIO.write((RenderedImage)(getImageFromJSON(json)), "jpeg", fileChooser.getSelectedFile());
 		}
 	}
 }

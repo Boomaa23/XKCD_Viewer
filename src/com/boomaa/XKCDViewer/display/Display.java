@@ -39,8 +39,8 @@ public class Display extends JDEC {
 	 */
 	public static void main(String[] args) throws JSONException, IOException {
 		SCALE_CHECKBOX.setSelected(true);
-		JSONObject jsonLatest = JSONUtils.readJSONFromUrl("https://xkcd.com/info.0.json");
-		Image image = JSONUtils.getImageFromJson(jsonLatest);
+		JSONObject jsonLatest = JSONUtils.readJSONFromURL("https://xkcd.com/info.0.json");
+		Image image = JSONUtils.getImageFromJSON(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
 		FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
@@ -53,6 +53,7 @@ public class Display extends JDEC {
 		
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
 		IMAGE_POPUP.add(SAVE_IMAGE);
+		IMAGE_POPUP.add(OPEN_IMAGE);
 		addFrameElements();
 		addButtonListeners();
 		
@@ -68,7 +69,7 @@ public class Display extends JDEC {
 	public static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
-			json = JSONUtils.readJSONFromUrl("https://xkcd.com/" + numReq + "/info.0.json");
+			json = JSONUtils.readJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
@@ -81,7 +82,7 @@ public class Display extends JDEC {
 		IMAGE_PANEL.removeAll();
 		Image imgRand = null;
 		try {
-			imgRand = JSONUtils.getImageFromJson(json);
+			imgRand = JSONUtils.getImageFromJSON(json);
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
@@ -157,6 +158,7 @@ public class Display extends JDEC {
 		FWD_BTN.addActionListener(listener.new FwdAction());
 		BACK_BTN.addActionListener(listener.new BackAction());
 		SAVE_IMAGE.addActionListener(listener.new SaveAction());
+		OPEN_IMAGE.addActionListener(listener.new OpenAction());
 		SCALE_CHECKBOX.addActionListener(listener.new ScaleSelect());
 	}
 	

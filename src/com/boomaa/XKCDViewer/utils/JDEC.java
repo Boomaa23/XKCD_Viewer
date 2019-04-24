@@ -69,4 +69,7 @@ public class JDEC {
 	
 	/** <p>Menu item of popup box to save XKCD image.</p> */
 	protected static JMenuItem SAVE_IMAGE = new JMenuItem("Save Image");
+	
+	/** <p>Menu item of popup box to open image URL in browser.</p> */
+	protected static JMenuItem OPEN_IMAGE = new JMenuItem("Open Image in Browser");
 }
