@@ -1,4 +1,4 @@
-package com.boomaa.XKCDViewer.utils;
+package com.boomaa.XKCDViewer.display;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;
@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 /** <p>A text field with hint text while not selected.</p> */
 @SuppressWarnings("serial")
-public class HintTextField extends JTextField implements FocusListener {
+public class OverlayField extends JTextField implements FocusListener {
 	/** <p>The text of the hint.</p> */
 	private final String hint;
 	
@@ -20,7 +20,7 @@ public class HintTextField extends JTextField implements FocusListener {
 	 * @param hint the text to display when not selected
 	 * @param col the number of columns of the text field
 	 */
-	public HintTextField(final String hint, final int col) {
+	public OverlayField(final String hint, final int col) {
 		super(hint, col);
 		super.setForeground(Color.GRAY);
 		this.hint = hint;

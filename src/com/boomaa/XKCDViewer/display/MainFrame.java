@@ -19,8 +19,8 @@ import com.boomaa.XKCDViewer.utils.*;
 import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Instigates display and houses main method</p> */
-public class Display extends JDEC {
-	public Display() {}
+public class MainFrame extends JDEC {
+	public MainFrame() {}
 	
 	/** <p>The number of pixels of the frame border.</p> */
 	public static final int FRAME_BORDER = 20;
@@ -39,7 +39,7 @@ public class Display extends JDEC {
 	 */
 	public static void main(String[] args) throws JSONException, IOException {
 		SCALE_CHECKBOX.setSelected(true);
-		JSONObject jsonLatest = JSONUtils.readJSONFromURL("https://xkcd.com/info.0.json");
+		JSONObject jsonLatest = JSONUtils.getJSONFromURL("https://xkcd.com/info.0.json");
 		Image image = JSONUtils.getImageFromJSON(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
@@ -54,6 +54,7 @@ public class Display extends JDEC {
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
 		IMAGE_POPUP.add(SAVE_IMAGE);
 		IMAGE_POPUP.add(OPEN_IMAGE);
+		IMAGE_POPUP.add(STATS_INSPECT);
 		addFrameElements();
 		addButtonListeners();
 		
@@ -69,7 +70,7 @@ public class Display extends JDEC {
 	public static void panelRewrite(int numReq) {
 		JSONObject json = null;
 		try {
-			json = JSONUtils.readJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
+			json = JSONUtils.getJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
@@ -159,6 +160,7 @@ public class Display extends JDEC {
 		BACK_BTN.addActionListener(listener.new BackAction());
 		SAVE_IMAGE.addActionListener(listener.new SaveAction());
 		OPEN_IMAGE.addActionListener(listener.new OpenAction());
+		STATS_INSPECT.addActionListener(listener.new StatsInspect());
 		SCALE_CHECKBOX.addActionListener(listener.new ScaleSelect());
 	}
 	

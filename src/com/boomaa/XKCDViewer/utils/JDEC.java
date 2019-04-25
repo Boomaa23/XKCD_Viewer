@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import com.boomaa.XKCDViewer.display.OverlayField;
+
 /** <p><b>J</b>ava <b>D</b>isplay <b>E</b>lement <b>C</b>onstants.</p> */
 public class JDEC {
 	public JDEC() {}
@@ -59,7 +61,7 @@ public class JDEC {
 	
 	
 	/** <p>Input for specific number XKCD image to be displayed.</p> */
-	protected static HintTextField TEXT_INPUT = new HintTextField(" XKCD Number", 10);
+	protected static OverlayField TEXT_INPUT = new OverlayField(" XKCD Number", 10);
 	
 	/** <p>A check box to toggle image scaling.</p> */
 	protected static JCheckBox SCALE_CHECKBOX = new JCheckBox("Image Scaling");
@@ -72,4 +74,7 @@ public class JDEC {
 	
 	/** <p>Menu item of popup box to open image URL in browser.</p> */
 	protected static JMenuItem OPEN_IMAGE = new JMenuItem("Open Image in Browser");
+	
+	/** <p>Menu item of popup box to open image URL in browser.</p> */
+	protected static JMenuItem STATS_INSPECT = new JMenuItem("Inspect Stats");
 }

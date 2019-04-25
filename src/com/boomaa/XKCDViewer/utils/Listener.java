@@ -9,7 +9,8 @@ import java.net.URISyntaxException;
 
 import org.json.JSONException;
 
-import com.boomaa.XKCDViewer.display.Display;
+import com.boomaa.XKCDViewer.display.MainFrame;
+import com.boomaa.XKCDViewer.display.StatsFrame;
 
 /** <p>Nested ActionListener classes with getters.</p> */
 public class Listener {
@@ -19,7 +20,7 @@ public class Listener {
 	public class LatestSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Display.panelRewrite(Display.LATEST_XKCD_NUM);
+			MainFrame.panelRewrite(MainFrame.LATEST_XKCD_NUM);
 		}
 	}
 	
@@ -27,7 +28,7 @@ public class Listener {
 	public class RandomSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Display.panelRewrite((int)(Math.random() * Display.LATEST_XKCD_NUM));
+			MainFrame.panelRewrite((int)(Math.random() * MainFrame.LATEST_XKCD_NUM));
 		}
 	}
 	
@@ -38,13 +39,13 @@ public class Listener {
 			int numRequest = 0;
 			try {
 				numRequest = Integer.parseInt(JDEC.TEXT_INPUT.getText());
-				if(!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= Display.LATEST_XKCD_NUM && numRequest > 0) {
-					Display.panelRewrite(numRequest);
+				if(!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= MainFrame.LATEST_XKCD_NUM && numRequest > 0) {
+					MainFrame.panelRewrite(numRequest);
 				} else {
-					Display.resetOnJSONError();
+					MainFrame.resetOnJSONError();
 				}
 			} catch (NumberFormatException e0) {
-				Display.resetOnJSONError();
+				MainFrame.resetOnJSONError();
 			}
 		}
 	}
@@ -54,9 +55,9 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
-				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM + 1);
+				MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM + 1);
 			} catch (JSONException e1) {
-				Display.resetOnJSONError();
+				MainFrame.resetOnJSONError();
 			}
 		}
 	}
@@ -66,9 +67,9 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
-				Display.panelRewrite(Display.DISPLAYED_XKCD_NUM - 1);
+				MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM - 1);
 			} catch (JSONException e1) {
-				Display.resetOnJSONError();
+				MainFrame.resetOnJSONError();
 			}
 		}
 	}
@@ -78,7 +79,7 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				JSONUtils.saveImage(JSONUtils.readJSONFromURL("https://xkcd.com/" + Display.DISPLAYED_XKCD_NUM + "/info.0.json"));
+				JSONUtils.saveImage(JSONUtils.getJSONFromURL("https://xkcd.com/" + MainFrame.DISPLAYED_XKCD_NUM + "/info.0.json"));
 			} catch (JSONException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -90,7 +91,7 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Desktop.getDesktop().browse(new URI(JSONUtils.readJSONFromURL("https://xkcd.com/" + Display.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
+				Desktop.getDesktop().browse(new URI(JSONUtils.getJSONFromURL("https://xkcd.com/" + MainFrame.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
 			} catch (IOException | URISyntaxException e1) {
 				e1.printStackTrace();
 			}
@@ -101,7 +102,15 @@ public class Listener {
 	public class ScaleSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Display.panelRewrite(Display.DISPLAYED_XKCD_NUM);
+			MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM);
+		}
+	}
+	
+	/** <p>Opens stats frame 400x150 upon actionPerformed().</p> */
+	public class StatsInspect implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new StatsFrame(400, 125);
 		}
 	}
 }

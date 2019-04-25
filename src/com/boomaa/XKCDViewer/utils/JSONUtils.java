@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boomaa.XKCDViewer.display.Display;
+import com.boomaa.XKCDViewer.display.MainFrame;
 
 /** <p>Assorted utils for JSON reading and image manipulation.</p> */
 public class JSONUtils {
@@ -31,7 +31,7 @@ public class JSONUtils {
 	 * @throws IOException if a URL stream could not be opened or data could not be read.
 	 * @throws JSONException if a JSONObject could not be made from StringBuilder.
 	 */
-	public static JSONObject readJSONFromURL(String url) throws IOException, JSONException {
+	public static JSONObject getJSONFromURL(String url) throws IOException, JSONException {
 		InputStream is = new URL(url).openStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
@@ -64,8 +64,8 @@ public class JSONUtils {
 		double height = image.getHeight(JDEC.FRAME);
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 
-		if(height >= screen.getHeight() - 12 * Display.FRAME_BORDER) {
-			height = (screen.getHeight()) - (12 * Display.FRAME_BORDER);
+		if(height >= screen.getHeight() - 12 * MainFrame.FRAME_BORDER) {
+			height = (screen.getHeight()) - (12 * MainFrame.FRAME_BORDER);
 			width -= height / (screen.getHeight() / screen.getWidth());
 		}
 		return JDEC.SCALE_CHECKBOX.isSelected() ? image.getScaledInstance((int)(width), (int)(height), Image.SCALE_SMOOTH) : image;
@@ -80,7 +80,7 @@ public class JSONUtils {
 	 */
 	public static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
 		JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
-		fileChooser.setSelectedFile(new File("XKCD_" + Display.DISPLAYED_XKCD_NUM + ".jpeg"));
+		fileChooser.setSelectedFile(new File("XKCD_" + MainFrame.DISPLAYED_XKCD_NUM + ".jpeg"));
 		if(fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
 			ImageIO.write((RenderedImage)(getImageFromJSON(json)), "jpeg", fileChooser.getSelectedFile());
 		}
