@@ -12,18 +12,31 @@ import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.JSONUtils;
 
+/** <p>A separate JFrame to dipsplay image statistics.</p> */
 public class StatsFrame {
+	/** <p>JSON of currently displayed image.</p> */
 	private JSONObject json;
+	
+	/** <p>Stats frame.</p> */
 	private JFrame frame;
+	
+	/** <p>Main panel of stats frame.</p> */
 	private JPanel mainPanel;
 	
+	
+	/**
+	 * <p>Constructor to create and display a stats frame.</p>
+	 * @param x width of frame
+	 * @param y height of frame
+	 */
 	public StatsFrame(int x, int y) {
 		init();
 		addPanelItems();
-		setupFrame(x, y);
+		frame.setSize(x, y);
 		display();
 	} 
 	
+	/** </p>Gets JSON from current URL and creates frame structure.</p> */
 	private void init() {
 		try {
 			json = JSONUtils.getJSONFromURL("https://xkcd.com/" + MainFrame.DISPLAYED_XKCD_NUM + "/info.0.json");
@@ -34,6 +47,7 @@ public class StatsFrame {
 		mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	}
 	
+	/** <p>Add all stats items to panels.</p> */
 	private void addPanelItems() {
 		addLabelPanel("Number: " + json.getInt("num"));
 		addLabelPanel("Title: " + json.getString("title"));
@@ -41,16 +55,17 @@ public class StatsFrame {
 		addLabelPanel("Image URL: " + json.getString("img"));
 	}
 	
+	/**
+	 * <p>Adds one stat item to a new panel on the main panel.</p>
+	 * @param text what to display on the JLabel
+	 */
 	private void addLabelPanel(String text) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel.add(new JLabel(text));
 		mainPanel.add(panel);
 	}
 	
-	private void setupFrame(int x, int y) {
-		frame.setSize(x, y);
-	}
-	
+	/** <p>Displays mainPanel on frame and sets visible.</p> */
 	private void display() {
 		frame.add(mainPanel);
 		frame.setVisible(true);

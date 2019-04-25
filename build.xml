@@ -65,7 +65,8 @@
 	  				<include name="json-20180813.jar" />
 				</fileset>
 			</classpath>
-  	      <arg value="-notimestamp" />  				
+  	      <arg value="-notimestamp" /> 
+  		  <arg value="-private" />
   	    </javadoc>
   	  </target>
 </project>
