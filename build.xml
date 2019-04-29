@@ -60,17 +60,11 @@
   			<fileset dir="src" />
   			<classpath>
 	  			<fileset dir="">
-	  				<include name="image4j-0.7.2.jar" />
 	  				<include name="json-20180813.jar" />
 				</fileset>
 			</classpath>
-<<<<<<< HEAD
-  	      <arg value="-notimestamp" />  				
-  		
-=======
-  	      <arg value="-notimestamp" /> 
-  		  <arg value="-private" />
->>>>>>> ac0faab79fc42974dab70202116ef7e7b5401dd7
+  	      <arg value="-notimestamp" />
+  	      <arg value="-private" />
   	    </javadoc>
   	  </target>
 </project>

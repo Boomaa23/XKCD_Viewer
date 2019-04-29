@@ -82,7 +82,10 @@ public class StatsInspect {
 		mainPanel.add(closePanel);
 	}
 	
-	/** <p>Makes new nested label in new panel for each panel item.</p> */
+	/**
+	 * <p>Makes new nested label in new panel for each panel item.</p>
+	 * @param text the text to input.
+	 */
 	private void addLabelPanel(String text) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel.add(new JLabel(text));
