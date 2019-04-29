@@ -67,24 +67,30 @@ public class MainDisplay extends JDEC {
 	 * @param numReq the XKCD image number requested.
 	 */
 	public static void panelRewrite(int numReq) {
+		JSONObject json = null;
 		try {
-			JSONObject json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
-			TEXT_INPUT.reset();
-			TITLE_PANEL.removeAll();
-			ERROR_PANEL.removeAll();
-			setupTitle(json);
-			FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
-				
-			IMAGE_PANEL.removeAll();
-			Image imgRand = DisplayUtils.getImageFromJSON(json);
-			IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
-			
-			setupFrame(imgRand);
-			FRAME.revalidate();
-			FRAME.repaint();
+			json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
 		} catch (JSONException | IOException e) {
 			resetOnJSONError();
 		}
+		TEXT_INPUT.reset();
+		TITLE_PANEL.removeAll();
+		ERROR_PANEL.removeAll();
+		setupTitle(json);
+		FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
+		
+		IMAGE_PANEL.removeAll();
+		Image imgRand = null;
+		try {
+			imgRand = DisplayUtils.getImageFromJSON(json);
+		} catch (JSONException | IOException e) {
+			e.printStackTrace();
+		}
+		IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
+
+		setupFrame(imgRand);
+		FRAME.revalidate();
+		FRAME.repaint();
 	}
 	
 	/**
