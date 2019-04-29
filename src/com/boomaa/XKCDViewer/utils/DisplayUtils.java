@@ -18,11 +18,11 @@ import javax.swing.JFileChooser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.boomaa.XKCDViewer.display.MainFrame;
+import com.boomaa.XKCDViewer.display.MainDisplay;
 
 /** <p>Assorted utils for JSON reading and image manipulation.</p> */
-public class JSONUtils {
-	public JSONUtils() {}
+public class DisplayUtils {
+	public DisplayUtils() {}
 	
 	/**
 	 * <p>Reads the address of a URL of a JSON and returns it back to use.</p>
@@ -64,11 +64,11 @@ public class JSONUtils {
 		double height = image.getHeight(JDEC.FRAME);
 		Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 
-		if(height >= screen.getHeight() - 12 * MainFrame.FRAME_BORDER) {
-			height = (screen.getHeight()) - (12 * MainFrame.FRAME_BORDER);
+		if(height >= screen.getHeight() - 12 * MainDisplay.FRAME_BORDER) {
+			height = (screen.getHeight()) - (12 * MainDisplay.FRAME_BORDER);
 			width -= height / (screen.getHeight() / screen.getWidth());
 		}
-		return JDEC.SCALE_CHECKBOX.isSelected() ? image.getScaledInstance((int)(width), (int)(height), Image.SCALE_SMOOTH) : image;
+		return JDEC.SCALE_CHECKBOX.isSelected() && height != image.getHeight(JDEC.FRAME) ? image.getScaledInstance((int)(width), (int)(height), Image.SCALE_SMOOTH) : image;
 	}
 	
 	/**
@@ -80,9 +80,9 @@ public class JSONUtils {
 	 */
 	public static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
 		JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
-		fileChooser.setSelectedFile(new File("XKCD_" + MainFrame.DISPLAYED_XKCD_NUM + ".jpeg"));
+		fileChooser.setSelectedFile(new File("XKCD_" + MainDisplay.DISPLAYED_XKCD_NUM + ".jpeg"));
 		if(fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
-			ImageIO.write((RenderedImage)(getImageFromJSON(json)), "jpeg", fileChooser.getSelectedFile());
+			ImageIO.write((RenderedImage)(ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
 		}
 	}
 }

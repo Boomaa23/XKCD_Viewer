@@ -9,10 +9,10 @@ import java.net.URISyntaxException;
 
 import org.json.JSONException;
 
-import com.boomaa.XKCDViewer.display.MainFrame;
-import com.boomaa.XKCDViewer.display.StatsFrame;
+import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.display.StatsInspect;
 
-/** <p>Nested ActionListener classes with getters.</p> */
+/** <p>Nested ActionListener classes.</p> */
 public class Listener {
 	public Listener() {}
 	
@@ -20,7 +20,7 @@ public class Listener {
 	public class LatestSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainFrame.panelRewrite(MainFrame.LATEST_XKCD_NUM);
+			MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM);
 		}
 	}
 	
@@ -28,7 +28,7 @@ public class Listener {
 	public class RandomSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainFrame.panelRewrite((int)(Math.random() * MainFrame.LATEST_XKCD_NUM));
+			MainDisplay.panelRewrite((int)(Math.random() * MainDisplay.LATEST_XKCD_NUM));
 		}
 	}
 	
@@ -39,13 +39,13 @@ public class Listener {
 			int numRequest = 0;
 			try {
 				numRequest = Integer.parseInt(JDEC.TEXT_INPUT.getText());
-				if(!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= MainFrame.LATEST_XKCD_NUM && numRequest > 0) {
-					MainFrame.panelRewrite(numRequest);
+				if(!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= MainDisplay.LATEST_XKCD_NUM && numRequest > 0) {
+					MainDisplay.panelRewrite(numRequest);
 				} else {
-					MainFrame.resetOnJSONError();
+					MainDisplay.resetOnJSONError();
 				}
 			} catch (NumberFormatException e0) {
-				MainFrame.resetOnJSONError();
+				MainDisplay.resetOnJSONError();
 			}
 		}
 	}
@@ -55,9 +55,9 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
-				MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM + 1);
+				MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM + 1);
 			} catch (JSONException e1) {
-				MainFrame.resetOnJSONError();
+				MainDisplay.resetOnJSONError();
 			}
 		}
 	}
@@ -67,9 +67,9 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
-				MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM - 1);
+				MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM - 1);
 			} catch (JSONException e1) {
-				MainFrame.resetOnJSONError();
+				MainDisplay.resetOnJSONError();
 			}
 		}
 	}
@@ -79,7 +79,7 @@ public class Listener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				JSONUtils.saveImage(JSONUtils.getJSONFromURL("https://xkcd.com/" + MainFrame.DISPLAYED_XKCD_NUM + "/info.0.json"));
+				DisplayUtils.saveImage(DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json"));
 			} catch (JSONException | IOException e1) {
 				e1.printStackTrace();
 			}
@@ -87,11 +87,11 @@ public class Listener {
 	}
 	
 	/** <p>Opens XKCD image currently displayed in browser upon actionPerformed().</p> */
-	public class OpenAction implements ActionListener {
+	public class BrowseAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				Desktop.getDesktop().browse(new URI(JSONUtils.getJSONFromURL("https://xkcd.com/" + MainFrame.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
+				Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
 			} catch (IOException | URISyntaxException e1) {
 				e1.printStackTrace();
 			}
@@ -102,15 +102,15 @@ public class Listener {
 	public class ScaleSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainFrame.panelRewrite(MainFrame.DISPLAYED_XKCD_NUM);
+			MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM);
 		}
 	}
 	
-	/** <p>Opens stats frame 400x150 upon actionPerformed().</p> */
-	public class StatsInspect implements ActionListener {
+	/** <p>Opens stats frame upon actionPerformed().</p> */
+	public class StatsInspectAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new StatsFrame(400, 125);
+			new StatsInspect();
 		}
 	}
 }

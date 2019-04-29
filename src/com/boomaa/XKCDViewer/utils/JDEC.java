@@ -73,8 +73,8 @@ public class JDEC {
 	protected static JMenuItem SAVE_IMAGE = new JMenuItem("Save Image");
 	
 	/** <p>Menu item of popup box to open image URL in browser.</p> */
-	protected static JMenuItem OPEN_IMAGE = new JMenuItem("Open Image in Browser");
+	protected static JMenuItem BROWSE_IMAGE = new JMenuItem("Open Image in Browser");
 	
-	/** <p>Menu item of popup box to open image URL in browser.</p> */
+	/** <p>Menu item of popup box to open stats window.</p> */
 	protected static JMenuItem STATS_INSPECT = new JMenuItem("Inspect Stats");
 }
