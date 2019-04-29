@@ -45,18 +45,14 @@ public class StatsInspect {
 	private void init() {
 		try {
 			json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
-		} catch (JSONException | IOException e1) {
-			e1.printStackTrace();
-		}
-		frame = new JFrame("XKCD Stats | #" + json.getInt("num"));
-		try {
+			frame = new JFrame("XKCD Stats | #" + json.getInt("num"));
 			frame.setIconImage(ImageIO.read(new File("icon.png")));
-		} catch (IOException e) {
+			mainPanel = new JPanel();
+			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+			frame.setSize(415,205);
+		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		frame.setSize(415,205);
 	}
 	
 	/** <p>Adds each statistic item to the main panel.</p> */
@@ -100,9 +96,8 @@ public class StatsInspect {
 		try {
 			return new URL(json.getString("img")).openConnection().getContentLength();
 		} catch (JSONException | IOException e) {
-			e.printStackTrace();
+			return -1;
 		}
-		return -1;
 	}
 	
 	/**
