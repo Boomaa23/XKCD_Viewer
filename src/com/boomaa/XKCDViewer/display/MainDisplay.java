@@ -54,6 +54,7 @@ public class MainDisplay extends JDEC {
 		IMAGE_POPUP.add(SAVE_IMAGE);
 		IMAGE_POPUP.add(BROWSE_IMAGE);
 		IMAGE_POPUP.add(STATS_INSPECT);
+		IMAGE_POPUP.add(THREADED_SELECT);
 		addFrameElements();
 		addButtonListeners();
 		
@@ -151,7 +152,7 @@ public class MainDisplay extends JDEC {
 
 	/** <p>Adds ActionListeners on buttons.</p> */
 	private static void addButtonListeners() {
-		Listener listener = new Listener();
+		Listeners listener = new Listeners();
 		LATEST_BTN.addActionListener(listener.new LatestSelect());
 		RANDOM_BTN.addActionListener(listener.new RandomSelect());
 		NUM_BTN.addActionListener(listener.new NumSelect());
@@ -159,7 +160,8 @@ public class MainDisplay extends JDEC {
 		BACK_BTN.addActionListener(listener.new BackAction());
 		SAVE_IMAGE.addActionListener(listener.new SaveAction());
 		BROWSE_IMAGE.addActionListener(listener.new BrowseAction());
-		STATS_INSPECT.addActionListener(listener.new StatsInspectAction());
+		STATS_INSPECT.addActionListener(listener.new SIBasicAction());
+		THREADED_SELECT.addActionListener(listener.new ThreadSelectorAction());
 		SCALE_CHECKBOX.addActionListener(listener.new ScaleSelect());
 	}
 	

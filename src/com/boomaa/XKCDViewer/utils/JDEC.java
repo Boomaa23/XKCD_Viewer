@@ -77,4 +77,7 @@ public class JDEC {
 	
 	/** <p>Menu item of popup box to open stats window.</p> */
 	protected static JMenuItem STATS_INSPECT = new JMenuItem("Inspect Stats");
+	
+	/** <p>Menu item of popup box to open multithreaded selection window.</p> */
+	protected static JMenuItem THREADED_SELECT = new JMenuItem("Image List/Selector");
 }

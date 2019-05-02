@@ -10,11 +10,13 @@ import java.net.URISyntaxException;
 import org.json.JSONException;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.display.StatsInspect;
+import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 /** <p>Nested ActionListener classes.</p> */
-public class Listener {
-	public Listener() {}
+public class Listeners {
+	public Listeners() {}
 	
 	/** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
 	public class LatestSelect implements ActionListener {
@@ -107,7 +109,16 @@ public class Listener {
 	}
 	
 	/** <p>Opens stats frame upon actionPerformed().</p> */
-	public class StatsInspectAction implements ActionListener {
+	public class ThreadSelectorAction implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SelectList.createStatsInspect(MainDisplay.DISPLAYED_XKCD_NUM);
+			new ThreadManager();
+		}
+	}
+	
+	/** <p></p> */
+	public class SIBasicAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new StatsInspect();
