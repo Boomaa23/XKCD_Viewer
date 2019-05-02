@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 
-/** <p>Displays stats of currently displayed XKCD in new frame.</p> */
+/** <p>Displays a selection screen of all possible JSON images with stats.</p> */
 public class SelectList {
 	/** <p>A temporary storage of the currently displayed JSON. </p> */
 	private static JSONObject json;
@@ -31,19 +31,22 @@ public class SelectList {
 	/** <p>Main panel of stats display.</p> */
 	private static JPanel mainPanel = new JPanel();
 	
-	/** <p></p> */
+	/** <p>Display for all image titles.</p> */
 	private static JComboBox<String> select = new JComboBox<String>();
 	
-	/** <p></p> */
+	/** <p>Object of utils class.</p> */
 	private static StatsUtils statsUtils;
 	
-	/** <p></p> */
+	/** <p>Currently displayed image number.</p> */
 	private static int num;
 	
-	/** <p></p> */
+	/** <p>Storage of all titles for all xkcd.</p> */
 	public static String[] titles;
 	
-	/** <p>Constructs stats window.</p> */
+	/**
+	 * <p>Constructs stats window.</p>
+	 * @param num the number of the image to display.
+	 */
 	public static void createStatsInspect(int num) {
 		titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
 		SelectList.num = num;
@@ -57,7 +60,7 @@ public class SelectList {
 		frame.setVisible(true);
 	} 
 	
-	/** <p></p> */
+	/** <p>Initializes frame and sets size.</p> */
 	private static void frameInit() {
 		try {
 			frame.setIconImage(ImageIO.read(new File("icon.png")));
@@ -68,7 +71,7 @@ public class SelectList {
 		frame.setSize(415,230);
 	}
 	
-	/** <p></p> */
+	/** <p>Reads JSON from URL.</p> */
 	private static void JSONInit() {
 		try {
 			json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + num + "/info.0.json");
@@ -77,7 +80,7 @@ public class SelectList {
 		}
 	}
 	
-	/** <p></p> */
+	/** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
 	public static void selectPanelInit() {
 		for(int i = titles.length-1;i >= 1;i--) {
 			select.addItem(titles[i]);

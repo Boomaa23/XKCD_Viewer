@@ -8,22 +8,21 @@ import org.json.JSONObject;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 
-/** <p></p> */
+/** <p>Thread for getting titles of XKCDs.</p> */
 public class TitleThread implements Runnable {
-	/** <p></p> */
+	/** <p>If the thread is still running.</p> */
 	private boolean alive = true;
 	
-	/** <p></p> */
+	/** <p>The starting index to request titles of.</p> */
 	public int start;
 	
-	/** <p></p> */
+	/** <p>The ending index to request titles to.</p> */
 	private int end;
 	
 	/**
-	 * <p></p>
-	 * @param start
-	 * @param reqpt
-	 * @param num
+	 * <p>Constructs a thread with passed start and finish indexes.</p>
+	 * @param start the start index of titles.
+	 * @param reqpt the number of requests to complete.
 	 */
 	public TitleThread(int start, int reqpt) {
 		this.start = start;
@@ -31,7 +30,7 @@ public class TitleThread implements Runnable {
 	}
 	
 	@Override
-	/** <p></p> */
+	/** <p>Gets title requests and adds to titles array.</p> */
 	public void run() {
 		for(int i = start;i <= end;i++) {
 			JSONObject json = null;
@@ -46,8 +45,8 @@ public class TitleThread implements Runnable {
 	}
 	
 	/**
-	 * <p></p>
-	 * @return
+	 * <p>Deterimines if thread is still running.</p>
+	 * @return true if titles are still being requested, false if not.
 	 */
 	public boolean isAlive() {
 		return alive;

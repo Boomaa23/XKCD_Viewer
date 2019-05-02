@@ -3,12 +3,12 @@ package com.boomaa.XKCDViewer.threading;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 
-/** <p></p> */
+/** <p>Manager for all title lookup threads.</p> */
 public class ThreadManager extends SelectList {
-	/** <p></p> */
+	/** <p>Storage of all title threads, utilized for isAlive().</p> */
 	private static TitleThread[] titleThreads = new TitleThread[16];
 	
-	/** <p></p> */
+	/** <p>Runs each thread to get all titles.</p> */
 	public ThreadManager() {
 		int reqpt = MainDisplay.LATEST_XKCD_NUM / titleThreads.length;
 		for(int i = 0;i < titleThreads.length;i++) {
@@ -26,8 +26,8 @@ public class ThreadManager extends SelectList {
 	}
 	
 	/**
-	 * <p></p>
-	 * @return
+	 * <p>Determine if all threads have stopped or are still running.</p>
+	 * @return true if any thread is still running, false if all are stopped.
 	 */
 	public static boolean isRunning() {
 		for(TitleThread t : titleThreads) {

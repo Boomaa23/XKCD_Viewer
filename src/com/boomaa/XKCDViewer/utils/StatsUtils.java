@@ -10,17 +10,18 @@ import javax.swing.JPanel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
-	/** <p></p> */
+	/** <p>Temporary JSON of each window's object.</p> */
 	private JSONObject json;
 	
-	/** <p></p> */
+	/** <p>Temporary passed mainPanel of each window's object.</p> */
 	private JPanel mainPanel;
 	
 	/**
-	 * <p></p>
-	 * @param json
-	 * @param mainPanel
+	 * <p>Constructs panel for each window object.</p>
+	 * @param json JSON of current image.
+	 * @param mainPanel mainPanel from stats inspect/image list.
 	 */
 	public StatsUtils(JSONObject json, JPanel mainPanel) {
 		this.json = json;

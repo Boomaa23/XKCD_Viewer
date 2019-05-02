@@ -108,7 +108,7 @@ public class Listeners {
 		}
 	}
 	
-	/** <p></p> */
+	/** <p>Opens select window and initiates multithreaded title requesting.</p> */
 	public class ThreadSelectorAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -117,7 +117,7 @@ public class Listeners {
 		}
 	}
 	
-	/** <p></p> */
+	/** <p>Opens stats window of currently displayed xkcd image.</p> */
 	public class SIBasicAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

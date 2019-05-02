@@ -28,7 +28,7 @@ public class StatsInspect {
 	/** <p>Main panel of stats display.</p> */
 	private JPanel mainPanel = new JPanel();
 	
-	/** <p></p> */
+	/** <p>Object of utils class.</p> */
 	private StatsUtils statsUtils;
 	
 	/** <p>Constructs stats window.</p> */
@@ -43,7 +43,7 @@ public class StatsInspect {
 		frame.setVisible(true);
 	} 
 	
-	/** <p></p> */
+	/** <p>Initializes frame and sets size.</p> */
 	private void frameInit() {
 		try {
 			frame.setIconImage(ImageIO.read(new File("icon.png")));
@@ -54,7 +54,7 @@ public class StatsInspect {
 		frame.setSize(415,220);
 	}
 	
-	/** <p>Initializes JSON, frame, and main panel with sizing and base layout.</p> */
+	/** <p>Initializes JSON from URL.</p> */
 	private void JSONInit() {
 		try {
 			json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
