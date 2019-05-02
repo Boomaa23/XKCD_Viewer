@@ -19,18 +19,16 @@ public class TitleThread implements Runnable {
 	/** <p></p> */
 	private int end;
 	
-	
 	/**
 	 * <p></p>
 	 * @param start
 	 * @param reqpt
+	 * @param num
 	 */
 	public TitleThread(int start, int reqpt) {
-		System.out.println(start + " | " + (start + reqpt));
 		this.start = start;
 		end = start + reqpt;
 	}
-	
 	
 	@Override
 	/** <p></p> */
@@ -45,7 +43,6 @@ public class TitleThread implements Runnable {
 			}
 		}
 		alive = false;
-		System.out.println(start/67 + " | DONE");
 	}
 	
 	/**

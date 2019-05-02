@@ -17,7 +17,6 @@ public class StatsUtils {
 	/** <p></p> */
 	private JPanel mainPanel;
 	
-	
 	/**
 	 * <p></p>
 	 * @param json
@@ -27,7 +26,6 @@ public class StatsUtils {
 		this.json = json;
 		this.mainPanel = mainPanel;
 	}
-	
 	
 	/** <p>Adds each statistic item to the main panel.</p> */
 	public void addPanelItems() {

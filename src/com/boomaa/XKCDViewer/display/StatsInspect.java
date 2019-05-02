@@ -31,7 +31,6 @@ public class StatsInspect {
 	/** <p></p> */
 	private StatsUtils statsUtils;
 	
-	
 	/** <p>Constructs stats window.</p> */
 	public StatsInspect() {
 		JSONInit();
@@ -43,7 +42,6 @@ public class StatsInspect {
 		frame.add(mainPanel);
 		frame.setVisible(true);
 	} 
-	
 	
 	/** <p></p> */
 	private void frameInit() {

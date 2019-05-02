@@ -43,7 +43,6 @@ public class SelectList {
 	/** <p></p> */
 	public static String[] titles;
 	
-	
 	/** <p>Constructs stats window.</p> */
 	public static void createStatsInspect(int num) {
 		titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
@@ -66,7 +65,7 @@ public class SelectList {
 			e.printStackTrace();
 		}
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		frame.setSize(415,220);
+		frame.setSize(415,230);
 	}
 	
 	/** <p></p> */
@@ -80,8 +79,7 @@ public class SelectList {
 	
 	/** <p></p> */
 	public static void selectPanelInit() {
-		select.addItem(titles[num]);
-		for(int i = 1;i < titles.length;i++) {
+		for(int i = titles.length-1;i >= 1;i--) {
 			select.addItem(titles[i]);
 		}
 		select.addItemListener(new ItemListener() {
@@ -90,8 +88,7 @@ public class SelectList {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
 					frame.dispose();
 					String in = (String) e.getItem();
-					int n = Integer.parseInt(in.substring(0, in.indexOf(" - ")));
-					createStatsInspect(n);
+					createStatsInspect(Integer.parseInt(in.substring(0, in.indexOf(" - "))));
 					mainPanel.removeAll();
 					mainPanel.add(select);
 					JSONInit();

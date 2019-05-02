@@ -6,20 +6,18 @@ import com.boomaa.XKCDViewer.display.SelectList;
 /** <p></p> */
 public class ThreadManager extends SelectList {
 	/** <p></p> */
-	private static TitleThread[] titleThreads = new TitleThread[32];
+	private static TitleThread[] titleThreads = new TitleThread[16];
 	
 	/** <p></p> */
 	public ThreadManager() {
-		titles = new String[MainDisplay.DISPLAYED_XKCD_NUM+1];
 		int reqpt = MainDisplay.LATEST_XKCD_NUM / titleThreads.length;
 		for(int i = 0;i < titleThreads.length;i++) {
 			titleThreads[i] = new TitleThread(i * reqpt, reqpt);
 			new Thread(titleThreads[i]).start();
 		}
 		while(isRunning()) { 
-			System.out.print("."); 
 			try {
-				Thread.sleep(200);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

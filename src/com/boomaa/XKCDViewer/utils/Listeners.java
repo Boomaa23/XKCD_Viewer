@@ -108,7 +108,7 @@ public class Listeners {
 		}
 	}
 	
-	/** <p>Opens stats frame upon actionPerformed().</p> */
+	/** <p></p> */
 	public class ThreadSelectorAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
