@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.JFrame;
+
 import org.json.JSONException;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
@@ -16,10 +18,9 @@ import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 /** <p>Nested ActionListener classes.</p> */
 public class Listeners {
-	public Listeners() {}
 	
 	/** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
-	public class LatestSelect implements ActionListener {
+	public static class LatestSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM);
@@ -27,7 +28,7 @@ public class Listeners {
 	}
 	
 	/** <p>Selects and displays a random XKCD image upon actionPerformed().</p> */
-	public class RandomSelect implements ActionListener {
+	public static class RandomSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainDisplay.panelRewrite((int)(Math.random() * MainDisplay.LATEST_XKCD_NUM));
@@ -35,7 +36,7 @@ public class Listeners {
 	}
 	
 	/** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
-	public class NumSelect implements ActionListener {
+	public static class NumSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int numRequest = 0;
@@ -53,7 +54,7 @@ public class Listeners {
 	}
 	
 	/** <p>Increments displayed XKCD image upon actionPerformed().</p> */
-	public class FwdAction implements ActionListener {
+	public static class FwdAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
@@ -65,7 +66,7 @@ public class Listeners {
 	}
 	
 	/** <p>Decrements displayed XKCD image upon actionPerformed().</p> */
-	public class BackAction implements ActionListener {
+	public static class BackAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e0) {
 			try {
@@ -77,7 +78,7 @@ public class Listeners {
 	}
 	
 	/** <p>Saves XKCD image currently displayed upon actionPerformed().</p> */
-	public class SaveAction implements ActionListener {
+	public static class SaveAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -89,7 +90,7 @@ public class Listeners {
 	}
 	
 	/** <p>Opens XKCD image currently displayed in browser upon actionPerformed().</p> */
-	public class BrowseAction implements ActionListener {
+	public static class BrowseAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -101,7 +102,7 @@ public class Listeners {
 	}
 	
 	/** <p>Rewrites image as scaled or non-scaled upon actionPerformed().</p> */
-	public class ScaleSelect implements ActionListener {
+	public static class ScaleSelect implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM);
@@ -109,7 +110,7 @@ public class Listeners {
 	}
 	
 	/** <p>Opens select window and initiates multithreaded title requesting.</p> */
-	public class ThreadSelectorAction implements ActionListener {
+	public static class ThreadSelectorAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SelectList.createStatsInspect(MainDisplay.DISPLAYED_XKCD_NUM);
@@ -118,10 +119,29 @@ public class Listeners {
 	}
 	
 	/** <p>Opens stats window of currently displayed xkcd image.</p> */
-	public class SIBasicAction implements ActionListener {
+	public static class StatsInspectCreate implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new StatsInspect();
+		}
+	}
+	
+	/** <p>Discards frame upon actionPerformed().</p> */
+	public static class DisposeFrameAction implements ActionListener {
+		/** <p>Storage of passed in JFrame.</p> */
+		private JFrame frame;
+		
+		/**
+		 * <p>Passes in frame to dispose of.</p>
+		 * @param frame the frame to de disposed of.
+		 */
+		public DisposeFrameAction(JFrame frame) {
+			this.frame = frame;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			frame.dispose();
 		}
 	}
 }

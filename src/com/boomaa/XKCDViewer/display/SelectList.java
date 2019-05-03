@@ -5,10 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.Listeners.DisposeFrameAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 
 /** <p>Displays a selection screen of all possible JSON images with stats.</p> */
@@ -41,35 +39,22 @@ public class SelectList {
 	private static int num;
 	
 	/** <p>Storage of all titles for all xkcd.</p> */
-	public static String[] titles;
+	public static String[] titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
 	
 	/**
 	 * <p>Constructs stats window.</p>
 	 * @param num the number of the image to display.
 	 */
 	public static void createStatsInspect(int num) {
-		titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
 		SelectList.num = num;
 		JSONInit();
-		frameInit();
-		statsUtils = new StatsUtils(json, mainPanel);
+		statsUtils = new StatsUtils(json, mainPanel, frame);
 		statsUtils.addPanelItems();
 		setupButtons();
 		
 		frame.add(mainPanel);
 		frame.setVisible(true);
 	} 
-	
-	/** <p>Initializes frame and sets size.</p> */
-	private static void frameInit() {
-		try {
-			frame.setIconImage(ImageIO.read(new File("icon.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		frame.setSize(415,230);
-	}
 	
 	/** <p>Reads JSON from URL.</p> */
 	private static void JSONInit() {
@@ -92,14 +77,15 @@ public class SelectList {
 					frame.dispose();
 					String in = (String) e.getItem();
 					createStatsInspect(Integer.parseInt(in.substring(0, in.indexOf(" - "))));
-					mainPanel.removeAll();
-					mainPanel.add(select);
-					JSONInit();
-					statsUtils.addPanelItems();
-					setupButtons();
+					refreshSelector();
 				}
 			}
 		});
+		refreshSelector();
+	}
+	
+	/** <p>Refresh display after select num changes.</p> */
+	private static void refreshSelector() {
 		mainPanel.removeAll();
 		mainPanel.add(select);
 		JSONInit();
@@ -112,15 +98,8 @@ public class SelectList {
 		JButton close = new JButton("Close");
 		JButton view = new JButton("View");
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		
-		close.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		});
-		
-		view.addActionListener(new ActionListener() {
+		close.addActionListener(new DisposeFrameAction(frame));
+		view.addActionListener(new ActionListener() { 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();

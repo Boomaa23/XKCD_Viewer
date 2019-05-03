@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import com.boomaa.XKCDViewer.utils.*;
 
 /** <p>Instigates display and houses main method</p> */
-public class MainDisplay extends JDEC {
+public class MainDisplay extends Listeners implements JDEC {
 	public MainDisplay() {}
 	
 	/** <p>The number of pixels of the frame border.</p> */
@@ -152,17 +152,16 @@ public class MainDisplay extends JDEC {
 
 	/** <p>Adds ActionListeners on buttons.</p> */
 	private static void addButtonListeners() {
-		Listeners listener = new Listeners();
-		LATEST_BTN.addActionListener(listener.new LatestSelect());
-		RANDOM_BTN.addActionListener(listener.new RandomSelect());
-		NUM_BTN.addActionListener(listener.new NumSelect());
-		FWD_BTN.addActionListener(listener.new FwdAction());
-		BACK_BTN.addActionListener(listener.new BackAction());
-		SAVE_IMAGE.addActionListener(listener.new SaveAction());
-		BROWSE_IMAGE.addActionListener(listener.new BrowseAction());
-		STATS_INSPECT.addActionListener(listener.new SIBasicAction());
-		THREADED_SELECT.addActionListener(listener.new ThreadSelectorAction());
-		SCALE_CHECKBOX.addActionListener(listener.new ScaleSelect());
+		LATEST_BTN.addActionListener(new LatestSelect());
+		RANDOM_BTN.addActionListener(new RandomSelect());
+		NUM_BTN.addActionListener(new NumSelect());
+		FWD_BTN.addActionListener(new FwdAction());
+		BACK_BTN.addActionListener(new BackAction());
+		SAVE_IMAGE.addActionListener(new SaveAction());
+		BROWSE_IMAGE.addActionListener(new BrowseAction());
+		STATS_INSPECT.addActionListener(new StatsInspectCreate());
+		THREADED_SELECT.addActionListener(new ThreadSelectorAction());
+		SCALE_CHECKBOX.addActionListener(new ScaleSelect());
 	}
 	
 	/** <p>Error message display for JSON retrieval error.</p> */
