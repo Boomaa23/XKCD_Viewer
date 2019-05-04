@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
-import com.boomaa.XKCDViewer.utils.Listeners.DisposeFrameAction;
+import com.boomaa.XKCDViewer.utils.ActionListeners.DisposeFrameAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 
 /** <p>Displays stats of currently displayed XKCD in new frame.</p> */

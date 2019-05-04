@@ -1,5 +1,7 @@
 package com.boomaa.XKCDViewer.utils;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import javax.swing.JPanel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.boomaa.XKCDViewer.utils.MiscListeners.HREFAction;
 
 /** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
@@ -54,17 +58,35 @@ public class StatsUtils {
 		addLabelPanel("Title: " + json.getString("title"));
 		addLabelPanel("Image #: " + json.getInt("num"));
 		addLabelPanel("Date Published: " + json.getInt("month") + "/" + json.getInt("day") + "/" + json.getInt("year"));
-		addLabelPanel("Image URL: " + json.getString("img"));
+		addLabelPanel("Image URL: " + json.getString("img"), true);
 		addLabelPanel("Image Size: " + byteTranscribe(imageSize()));
+	}
+	
+	/**
+	 * <p>Overloads String and boolean parameter addLabelPanel as false boolean.</p>
+	 * @param text the text to input.
+	 */
+	private void addLabelPanel(String text) {
+		addLabelPanel(text, false);
 	}
 	
 	/**
 	 * <p>Makes new nested label in new panel for each panel item.</p>
 	 * @param text the text to input.
+	 * @param href note if text should become a hyperlink.
 	 */
-	private void addLabelPanel(String text) {
+	private void addLabelPanel(String text, boolean href) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.add(new JLabel(text));
+		if(href) {
+			panel.add(new JLabel(text.substring(0, 11)));
+			JLabel label = new JLabel(text.substring(11));
+			label.addMouseListener(new HREFAction(text.substring(11)));
+			label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			label.setForeground(Color.blue.darker());
+			panel.add(label);
+		} else {
+			panel.add(new JLabel(text));
+		}
 		mainPanel.add(panel);
 	}
 

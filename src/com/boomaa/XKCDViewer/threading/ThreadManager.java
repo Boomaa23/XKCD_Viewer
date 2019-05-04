@@ -6,7 +6,7 @@ import com.boomaa.XKCDViewer.display.SelectList;
 /** <p>Manager for all title lookup threads.</p> */
 public class ThreadManager extends SelectList {
 	/** <p>Storage of all title threads, utilized for isAlive().</p> */
-	private static TitleThread[] titleThreads = new TitleThread[16];
+	private static TitleThread[] titleThreads = new TitleThread[32];
 	
 	/** <p>Runs each thread to get all titles.</p> */
 	public ThreadManager() {
@@ -22,6 +22,8 @@ public class ThreadManager extends SelectList {
 				e.printStackTrace();
 			}
 		}
+		select.removeItemListener(item);
+		createStatsInspect(NUM);
 		selectPanelInit();
 	}
 	

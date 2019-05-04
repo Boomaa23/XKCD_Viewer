@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import com.boomaa.XKCDViewer.utils.*;
 
 /** <p>Instigates display and houses main method</p> */
-public class MainDisplay extends Listeners implements JDEC {
+public class MainDisplay extends ActionListeners implements JDEC {
 	public MainDisplay() {}
 	
 	/** <p>The number of pixels of the frame border.</p> */

@@ -17,7 +17,7 @@ import com.boomaa.XKCDViewer.display.StatsInspect;
 import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 /** <p>Nested ActionListener classes.</p> */
-public class Listeners {
+public class ActionListeners {
 	
 	/** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
 	public static class LatestSelect implements ActionListener {
