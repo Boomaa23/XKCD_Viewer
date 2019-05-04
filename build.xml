@@ -11,6 +11,7 @@
     <path id="XKCD_Viewer.classpath">
         <pathelement location="bin"/>
         <pathelement location="json-20180813.jar"/>
+    	<pathelement location="image4j-0.7.2.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -60,6 +61,7 @@
   			<fileset dir="src" />
   			<classpath>
 	  			<fileset dir="">
+	  				<include name="image4j-0.7.2.jar" />
 	  				<include name="json-20180813.jar" />
 				</fileset>
 			</classpath>
