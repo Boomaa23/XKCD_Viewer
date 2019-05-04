@@ -38,7 +38,7 @@ public class SelectList {
 	protected static int NUM;
 	
 	/** <p>Storage of all titles for all xkcd.</p> */
-	public static String[] titles = new String[MainDisplay.LATEST_XKCD_NUM + 1];
+	public static String[] titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
 	
 	/** <p>Storage of select menu change listener.</p> */
 	protected static SelectItemAction item = new SelectItemAction();
@@ -69,10 +69,10 @@ public class SelectList {
 	
 	/** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
 	public static void selectPanelInit() {
-		titles[titles.length-1] = json.getInt("num") + " - " + json.getString("title");
 		for(int i = titles.length-1;i >= 1;i--) {
 			select.addItem(titles[i]);
 		}
+		select.setSelectedIndex(titles.length-NUM-1);
 		select.addItemListener(item);
 		refreshSelector();
 	}

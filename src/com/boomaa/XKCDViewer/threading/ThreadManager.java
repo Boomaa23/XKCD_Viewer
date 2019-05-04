@@ -12,7 +12,7 @@ public class ThreadManager extends SelectList {
 	public ThreadManager() {
 		int reqpt = MainDisplay.LATEST_XKCD_NUM / titleThreads.length;
 		for(int i = 0;i < titleThreads.length;i++) {
-			titleThreads[i] = new TitleThread(i * reqpt, reqpt);
+			titleThreads[i] = new TitleThread(i * reqpt, reqpt+1);
 			new Thread(titleThreads[i]).start();
 		}
 		while(isRunning()) { 
