@@ -2,10 +2,9 @@ package com.boomaa.XKCDViewer.display;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.*;
+
+import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Instigates display and houses main method</p> */
 public class MainDisplay extends ActionListeners implements JDEC {
@@ -42,7 +43,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
 		Image image = DisplayUtils.getImageFromJSON(jsonLatest);
 		LATEST_XKCD_NUM = jsonLatest.getInt("num");
 		
-		FRAME.setIconImage(ImageIO.read(new File("icon.png")));
+		FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
 		MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
 		FRAME.getRootPane().setDefaultButton(NUM_BTN);
 		FWD_BTN.setVisible(false);
