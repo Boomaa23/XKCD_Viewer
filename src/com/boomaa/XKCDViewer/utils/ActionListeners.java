@@ -14,11 +14,9 @@ import org.json.JSONException;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.display.StatsInspect;
-import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 /** <p>Nested ActionListener classes.</p> */
 public class ActionListeners {
-	
 	/** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
 	public static class LatestSelect implements ActionListener {
 		@Override
@@ -114,7 +112,6 @@ public class ActionListeners {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SelectList.createStatsInspect(MainDisplay.DISPLAYED_XKCD_NUM);
-			new ThreadManager();
 		}
 	}
 	

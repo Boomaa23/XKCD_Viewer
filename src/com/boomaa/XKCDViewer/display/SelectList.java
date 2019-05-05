@@ -8,11 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.threading.ThreadManager;
 import com.boomaa.XKCDViewer.utils.ActionListeners.DisposeFrameAction;
 import com.boomaa.XKCDViewer.utils.MiscListeners.SelectItemAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
@@ -29,7 +31,7 @@ public class SelectList {
 	private static JPanel mainPanel = new JPanel();
 	
 	/** <p>Display for all image titles.</p> */
-	protected static JComboBox<String> select = new JComboBox<String>();
+	protected static JComboBox<String> select;
 	
 	/** <p>Object of utils class.</p> */
 	private static StatsUtils statsUtils;
@@ -38,10 +40,16 @@ public class SelectList {
 	protected static int NUM;
 	
 	/** <p>Storage of all titles for all xkcd.</p> */
-	public static String[] titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
+	public static String[] titles;
 	
 	/** <p>Storage of select menu change listener.</p> */
 	protected static SelectItemAction item = new SelectItemAction();
+	
+	/** <p>Progress bar showing number of requests out of total.</p> */
+	public static JProgressBar jpb = new JProgressBar();
+	
+	/** <p>Total number of threads finished.</p> */
+	private static int finished = 0;
 	
 	/**
 	 * <p>Constructs stats window.</p>
@@ -50,13 +58,35 @@ public class SelectList {
 	public static void createStatsInspect(int num) {
 		SelectList.NUM = num;
 		JSONInit();
+		jpb.setMaximum(MainDisplay.LATEST_XKCD_NUM);
 		statsUtils = new StatsUtils(json, mainPanel, frame);
-		statsUtils.addPanelItems();
-		setupButtons();
 		
+		if(titles == null || titlesEmpty()) {
+			new ThreadManager();
+			mainPanel.add(jpb);
+		} else if(select != null && !titlesEmpty()) {
+			selectPanelInit();
+			statsUtils.addPanelItems();
+			setupButtons();
+		}
 		frame.add(mainPanel);
-		frame.setVisible(true);
+		frame.setVisible(true); 
 	} 
+	
+	/**
+	 * <p>Determines if the titles array has any contents.</p>
+	 * @return true if no contents are detected, false if not.
+	 */
+	private static boolean titlesEmpty() {
+		boolean empty = true;
+		for (Object ob : titles) {
+		  if (ob != null) {
+		    empty = false;
+		    break;
+		  }
+		}
+		return empty;
+	}
 	
 	/** <p>Reads JSON from URL.</p> */
 	private static void JSONInit() {
@@ -104,5 +134,20 @@ public class SelectList {
 		buttonPanel.add(close);
 		buttonPanel.add(view);
 		mainPanel.add(buttonPanel);
+	}
+	
+	/**
+	 * <p>Updates status of loading bar and checks for finished status.</p>
+	 * @param isFinished if all title threads have completed
+	 */
+	public static void updateBar(boolean isFinished) {
+		if(isFinished) { finished++; } else { jpb.setValue(jpb.getValue() + 1); }
+		if(finished >= ThreadManager.titleThreads.length) {
+			jpb.setValue(jpb.getMinimum());
+			finished = 0;
+			select.removeItemListener(item);
+			createStatsInspect(NUM);
+			selectPanelInit();
+		}
 	}
 }

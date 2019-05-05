@@ -5,14 +5,12 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 
 /** <p>Thread for getting titles of XKCDs.</p> */
 public class TitleThread implements Runnable {
-	/** <p>If the thread is still running.</p> */
-	private boolean alive = true;
-	
 	/** <p>The starting index to request titles of.</p> */
 	public int start;
 	
@@ -27,12 +25,16 @@ public class TitleThread implements Runnable {
 	public TitleThread(int start, int reqpt) {
 		this.start = start;
 		end = start + reqpt;
+		if(end > MainDisplay.LATEST_XKCD_NUM - reqpt) {
+			end = MainDisplay.LATEST_XKCD_NUM;
+		}
 	}
 	
 	@Override
 	/** <p>Gets title requests and adds to titles array.</p> */
 	public void run() {
 		for(int i = start;i <= end;i++) {
+			SelectList.updateBar(false);
 			JSONObject json = null;
 			try {
 				json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + i + "/info.0.json");
@@ -41,14 +43,6 @@ public class TitleThread implements Runnable {
 				SelectList.titles[i] = "";
 			}
 		}
-		alive = false;
-	}
-	
-	/**
-	 * <p>Deterimines if thread is still running.</p>
-	 * @return true if titles are still being requested, false if not.
-	 */
-	public boolean isAlive() {
-		return alive;
+		SelectList.updateBar(true);
 	}
 }

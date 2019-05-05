@@ -3,11 +3,9 @@ package com.boomaa.XKCDViewer.utils;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.boomaa.XKCDViewer.utils.MiscListeners.HREFAction;
+
+import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
@@ -45,7 +45,7 @@ public class StatsUtils {
 	/** <p>Initializes frame and sets size.</p> */
 	private void frameInit() {
 		try {
-			frame.setIconImage(ImageIO.read(new File("icon.png")));
+			frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
