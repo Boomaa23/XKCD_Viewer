@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -64,6 +65,9 @@ public class SelectList {
 		if(titles == null || titlesEmpty()) {
 			new ThreadManager();
 			mainPanel.add(jpb);
+			JPanel loading = new JPanel(new FlowLayout(FlowLayout.CENTER));
+			loading.add(new JLabel("Loading..."));
+			mainPanel.add(loading);
 		} else if(select != null && !titlesEmpty()) {
 			selectPanelInit();
 			statsUtils.addPanelItems();
@@ -121,7 +125,9 @@ public class SelectList {
 	private static void setupButtons() {
 		JButton close = new JButton("Close");
 		JButton view = new JButton("View");
+		JButton refresh = new JButton("Refresh");
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
 		close.addActionListener(new DisposeFrameAction(frame));
 		view.addActionListener(new ActionListener() { 
 			@Override
@@ -130,9 +136,19 @@ public class SelectList {
 				MainDisplay.panelRewrite(NUM);
 			}
 		});
+		refresh.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll();
+				mainPanel.add(jpb);
+				mainPanel.repaint();
+				new ThreadManager();
+			}
+		});
 		
-		buttonPanel.add(close);
 		buttonPanel.add(view);
+		buttonPanel.add(close);
+		buttonPanel.add(refresh);
 		mainPanel.add(buttonPanel);
 	}
 	
