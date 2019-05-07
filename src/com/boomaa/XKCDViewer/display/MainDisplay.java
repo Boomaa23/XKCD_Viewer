@@ -51,6 +51,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
 		setupTitle(jsonLatest);
 		setupScroll();
 		
+		TITLE_PANEL.setToolTipText(jsonLatest.getString("alt"));
 		IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
 		IMAGE_POPUP.add(SAVE_IMAGE);
 		IMAGE_POPUP.add(BROWSE_IMAGE);
@@ -78,6 +79,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
 		TEXT_INPUT.reset();
 		TITLE_PANEL.removeAll();
 		ERROR_PANEL.removeAll();
+		TITLE_PANEL.setToolTipText(json.getString("alt"));
 		setupTitle(json);
 		FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
 		
