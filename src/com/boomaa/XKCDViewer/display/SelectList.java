@@ -68,10 +68,6 @@ public class SelectList {
 			JPanel loading = new JPanel(new FlowLayout(FlowLayout.CENTER));
 			loading.add(new JLabel("Loading..."));
 			mainPanel.add(loading);
-		} else if(select != null && !titlesEmpty()) {
-			selectPanelInit();
-			statsUtils.addPanelItems();
-			setupButtons();
 		}
 		frame.add(mainPanel);
 		frame.setVisible(true); 
@@ -158,7 +154,7 @@ public class SelectList {
 	 */
 	public static void updateBar(boolean isFinished) {
 		if(isFinished) { finished++; } else { jpb.setValue(jpb.getValue() + 1); }
-		if(finished >= ThreadManager.titleThreads.length) {
+		if(finished >= ThreadManager.titleThreads.length && isFinished) {
 			jpb.setValue(jpb.getMinimum());
 			finished = 0;
 			select.removeItemListener(item);

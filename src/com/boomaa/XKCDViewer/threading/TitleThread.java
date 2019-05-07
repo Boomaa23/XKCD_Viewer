@@ -40,7 +40,7 @@ public class TitleThread implements Runnable {
 				json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + i + "/info.0.json");
 				SelectList.titles[i] = json.getInt("num") + " - " + json.getString("title");
 			} catch (JSONException | IOException e1) {
-				SelectList.titles[i] = "";
+				SelectList.titles[i] = i + " - NO IMAGE FOUND";
 			}
 		}
 		SelectList.updateBar(true);

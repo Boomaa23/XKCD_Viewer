@@ -12,7 +12,7 @@ public class ThreadManager extends SelectList {
 	
 	/** <p>Runs each thread to get all titles.</p> */
 	public ThreadManager() {
-		SelectList.titles = new String[MainDisplay.LATEST_XKCD_NUM+1];
+		SelectList.titles = new String[MainDisplay.LATEST_XKCD_NUM + 1];
 		SelectList.select = new JComboBox<String>();
 		int reqpt = MainDisplay.LATEST_XKCD_NUM / titleThreads.length;
 		for(int i = 0;i < titleThreads.length;i++) {
