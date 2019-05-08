@@ -1,7 +1,6 @@
 package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.threading.ThreadManager;
-import com.boomaa.XKCDViewer.utils.ActionListeners.DisposeFrameAction;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.MiscListeners.SelectItemAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
@@ -108,7 +107,7 @@ public class SelectList {
         JButton refresh = new JButton("Refresh");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        close.addActionListener(new DisposeFrameAction(frame));
+        close.addActionListener(e -> { frame.dispose(); });
         view.addActionListener(e -> {
             frame.dispose();
             MainDisplay.panelRewrite(NUM);

@@ -3,3 +3,4 @@
 /bin/com/
 /.idea/
 *.iml
+*.kotlin_module

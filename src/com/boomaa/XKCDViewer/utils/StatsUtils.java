@@ -74,7 +74,9 @@ public class StatsUtils {
     }
 
     /**
-     * <p>Gets size of JSON-accessed image.</p>
+     * <p>Gets size of any web resource.</p>
+     * @param loc the location of the web resource to get the size of.
+     * @param nested if the location is nested in a json.
      * @return size of image in bytes.
      */
     public long webResourceSize(String loc, boolean nested) {

@@ -1,6 +1,5 @@
 package com.boomaa.XKCDViewer.display;
 
-import com.boomaa.XKCDViewer.utils.ActionListeners.DisposeFrameAction;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import org.json.JSONException;
@@ -28,7 +27,7 @@ public class DevStats {
         addPanelItems();
         setupCloseButton();
 
-        frame.setSize(frame.getWidth(), 350);
+        frame.setSize(450, 350);
         frame.add(mainPanel);
         frame.setVisible(true);
     }
@@ -47,7 +46,7 @@ public class DevStats {
     public void setupCloseButton() {
         JButton close = new JButton("Close");
         JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        close.addActionListener(new DisposeFrameAction(frame));
+        close.addActionListener(e -> { frame.dispose(); });
         closePanel.add(close);
         mainPanel.add(closePanel);
     }

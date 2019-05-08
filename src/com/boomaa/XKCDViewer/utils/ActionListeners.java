@@ -1,11 +1,8 @@
 package com.boomaa.XKCDViewer.utils;
 
-import com.boomaa.XKCDViewer.display.DevStats;
 import com.boomaa.XKCDViewer.display.MainDisplay;
-import com.boomaa.XKCDViewer.display.SelectList;
 import org.json.JSONException;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,22 +12,6 @@ import java.net.URISyntaxException;
 
 /** <p>Nested ActionListener classes.</p> */
 public class ActionListeners {
-    /** <p>Displays the most recent XKCD image upon actionPerformed().</p> */
-    public static class LatestSelect implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM);
-        }
-    }
-
-    /** <p>Selects and displays a random XKCD image upon actionPerformed().</p> */
-    public static class RandomSelect implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM));
-        }
-    }
-
     /** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
     public static class NumSelect implements ActionListener {
         @Override
@@ -94,49 +75,6 @@ public class ActionListeners {
             } catch (IOException | URISyntaxException e1) {
                 e1.printStackTrace();
             }
-        }
-    }
-
-    /** <p>Rewrites image as scaled or non-scaled upon actionPerformed().</p> */
-    public static class ScaleSelect implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM);
-        }
-    }
-
-    /** <p>Opens select window and initiates multithreaded title requesting.</p> */
-    public static class ThreadSelectorAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM);
-        }
-    }
-
-    /** <p>Opens stats window of currently displayed xkcd image.</p> */
-    public static class StatsInspectCreate implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new DevStats();
-        }
-    }
-
-    /** <p>Discards frame upon actionPerformed().</p> */
-    public static class DisposeFrameAction implements ActionListener {
-        /** <p>Storage of passed in JFrame.</p> */
-        private JFrame frame;
-
-        /**
-         * <p>Passes in frame to dispose of.</p>
-         * @param frame the frame to de disposed of.
-         */
-        public DisposeFrameAction(JFrame frame) {
-            this.frame = frame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            frame.dispose();
         }
     }
 }

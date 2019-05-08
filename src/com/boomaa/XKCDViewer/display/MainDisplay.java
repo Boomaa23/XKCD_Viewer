@@ -23,8 +23,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
     /** <p>The number of bytes transferred in total.</p> */
     public static long TRANSFERRED_BYTES = 0;
 
-    public MainDisplay() {
-    }
+    public MainDisplay() {}
 
     /**
      * <p>Displays JFrame with everything added to it. Main running method.</p>
@@ -153,16 +152,16 @@ public class MainDisplay extends ActionListeners implements JDEC {
 
     /** <p>Adds ActionListeners on buttons.</p> */
     private static void addButtonListeners() {
-        LATEST_BTN.addActionListener(new LatestSelect());
-        RANDOM_BTN.addActionListener(new RandomSelect());
+        LATEST_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM); });
+        RANDOM_BTN.addActionListener(e -> { MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM)); });
         NUM_BTN.addActionListener(new NumSelect());
         FWD_BTN.addActionListener(new FwdAction());
         BACK_BTN.addActionListener(new BackAction());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
-        DEV_STATS.addActionListener(new StatsInspectCreate());
-        SELECT_LIST.addActionListener(new ThreadSelectorAction());
-        SCALE_CHECKBOX.addActionListener(new ScaleSelect());
+        DEV_STATS.addActionListener(e -> { new DevStats(); });
+        SELECT_LIST.addActionListener(e -> { SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM); });
+        SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
     }
 
     /** <p>Error message display for JSON retrieval error.</p> */
