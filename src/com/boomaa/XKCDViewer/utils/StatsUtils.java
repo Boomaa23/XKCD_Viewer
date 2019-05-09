@@ -1,16 +1,18 @@
 package com.boomaa.XKCDViewer.utils;
 
-import com.boomaa.XKCDViewer.utils.MiscListeners.HREFAction;
+import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.utils.Listeners.HREFAction;
 import net.sf.image4j.codec.ico.ICODecoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 /** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
@@ -102,11 +104,28 @@ public class StatsUtils {
         return String.format("%.1f %sB", bytes / Math.pow(1000, exp), "kMGTPE".charAt(exp - 1));
     }
 
+    /**
+     * <p>Gets local and public IP of client as well as hostname.</p>
+     * @return string of hostname @ local IP (public IP).
+     */
     public String getHostIP() {
         try {
-            return InetAddress.getLocalHost().getHostName() + " @ " + InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
+        	BufferedReader in = new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream()));
+            return InetAddress.getLocalHost().getHostName() + " @ " + InetAddress.getLocalHost().getHostAddress() + " (" + in.readLine() + ")";
+        } catch (IOException e) {
             return "Could not find hostname or IP address";
+        }
+    }
+    
+    /**
+     * <p>Increments total transferred bytes by size of passed location.</p>
+     * @param loc the location to measure the size of.
+     */
+    public static void addTransferredBytes(String loc) {
+        try {
+            MainDisplay.TRANSFERRED_BYTES += new URL(loc).openConnection().getContentLength();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

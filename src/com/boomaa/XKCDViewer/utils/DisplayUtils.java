@@ -44,7 +44,7 @@ public class DisplayUtils {
      * @throws IOException if the URL is invalid or could not be read from.
      */
     public static Image getImageFromJSON(JSONObject jsonObj) throws MalformedURLException, JSONException, IOException {
-        addTransferredBytes(jsonObj.getString("img"));
+    	StatsUtils.addTransferredBytes(jsonObj.getString("img"));
         return resizeImage(ImageIO.read(new URL(jsonObj.getString("img"))));
     }
 
@@ -77,14 +77,6 @@ public class DisplayUtils {
         fileChooser.setSelectedFile(new File(json.getString("title").replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
-        }
-    }
-
-    public static void addTransferredBytes(String loc) {
-        try {
-            MainDisplay.TRANSFERRED_BYTES += new URL(loc).openConnection().getContentLength();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

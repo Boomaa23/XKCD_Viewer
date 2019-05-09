@@ -3,6 +3,8 @@ package com.boomaa.XKCDViewer.threading;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.StatsUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +14,6 @@ import java.io.IOException;
 public class TitleThread implements Runnable {
     /** <p>The starting index to request titles of.</p> */
     public int start;
-
     /** <p>The ending index to request titles to.</p> */
     private int end;
 
@@ -37,7 +38,7 @@ public class TitleThread implements Runnable {
             JSONObject json = null;
             try {
                 json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + i + "/info.0.json");
-                DisplayUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
+                StatsUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
                 SelectList.titles[i] = json.getInt("num") + " - " + json.getString("title");
             } catch (JSONException | IOException e1) {
                 SelectList.titles[i] = i + " - NO IMAGE FOUND";

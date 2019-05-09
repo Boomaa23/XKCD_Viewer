@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.display;
 
-import com.boomaa.XKCDViewer.utils.ActionListeners;
+import com.boomaa.XKCDViewer.utils.Listeners;
+import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /** <p>Instigates display and houses main method</p> */
-public class MainDisplay extends ActionListeners implements JDEC {
+public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of pixels of the frame border.</p> */
     public static final int FRAME_BORDER = 20;
     /** <p>The number of the latest XKCD comic number.</p> */
@@ -34,12 +35,12 @@ public class MainDisplay extends ActionListeners implements JDEC {
     public static void main(String[] args) throws JSONException, IOException {
         SCALE_CHECKBOX.setSelected(true);
         JSONObject jsonLatest = DisplayUtils.getJSONFromURL("https://xkcd.com/info.0.json");
-        DisplayUtils.addTransferredBytes("https://xkcd.com/info.0.json");
+        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json");
         Image image = DisplayUtils.getImageFromJSON(jsonLatest);
         LATEST_XKCD_NUM = jsonLatest.getInt("num");
 
         FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-        DisplayUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
+        StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
         MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
         FRAME.getRootPane().setDefaultButton(NUM_BTN);
         FWD_BTN.setVisible(false);
@@ -53,6 +54,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
         IMAGE_POPUP.add(BROWSE_IMAGE);
         IMAGE_POPUP.add(SELECT_LIST);
         IMAGE_POPUP.add(DEV_STATS);
+        IMAGE_POPUP.add(CONSOLE_OPEN);
         addFrameElements();
         addButtonListeners();
 
@@ -69,7 +71,7 @@ public class MainDisplay extends ActionListeners implements JDEC {
         JSONObject json = null;
         try {
             json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
-            DisplayUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
+            StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
         } catch (JSONException | IOException e) {
             resetOnJSONError();
         }
@@ -154,14 +156,15 @@ public class MainDisplay extends ActionListeners implements JDEC {
     private static void addButtonListeners() {
         LATEST_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM); });
         RANDOM_BTN.addActionListener(e -> { MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM)); });
+        SELECT_LIST.addActionListener(e -> { SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM); });
+        SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
+        DEV_STATS.addActionListener(e -> { new DevStats(); });
+        CONSOLE_OPEN.addActionListener(e -> { new Console(); });
         NUM_BTN.addActionListener(new NumSelect());
         FWD_BTN.addActionListener(new FwdAction());
         BACK_BTN.addActionListener(new BackAction());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
-        DEV_STATS.addActionListener(e -> { new DevStats(); });
-        SELECT_LIST.addActionListener(e -> { SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM); });
-        SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
     }
 
     /** <p>Error message display for JSON retrieval error.</p> */

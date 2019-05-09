@@ -2,7 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.threading.ThreadManager;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
-import com.boomaa.XKCDViewer.utils.MiscListeners.SelectItemAction;
+import com.boomaa.XKCDViewer.utils.Listeners.SelectItemAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +74,7 @@ public class SelectList {
     private static void JSONInit() {
         try {
             json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + NUM + "/info.0.json");
-            DisplayUtils.addTransferredBytes("https://xkcd.com/" + NUM + "/info.0.json");
+            StatsUtils.addTransferredBytes("https://xkcd.com/" + NUM + "/info.0.json");
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +104,6 @@ public class SelectList {
     private static void setupButtons() {
         JButton close = new JButton("Close");
         JButton view = new JButton("View");
-        JButton refresh = new JButton("Refresh");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         close.addActionListener(e -> { frame.dispose(); });
@@ -113,16 +112,8 @@ public class SelectList {
             MainDisplay.panelRewrite(NUM);
         });
 
-        refresh.addActionListener(e -> {
-            mainPanel.removeAll();
-            mainPanel.add(jpb);
-            mainPanel.repaint();
-            new ThreadManager();
-        });
-
         buttonPanel.add(view);
         buttonPanel.add(close);
-        buttonPanel.add(refresh);
         mainPanel.add(buttonPanel);
     }
 

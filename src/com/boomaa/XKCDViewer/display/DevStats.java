@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
 /** <p>Displays stats of currently displayed XKCD in new frame.</p> */
 public class DevStats {
     /** <p>Stats display frame.</p> */
-    public JFrame frame = new JFrame("XKCD Stats Inspector");
+	private JFrame frame = new JFrame("XKCD Developer Statistics");
     /** <p>A temporary storage of the currently displayed JSON. </p> */
     private JSONObject json;
     /** <p>Main panel of stats display.</p> */
@@ -26,7 +27,7 @@ public class DevStats {
         statsUtils = new StatsUtils(json, mainPanel, frame);
         addPanelItems();
         setupCloseButton();
-
+        
         frame.setSize(450, 350);
         frame.add(mainPanel);
         frame.setVisible(true);
@@ -36,7 +37,7 @@ public class DevStats {
     private void JSONInit() {
         try {
             json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
-            DisplayUtils.addTransferredBytes("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
+            StatsUtils.addTransferredBytes("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
         } catch (JSONException | IOException e1) {
             e1.printStackTrace();
         }

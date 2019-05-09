@@ -70,6 +70,9 @@ public interface JDEC {
 
     /** <p>Menu item of popup box to open stats window.</p> */
     JMenuItem DEV_STATS = new JMenuItem("Developer Stats");
+    
+    /** <p>Menu item of popup box to open stats window.</p> */
+    JMenuItem CONSOLE_OPEN = new JMenuItem("Developer Console");
 
     /** <p>Menu item of popup box to open multithreaded selection window.</p> */
     JMenuItem SELECT_LIST = new JMenuItem("Image List/Selector");

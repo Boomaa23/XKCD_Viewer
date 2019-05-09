@@ -4,3 +4,4 @@
 /.idea/
 *.iml
 *.kotlin_module
+/bin/

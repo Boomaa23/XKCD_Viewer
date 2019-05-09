@@ -1,17 +1,23 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.display.SelectList;
+
 import org.json.JSONException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 /** <p>Nested ActionListener classes.</p> */
-public class ActionListeners {
+public class Listeners {
     /** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
     public static class NumSelect implements ActionListener {
         @Override
@@ -74,6 +80,41 @@ public class ActionListeners {
                 Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
             } catch (IOException | URISyntaxException e1) {
                 e1.printStackTrace();
+            }
+        }
+    }
+    
+    /** <p>Opens a link to a webpage in default web browser.</p> */
+    public static class HREFAction extends MouseAdapter {
+        /** <p>Location of web link.</p> */
+        private String href;
+
+        /**
+         * <p>Passes in href location.</p>
+         * @param href location of web link, temporary.
+         */
+        public HREFAction(String href) {
+            this.href = href;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            try {
+                Desktop.getDesktop().browse(new URI(href));
+            } catch (IOException | URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    /** <p>Changes selector menu after the item selected is changed.</p> */
+    public static class SelectItemAction implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String in = (String) e.getItem();
+                SelectList.createSelectList(Integer.parseInt(in.substring(0, in.indexOf(" - "))));
+                SelectList.refreshSelector();
             }
         }
     }
