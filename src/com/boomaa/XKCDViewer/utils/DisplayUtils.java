@@ -14,8 +14,7 @@ import java.net.URL;
 
 /** <p>Assorted utils for JSON reading and image manipulation.</p> */
 public class DisplayUtils {
-    public DisplayUtils() {
-    }
+    public DisplayUtils() {}
 
     /**
      * <p>Reads the address of a URL of a JSON and returns it back to use.</p>
@@ -78,5 +77,9 @@ public class DisplayUtils {
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
         }
+    }
+    
+    public static void checkInet() {
+    	
     }
 }

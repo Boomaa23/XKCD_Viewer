@@ -8,11 +8,13 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.URLConnection;
 
 /** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
@@ -127,5 +129,45 @@ public class StatsUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * <p>Gets response time from passed website in milliseconds.</p>
+     * @param site the site to get the response time of.
+     * @return the response time of the passed website in milliseconds.
+     */
+    public long getResponseTime(String site) {
+    	long start = System.nanoTime();
+    	try {
+	    	URLConnection url = new URL(site).openConnection();
+	    	BufferedReader reader = new BufferedReader(new InputStreamReader(url.getInputStream()));
+			while(reader.readLine() != null) {}
+	    	reader.close();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    		return -1;
+    	}
+    	return (System.nanoTime() - start) / 1000000;
+    }
+    
+    @SuppressWarnings("serial")
+	public static class DrawCircle extends JPanel {
+    	private int diameter;
+    	private Color color;
+    	
+    	public DrawCircle(int diameter, Color color) {
+    		this.diameter = diameter; 
+    		this.color = color;
+    		this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			paintComponents(this.getGraphics());
+			repaint();
+		}
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			g.setColor(color);
+			g.drawOval(0, 0, diameter, diameter);
+			g.fillOval(0, 0, diameter, diameter);
+		}
     }
 }

@@ -63,5 +63,6 @@ public class DevStats {
         statsUtils.addLabelPanel("JSON Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", false)));
         statsUtils.addLabelPanel("IP Address: " + statsUtils.getHostIP());
         statsUtils.addLabelPanel("Data Transferred " + statsUtils.byteTranscribe(MainDisplay.TRANSFERRED_BYTES));
+        statsUtils.addLabelPanel("Response Time:  " + statsUtils.getResponseTime("https://xkcd.com/") + "ms");
     }
 }

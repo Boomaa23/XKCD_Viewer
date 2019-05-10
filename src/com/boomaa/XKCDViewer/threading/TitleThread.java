@@ -34,6 +34,7 @@ public class TitleThread implements Runnable {
     /** <p>Gets title requests and adds to titles array.</p> */
     public void run() {
         for (int i = start; i <= end; i++) {
+        	System.out.println("Thread " + start/(end-start) + ": #" + i);
             SelectList.updateBar(false);
             JSONObject json = null;
             try {

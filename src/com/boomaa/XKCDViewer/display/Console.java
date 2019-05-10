@@ -67,6 +67,7 @@ public class Console {
         }
     	
     	JTextArea textArea = new JTextArea(15, 45);
+    	textArea.setEditable(false);
  	   	OutTracker outStream = null;
 		try {
 			outStream = new OutTracker(textArea, InetAddress.getLocalHost().getHostName());
