@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+import com.boomaa.XKCDViewer.draw.Console;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;

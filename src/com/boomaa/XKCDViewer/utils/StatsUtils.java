@@ -109,7 +109,7 @@ public class StatsUtils {
      * <p>Gets local and public IP of client as well as hostname.</p>
      * @return string of hostname @ local IP (public IP).
      */
-    public String getHostIP() {
+    public static String getHostIP() {
         try {
         	BufferedReader in = new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream()));
             return InetAddress.getLocalHost().getHostName() + " @ " + InetAddress.getLocalHost().getHostAddress() + " (" + in.readLine() + ")";
@@ -135,7 +135,7 @@ public class StatsUtils {
      * @param site the site to get the response time of.
      * @return the response time of the passed website in milliseconds.
      */
-    public long getResponseTime(String site) {
+    public static long getResponseTime(String site) {
     	long start = System.nanoTime();
     	try {
 	    	URLConnection url = new URL(site).openConnection();

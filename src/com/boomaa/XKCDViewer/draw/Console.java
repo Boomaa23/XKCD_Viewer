@@ -1,4 +1,4 @@
-package com.boomaa.XKCDViewer.display;
+package com.boomaa.XKCDViewer.draw;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
