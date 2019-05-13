@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.OverlayField;
+import com.boomaa.XKCDViewer.utils.StatsUtils.DrawCircles;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,4 +77,8 @@ public interface JDEC {
 
     /** <p>Menu item of popup box to open multithreaded selection window.</p> */
     JMenuItem SELECT_LIST = new JMenuItem("Image List/Selector");
+    
+    
+    /** <p>Display circles for internet connection.</p> */
+    JComponent INET_CIRCLES = new DrawCircles(10, Color.RED, Color.YELLOW, Color.GREEN);
 }

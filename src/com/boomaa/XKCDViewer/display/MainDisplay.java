@@ -2,7 +2,6 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-import com.boomaa.XKCDViewer.utils.StatsUtils.DrawCircle;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -33,35 +32,38 @@ public class MainDisplay extends Listeners implements JDEC {
      * @throws JSONException if the latest XKCD JSON cannot be read.
      * @throws IOException if the URL of the latest XKCD JSON is invalid.
      */
-    public static void main(String[] args) throws JSONException, IOException {
+    public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);
-        JSONObject jsonLatest = DisplayUtils.getJSONFromURL("https://xkcd.com/info.0.json");
-        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json");
-        Image image = DisplayUtils.getImageFromJSON(jsonLatest);
-        LATEST_XKCD_NUM = jsonLatest.getInt("num");
-
-        FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-        StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
-        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
-        FRAME.getRootPane().setDefaultButton(NUM_BTN);
-        FWD_BTN.setVisible(false);
-        setupFrame(image);
-        setupTitle(jsonLatest);
-        setupScroll();
-
-        TITLE_PANEL.setToolTipText(jsonLatest.getString("alt"));
-        IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
-        IMAGE_POPUP.add(SAVE_IMAGE);
-        IMAGE_POPUP.add(BROWSE_IMAGE);
-        IMAGE_POPUP.add(SELECT_LIST);
-        IMAGE_POPUP.add(DEV_STATS);
-        IMAGE_POPUP.add(CONSOLE_OPEN);
-        addFrameElements();
-        addButtonListeners();
-
-        IMAGE_PANEL.setComponentPopupMenu(IMAGE_POPUP);
-        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        FRAME.setVisible(true);
+        try {
+	        JSONObject jsonLatest = DisplayUtils.getJSONFromURL("https://xkcd.com/info.0.json");
+	        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json");
+	        Image image = DisplayUtils.getImageFromJSON(jsonLatest);
+	        LATEST_XKCD_NUM = jsonLatest.getInt("num");
+	
+	        FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+	        StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
+	        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+	        FRAME.getRootPane().setDefaultButton(NUM_BTN);
+	        FWD_BTN.setVisible(false);
+	        setupFrame(image);
+	        setupTitle(jsonLatest);
+	        setupScroll();
+	
+	        TITLE_PANEL.setToolTipText(jsonLatest.getString("alt"));
+	        IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
+	        addImagePopup();
+	        addFrameElements();
+	        addButtonListeners();
+	
+	        IMAGE_PANEL.setComponentPopupMenu(IMAGE_POPUP);
+	        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        FRAME.setVisible(true);
+        } catch(IOException e0) {
+        	MAIN_PANEL.add(new JLabel("Internet connection not found..."));
+        	FRAME.add(MAIN_PANEL);
+        	FRAME.setSize(300, 65);
+        	FRAME.setVisible(true);
+        }
     }
 
     /**
@@ -150,10 +152,18 @@ public class MainDisplay extends Listeners implements JDEC {
         MAIN_PANEL.add(SELECT_PANEL_UPPER);
         MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
         MAIN_PANEL.add(SELECT_PANEL_LOWER);
-        DrawCircle c = new DrawCircle(10, Color.RED);
-        MAIN_PANEL.add(c);
+        MAIN_PANEL.add(INET_CIRCLES);
         
         MAIN_PANEL.add(ERROR_PANEL);
+    }
+    
+    /** <p>Adds options to rightclick on image popup.</p> */
+    private static void addImagePopup() {
+    	IMAGE_POPUP.add(SAVE_IMAGE);
+        IMAGE_POPUP.add(BROWSE_IMAGE);
+        IMAGE_POPUP.add(SELECT_LIST);
+        IMAGE_POPUP.add(DEV_STATS);
+        IMAGE_POPUP.add(CONSOLE_OPEN);
     }
 
     /** <p>Adds ActionListeners on buttons.</p> */

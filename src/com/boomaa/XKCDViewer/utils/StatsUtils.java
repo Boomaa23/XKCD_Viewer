@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -151,23 +150,24 @@ public class StatsUtils {
     }
     
     @SuppressWarnings("serial")
-	public static class DrawCircle extends JPanel {
-    	private int diameter;
-    	private Color color;
+	public static class DrawCircles extends JComponent {
+    	private final Color[] colors;
+    	private final int diameter;
     	
-    	public DrawCircle(int diameter, Color color) {
+    	public DrawCircles(final int diameter, final Color... colors) {
     		this.diameter = diameter; 
-    		this.color = color;
-    		this.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			paintComponents(this.getGraphics());
-			repaint();
+    		this.colors = colors;
+    		setLayout(new FlowLayout(FlowLayout.RIGHT));
 		}
 		
 		@Override
 		public void paintComponent(Graphics g) {
-			g.setColor(color);
-			g.drawOval(0, 0, diameter, diameter);
-			g.fillOval(0, 0, diameter, diameter);
+			int x = JDEC.FRAME.getWidth() - (diameter * colors.length);
+			for(Color c : colors) {
+				g.setColor(c);
+				g.fillOval(x, 0, diameter, diameter);
+				x -= diameter * 1.5;
+			}
 		}
     }
 }
