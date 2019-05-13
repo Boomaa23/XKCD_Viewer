@@ -14,17 +14,17 @@ import java.io.IOException;
 /** <p>Displays a selection screen of all possible JSON images with stats.</p> */
 public class SelectList {
     /** <p>Stats display frame.</p> */
-    public static JFrame frame = new JFrame("XKCD Image Selector");
+    private static JFrame frame = new JFrame("XKCD Image Selector");
     /** <p>Storage of all titles for all xkcd.</p> */
     public static String[] titles;
     /** <p>Progress bar showing number of requests out of total.</p> */
-    public static JProgressBar jpb = new JProgressBar();
+    private static JProgressBar jpb = new JProgressBar();
     /** <p>Display for all image titles.</p> */
     protected static JComboBox<String> select;
     /** <p>Currently displayed image number.</p> */
-    protected static int NUM;
+    private static int NUM;
     /** <p>Storage of select menu change listener.</p> */
-    protected static SelectItemAction item = new SelectItemAction();
+    private static SelectItemAction item = new SelectItemAction();
     /** <p>A temporary storage of the currently displayed JSON. </p> */
     private static JSONObject json;
     /** <p>Main panel of stats display.</p> */
@@ -95,7 +95,7 @@ public class SelectList {
         mainPanel.removeAll();
         mainPanel.add(select);
         JSONInit();
-        addPanelItems();
+        statsUtils.addGenericPanelItems();
         setupButtons();
         frame.setVisible(true);
     }
@@ -115,15 +115,6 @@ public class SelectList {
         buttonPanel.add(view);
         buttonPanel.add(close);
         mainPanel.add(buttonPanel);
-    }
-
-    /** <p>Adds each statistic item to the main panel.</p> */
-    public static void addPanelItems() {
-        statsUtils.addLabelPanel("Title: " + json.getString("title"));
-        statsUtils.addLabelPanel("Image #: " + json.getInt("num"));
-        statsUtils.addLabelPanel("Date Published: " + json.getInt("month") + "/" + json.getInt("day") + "/" + json.getInt("year"));
-        statsUtils.addLabelPanel("Image URL: " + json.getString("img"), true);
-        statsUtils.addLabelPanel("Image Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("img", true)));
     }
 
     /**

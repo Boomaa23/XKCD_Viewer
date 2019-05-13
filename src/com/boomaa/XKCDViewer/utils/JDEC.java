@@ -1,7 +1,7 @@
 package com.boomaa.XKCDViewer.utils;
 
+import com.boomaa.XKCDViewer.display.DrawCircles;
 import com.boomaa.XKCDViewer.display.OverlayField;
-import com.boomaa.XKCDViewer.utils.StatsUtils.DrawCircles;
 
 import javax.swing.*;
 import java.awt.*;

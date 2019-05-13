@@ -149,25 +149,11 @@ public class StatsUtils {
     	return (System.nanoTime() - start) / 1000000;
     }
     
-    @SuppressWarnings("serial")
-	public static class DrawCircles extends JComponent {
-    	private final Color[] colors;
-    	private final int diameter;
-    	
-    	public DrawCircles(final int diameter, final Color... colors) {
-    		this.diameter = diameter; 
-    		this.colors = colors;
-    		setLayout(new FlowLayout(FlowLayout.RIGHT));
-		}
-		
-		@Override
-		public void paintComponent(Graphics g) {
-			int x = JDEC.FRAME.getWidth() - (diameter * colors.length);
-			for(Color c : colors) {
-				g.setColor(c);
-				g.fillOval(x, 0, diameter, diameter);
-				x -= diameter * 1.5;
-			}
-		}
+    public void addGenericPanelItems() {
+        addLabelPanel("Title: " + json.getString("title"));
+        addLabelPanel("Image #: " + json.getInt("num"));
+        addLabelPanel("Date Published: " + json.getInt("month") + "/" + json.getInt("day") + "/" + json.getInt("year"));
+        addLabelPanel("Image URL: " + json.getString("img"), true);
+        addLabelPanel("Image Size: " + byteTranscribe(webResourceSize("img", true)));
     }
 }

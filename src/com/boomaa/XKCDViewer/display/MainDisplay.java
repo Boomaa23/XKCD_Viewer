@@ -63,6 +63,7 @@ public class MainDisplay extends Listeners implements JDEC {
         	FRAME.add(MAIN_PANEL);
         	FRAME.setSize(300, 65);
         	FRAME.setVisible(true);
+        	e0.printStackTrace();
         }
     }
 

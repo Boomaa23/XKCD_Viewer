@@ -54,11 +54,7 @@ public class DevStats {
 
     /** <p>Adds each statistic item to the main panel.</p> */
     private void addPanelItems() {
-        statsUtils.addLabelPanel("Title: " + json.getString("title"));
-        statsUtils.addLabelPanel("Image #: " + json.getInt("num"));
-        statsUtils.addLabelPanel("Date Published: " + json.getInt("month") + "/" + json.getInt("day") + "/" + json.getInt("year"));
-        statsUtils.addLabelPanel("Image URL: " + json.getString("img"), true);
-        statsUtils.addLabelPanel("Image Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("img", true)));
+        statsUtils.addGenericPanelItems();
         statsUtils.addLabelPanel("JSON URL: " + " https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", true);
         statsUtils.addLabelPanel("JSON Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", false)));
         statsUtils.addLabelPanel("IP Address: " + statsUtils.getHostIP());
