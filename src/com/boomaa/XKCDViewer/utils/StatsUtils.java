@@ -149,6 +149,7 @@ public class StatsUtils {
     	return (System.nanoTime() - start) / 1000000;
     }
     
+    /** <p>Adds duplicate panel items for DevStats and SelectList.</p> */
     public void addGenericPanelItems() {
         addLabelPanel("Title: " + json.getString("title"));
         addLabelPanel("Image #: " + json.getInt("num"));

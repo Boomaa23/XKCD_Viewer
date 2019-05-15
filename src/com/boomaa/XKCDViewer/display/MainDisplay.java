@@ -50,8 +50,9 @@ public class MainDisplay extends Listeners implements JDEC {
 	        setupTitle(jsonLatest);
 	        setupScroll();
 	
-	        TITLE_PANEL.setToolTipText(jsonLatest.getString("alt"));
-	        IMAGE_PANEL.add(new JLabel(new ImageIcon(image)));
+	        JLabel imgTemp = new JLabel(new ImageIcon(image));
+	        imgTemp.setToolTipText(jsonLatest.getString("alt"));
+	        IMAGE_PANEL.add(imgTemp);
 	        addImagePopup();
 	        addFrameElements();
 	        addButtonListeners();
@@ -83,20 +84,21 @@ public class MainDisplay extends Listeners implements JDEC {
         TEXT_INPUT.reset();
         TITLE_PANEL.removeAll();
         ERROR_PANEL.removeAll();
-        TITLE_PANEL.setToolTipText(json.getString("alt"));
         setupTitle(json);
         FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
 
         IMAGE_PANEL.removeAll();
-        Image imgRand = null;
+        Image imgTemp = null;
         try {
-            imgRand = DisplayUtils.getImageFromJSON(json);
+            imgTemp = DisplayUtils.getImageFromJSON(json);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-        IMAGE_PANEL.add(new JLabel(new ImageIcon(imgRand)));
+        JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
+        imgLabel.setToolTipText(json.getString("alt"));
+        IMAGE_PANEL.add(imgLabel);
 
-        setupFrame(imgRand);
+        setupFrame(imgTemp);
         FRAME.revalidate();
         FRAME.repaint();
     }
@@ -182,7 +184,7 @@ public class MainDisplay extends Listeners implements JDEC {
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
     }
-
+    
     /** <p>Error message display for JSON retrieval error.</p> */
     public static void resetOnJSONError() {
         ERROR_PANEL.removeAll();

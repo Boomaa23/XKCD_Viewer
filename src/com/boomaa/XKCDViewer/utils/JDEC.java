@@ -1,6 +1,6 @@
 package com.boomaa.XKCDViewer.utils;
 
-import com.boomaa.XKCDViewer.draw.DrawCircles;
+import com.boomaa.XKCDViewer.draw.InetCircles;
 import com.boomaa.XKCDViewer.draw.OverlayField;
 
 import javax.swing.*;
@@ -80,5 +80,5 @@ public interface JDEC {
     
     
     /** <p>Display circles for internet connection.</p> */
-    JComponent INET_CIRCLES = new DrawCircles(10);
+    JComponent INET_CIRCLES = new InetCircles(10);
 }
