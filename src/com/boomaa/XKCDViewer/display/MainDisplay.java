@@ -3,6 +3,7 @@ package com.boomaa.XKCDViewer.display;
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.boomaa.XKCDViewer.draw.Console;
+import com.boomaa.XKCDViewer.draw.InetCircles;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -156,7 +157,7 @@ public class MainDisplay extends Listeners implements JDEC {
         MAIN_PANEL.add(SELECT_PANEL_UPPER);
         MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
         MAIN_PANEL.add(SELECT_PANEL_LOWER);
-        MAIN_PANEL.add(INET_CIRCLES);
+        MAIN_PANEL.add(new InetCircles(10));
         
         MAIN_PANEL.add(ERROR_PANEL);
     }
