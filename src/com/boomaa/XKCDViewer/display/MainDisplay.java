@@ -2,7 +2,6 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-import com.boomaa.XKCDViewer.draw.Console;
 import com.boomaa.XKCDViewer.draw.InetCircles;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
@@ -31,8 +30,6 @@ public class MainDisplay extends Listeners implements JDEC {
     /**
      * <p>Displays JFrame with everything added to it. Main running method.</p>
      * @param args default main method.
-     * @throws JSONException if the latest XKCD JSON cannot be read.
-     * @throws IOException if the URL of the latest XKCD JSON is invalid.
      */
     public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);

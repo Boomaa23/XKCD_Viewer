@@ -1,6 +1,8 @@
-package com.boomaa.XKCDViewer.draw;
+package com.boomaa.XKCDViewer.display;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -12,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultCaret;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -32,10 +35,17 @@ public class Console {
 		 * @param prefix the hostname before the data.
 		 */
 		public OutTracker(JTextArea textArea, String prefix) {
-		      this.textArea = textArea;
-		      this.title = prefix;
-		      sb.append(prefix + "> ");
-		   }
+		    this.textArea = textArea;
+		    this.title = prefix;
+		    sb.append(prefix + "> ");
+		    ((DefaultCaret) textArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		    textArea.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent e) {
+		    		((DefaultCaret) textArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		    	}
+		    });
+		}
 		
 		@Override
 		public void write(int b) throws IOException {
@@ -77,8 +87,8 @@ public class Console {
         
         console.setSize(600, 400);
         console.setLayout(new BorderLayout());
-        console.getContentPane().add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        console.getContentPane().add(new JScrollPane(textArea, 
+        		JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
         System.setOut(new PrintStream(outStream));
         console.pack();
         console.setLocationRelativeTo(null);
