@@ -76,4 +76,7 @@ public interface JDEC {
 
     /** <p>Menu item of popup box to open multithreaded selection window.</p> */
     JMenuItem SELECT_LIST = new JMenuItem("Image List/Selector");
+    
+    /** <p>Leaderboard of top voted xkcds.</p> */
+    JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
 }

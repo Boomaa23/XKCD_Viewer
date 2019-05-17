@@ -36,7 +36,7 @@ public class DevStats {
     /** <p>Initializes JSON from URL.</p> */
     private void JSONInit() {
         try {
-            json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
+            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
         } catch (JSONException | IOException e1) {
             e1.printStackTrace();

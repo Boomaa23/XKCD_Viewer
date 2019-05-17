@@ -9,6 +9,7 @@ import javax.swing.*;
 public class ThreadManager extends SelectList {
     /** <p>Storage of all title threads, utilized for isAlive().</p> */
     public static TitleThread[] titleThreads = new TitleThread[16];
+    public static long time;
     
     /** <p>Runs each thread to get all titles.</p> */
     public ThreadManager() {

@@ -37,7 +37,7 @@ public class TitleThread implements Runnable {
             SelectList.updateBar(false);
             JSONObject json = null;
             try {
-                json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + i + "/info.0.json");
+                json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + i + "/info.0.json");
                 StatsUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
                 SelectList.titles[i] = json.getInt("num") + " - " + json.getString("title");
             } catch (JSONException | IOException e1) {

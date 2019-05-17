@@ -34,7 +34,7 @@ public class MainDisplay extends Listeners implements JDEC {
     public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);
         try {
-	        JSONObject jsonLatest = DisplayUtils.getJSONFromURL("https://xkcd.com/info.0.json");
+	        JSONObject jsonLatest = DisplayUtils.getJSONFromHTTP("https://xkcd.com/info.0.json");
 	        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json");
 	        Image image = DisplayUtils.getImageFromJSON(jsonLatest);
 	        LATEST_XKCD_NUM = jsonLatest.getInt("num");
@@ -74,7 +74,7 @@ public class MainDisplay extends Listeners implements JDEC {
     public static void panelRewrite(int numReq) {
         JSONObject json = null;
         try {
-            json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + numReq + "/info.0.json");
+            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + numReq + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
         } catch (JSONException | IOException e) {
             resetOnJSONError();
@@ -164,6 +164,7 @@ public class MainDisplay extends Listeners implements JDEC {
     	IMAGE_POPUP.add(SAVE_IMAGE);
         IMAGE_POPUP.add(BROWSE_IMAGE);
         IMAGE_POPUP.add(SELECT_LIST);
+        IMAGE_POPUP.add(LEADERBOARD);
         IMAGE_POPUP.add(DEV_STATS);
         IMAGE_POPUP.add(CONSOLE_OPEN);
     }
@@ -176,6 +177,7 @@ public class MainDisplay extends Listeners implements JDEC {
         SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
         DEV_STATS.addActionListener(e -> { new DevStats(); });
         CONSOLE_OPEN.addActionListener(e -> { new Console(); });
+        LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
         NUM_BTN.addActionListener(new NumSelect());
         FWD_BTN.addActionListener(new FwdAction());
         BACK_BTN.addActionListener(new BackAction());

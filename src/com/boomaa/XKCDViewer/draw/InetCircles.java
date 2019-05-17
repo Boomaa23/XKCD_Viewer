@@ -23,7 +23,6 @@ public class InetCircles extends JComponent {
 	 */
 	public InetCircles(final int diameter) {
 		this.diameter = diameter;
-		this.spacing = JDEC.FRAME.getWidth();
 		setLayout(new FlowLayout(FlowLayout.RIGHT));
 	}
 	
@@ -40,6 +39,7 @@ public class InetCircles extends JComponent {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		spacing = (int) (JDEC.FRAME.getWidth() - (diameter * 3)); 
 		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : Color.GREEN, g);
 		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : Color.GREEN, g);
 		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : Color.GREEN, g);

@@ -73,7 +73,7 @@ public class SelectList {
     /** <p>Reads JSON from URL.</p> */
     private static void JSONInit() {
         try {
-            json = DisplayUtils.getJSONFromURL("https://xkcd.com/" + NUM + "/info.0.json");
+            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + NUM + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + NUM + "/info.0.json");
         } catch (JSONException | IOException e) {
             e.printStackTrace();

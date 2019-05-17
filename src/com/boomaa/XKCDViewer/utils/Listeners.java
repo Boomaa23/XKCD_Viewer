@@ -65,7 +65,7 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                DisplayUtils.saveImage(DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json"));
+                DisplayUtils.saveImage(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json"));
             } catch (JSONException | IOException e1) {
                 e1.printStackTrace();
             }
@@ -77,7 +77,7 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromURL("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
+                Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
             } catch (IOException | URISyntaxException e1) {
                 e1.printStackTrace();
             }

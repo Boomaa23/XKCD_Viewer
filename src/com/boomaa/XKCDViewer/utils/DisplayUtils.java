@@ -23,7 +23,7 @@ public class DisplayUtils {
      * @throws IOException if a URL stream could not be opened or data could not be read.
      * @throws JSONException if a JSONObject could not be made from StringBuilder.
      */
-    public static JSONObject getJSONFromURL(String url) throws IOException, JSONException {
+    public static JSONObject getJSONFromHTTP(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -31,6 +31,19 @@ public class DisplayUtils {
             sb.append((char) c);
         }
         is.close();
+        return new JSONObject(sb.toString());
+    }
+    
+    public static JSONObject getJSONFromFTP(String filelocation) throws IOException {
+    	BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("ftpurl.txt")));
+    	String line = br.readLine();
+    	InputStream is = new URL(line + "/htdocs/" + filelocation).openConnection().getInputStream();
+		br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        for (int c = br.read(); c != -1; c = br.read()) {
+            sb.append((char) c);
+        }
+        is.close(); br.close();
         return new JSONObject(sb.toString());
     }
 
