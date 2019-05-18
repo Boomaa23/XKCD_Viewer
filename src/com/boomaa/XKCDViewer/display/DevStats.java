@@ -58,7 +58,7 @@ public class DevStats {
         statsUtils.addLabelPanel("JSON URL: " + " https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", true);
         statsUtils.addLabelPanel("JSON Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", false)));
         statsUtils.addLabelPanel("IP Address: " + StatsUtils.getHostIP());
-        statsUtils.addLabelPanel("Data Transferred " + statsUtils.byteTranscribe(MainDisplay.TRANSFERRED_BYTES));
+        statsUtils.addLabelPanel("Data Transferred: " + statsUtils.byteTranscribe(MainDisplay.TRANSFERRED_BYTES));
         statsUtils.addLabelPanel("Response Time:  " + StatsUtils.getResponseTime("https://xkcd.com/") + "ms");
     }
 }

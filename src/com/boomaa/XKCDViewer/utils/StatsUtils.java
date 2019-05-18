@@ -122,9 +122,11 @@ public class StatsUtils {
      * <p>Increments total transferred bytes by size of passed location.</p>
      * @param loc the location to measure the size of.
      */
-    public static void addTransferredBytes(String loc) {
+    public static void addTransferredBytes(String... loc) {
         try {
-            MainDisplay.TRANSFERRED_BYTES += new URL(loc).openConnection().getContentLength();
+        	for(String s : loc) {
+        		MainDisplay.TRANSFERRED_BYTES += new URL(s).openConnection().getContentLength();
+        	}
         } catch (IOException e) {
             e.printStackTrace();
         }

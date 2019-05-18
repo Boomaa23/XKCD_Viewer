@@ -1,5 +1,6 @@
 package com.boomaa.XKCDViewer.utils;
 
+import com.boomaa.XKCDViewer.draw.InetCircles;
 import com.boomaa.XKCDViewer.draw.OverlayField;
 
 import javax.swing.*;
@@ -79,4 +80,7 @@ public interface JDEC {
     
     /** <p>Leaderboard of top voted xkcds.</p> */
     JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
+    
+    /** <p>Pre-drawn circles for internet connectivity.</p> */
+    InetCircles INET_CIRCLES = new InetCircles(8);
 }

@@ -17,13 +17,12 @@ public class DisplayUtils {
     public DisplayUtils() {}
 
     /**
-     * <p>Reads the address of a URL of a JSON and returns it back to use.</p>
+     * <p>Reads the address of a URL of a JSON and returns it back.</p>
      * @param url the address of the JSON requested to read.
      * @return the JSON at the address in JSONObject form.
      * @throws IOException if a URL stream could not be opened or data could not be read.
-     * @throws JSONException if a JSONObject could not be made from StringBuilder.
      */
-    public static JSONObject getJSONFromHTTP(String url) throws IOException, JSONException {
+    public static JSONObject getJSONFromHTTP(String url) throws IOException {
         InputStream is = new URL(url).openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -34,11 +33,15 @@ public class DisplayUtils {
         return new JSONObject(sb.toString());
     }
     
-    public static JSONObject getJSONFromFTP(String filelocation) throws IOException {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("ftpurl.txt")));
-    	String line = br.readLine();
-    	InputStream is = new URL(line + "/htdocs/" + filelocation).openConnection().getInputStream();
-		br = new BufferedReader(new InputStreamReader(is));
+    /**
+     * <p>Reads the address of an FTP URL of a JSON and returns it back.</p>
+     * @param ftpurl the address of the JSON requested to read.
+     * @return the JSON at the address in JSONObject form.
+     * @throws IOException if a URL stream could not be opened or data could not be read.
+     */
+    public static JSONObject getJSONFromFTP(String ftpurl) throws IOException {
+    	InputStream is = new URL(ftpurl).openConnection().getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         for (int c = br.read(); c != -1; c = br.read()) {
             sb.append((char) c);
@@ -46,16 +49,14 @@ public class DisplayUtils {
         is.close(); br.close();
         return new JSONObject(sb.toString());
     }
-
+    
     /**
      * <p>Reads and image from a JSONObject.</p>
      * @param jsonObj the JSONObject which contains the "img" tag to get the image location.
      * @return an Image read from a URL location.
      * @throws MalformedURLException if a new URL could not be read from the "img" tag.
-     * @throws JSONException if the tag "img" could not be found in the JSONObject parameter.
-     * @throws IOException if the URL is invalid or could not be read from.
      */
-    public static Image getImageFromJSON(JSONObject jsonObj) throws MalformedURLException, JSONException, IOException {
+    public static Image getImageFromJSON(JSONObject jsonObj) throws IOException {
     	StatsUtils.addTransferredBytes(jsonObj.getString("img"));
         return resizeImage(ImageIO.read(new URL(jsonObj.getString("img"))));
     }
@@ -86,13 +87,9 @@ public class DisplayUtils {
      */
     public static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
         JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
-        fileChooser.setSelectedFile(new File(json.getString("title").replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
+        fileChooser.setSelectedFile(new File(json.getString("safe_title").replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
         }
-    }
-    
-    public static void checkInet() {
-    	
     }
 }

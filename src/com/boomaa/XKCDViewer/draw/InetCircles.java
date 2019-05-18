@@ -34,14 +34,15 @@ public class InetCircles extends JComponent {
 	private void circle(Color c, Graphics g) {
 		g.setColor(c);
 		g.fillOval(spacing, 0, diameter, diameter);
-		spacing -= (diameter * 1.5);
+		spacing -= (diameter * 1.25);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		spacing = (int) (JDEC.FRAME.getWidth() - (diameter * 3)); 
-		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : Color.GREEN, g);
-		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : Color.GREEN, g);
-		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : Color.GREEN, g);
+		spacing = (int) (JDEC.FRAME.getWidth() - (diameter * 5));
+		Color green = new Color(0,180,0);
+		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : green, g);
+		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : green, g);
+		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : green, g);
 	}
 }

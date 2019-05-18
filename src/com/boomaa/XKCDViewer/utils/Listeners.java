@@ -4,7 +4,6 @@ import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 
 import org.json.JSONException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

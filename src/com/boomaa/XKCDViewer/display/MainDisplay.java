@@ -2,7 +2,6 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-import com.boomaa.XKCDViewer.draw.InetCircles;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -34,37 +33,46 @@ public class MainDisplay extends Listeners implements JDEC {
     public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);
         try {
-	        JSONObject jsonLatest = DisplayUtils.getJSONFromHTTP("https://xkcd.com/info.0.json");
-	        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json");
-	        Image image = DisplayUtils.getImageFromJSON(jsonLatest);
-	        LATEST_XKCD_NUM = jsonLatest.getInt("num");
-	
-	        FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-	        StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
-	        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
-	        FRAME.getRootPane().setDefaultButton(NUM_BTN);
-	        FWD_BTN.setVisible(false);
-	        setupFrame(image);
-	        setupTitle(jsonLatest);
-	        setupScroll();
-	
-	        JLabel imgTemp = new JLabel(new ImageIcon(image));
-	        imgTemp.setToolTipText(jsonLatest.getString("alt"));
-	        IMAGE_PANEL.add(imgTemp);
-	        addImagePopup();
-	        addFrameElements();
-	        addButtonListeners();
-	
-	        IMAGE_PANEL.setComponentPopupMenu(IMAGE_POPUP);
-	        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        FRAME.setVisible(true);
-        } catch(IOException e0) {
+	        initAllFrame();
+        } catch(IOException e) {
         	MAIN_PANEL.add(new JLabel("Internet connection not found..."));
         	FRAME.add(MAIN_PANEL);
         	FRAME.setSize(300, 65);
         	FRAME.setVisible(true);
-        	e0.printStackTrace();
+        	e.printStackTrace();
         }
+    }
+    
+    /**
+     * <p>Initializes and displays frame for first load-in.</p>
+     * @throws JSONException if the JSON found for the latest XKCD is incorrectly formatted.
+     * @throws IOException if a connectivity problem is detected.
+     */
+    private static void initAllFrame() throws JSONException, IOException {
+    	JSONObject jsonLatest = DisplayUtils.getJSONFromHTTP("https://xkcd.com/info.0.json");
+        StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json", "https://xkcd.com/s/919f27.ico");
+        Image image = DisplayUtils.getImageFromJSON(jsonLatest);
+        LATEST_XKCD_NUM = jsonLatest.getInt("num");
+
+        FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+        MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
+        FRAME.getRootPane().setDefaultButton(NUM_BTN);
+        FWD_BTN.setVisible(false);
+        setupFrame(image);
+        setupTitle(jsonLatest);
+        setupScroll();
+
+        JLabel imgTemp = new JLabel(new ImageIcon(image));
+        imgTemp.setToolTipText(jsonLatest.getString("alt"));
+        IMAGE_PANEL.add(imgTemp);
+        addImagePopup();
+        addFrameElements();
+        addButtonListeners();
+
+        IMAGE_PANEL.setComponentPopupMenu(IMAGE_POPUP);
+        FRAME.setLocationRelativeTo(null);
+        FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        FRAME.setVisible(true);
     }
 
     /**
@@ -97,6 +105,7 @@ public class MainDisplay extends Listeners implements JDEC {
         IMAGE_PANEL.add(imgLabel);
 
         setupFrame(imgTemp);
+        FRAME.setLocationRelativeTo(null);
         FRAME.revalidate();
         FRAME.repaint();
     }
@@ -154,7 +163,7 @@ public class MainDisplay extends Listeners implements JDEC {
         MAIN_PANEL.add(SELECT_PANEL_UPPER);
         MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
         MAIN_PANEL.add(SELECT_PANEL_LOWER);
-        MAIN_PANEL.add(new InetCircles(10));
+        MAIN_PANEL.add(INET_CIRCLES);
         
         MAIN_PANEL.add(ERROR_PANEL);
     }
