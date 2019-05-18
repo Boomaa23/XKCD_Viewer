@@ -1,7 +1,6 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
@@ -81,15 +80,43 @@ public class DisplayUtils {
     /**
      * <p>Saves image to file from JSONObject.</p>
      * @param json the JSONObject to get the Image from and save to file.
-     * @throws MalformedURLException if an image could not be found from the passed JSONObject.
-     * @throws JSONException if the JSONObject is invalid.
      * @throws IOException if an image could not be found from the JSONObject.
      */
-    public static void saveImage(JSONObject json) throws MalformedURLException, JSONException, IOException {
+    public static void saveImage(JSONObject json) throws IOException {
         JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
         fileChooser.setSelectedFile(new File(json.getString("safe_title").replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
         }
     }
+    
+    /**
+	 * <p>Uploads passed string to FTP.</p>
+	 * @param append the content to affix to the voting JSON.
+	 * @param ftpUrl the url to send the appended string to.
+	 * @throws IOException if anything happens to the connections.
+	 */
+	public static void uploadToFTP(String append, String ftpUrl) throws IOException {
+    	InputStream is = new URL(ftpUrl).openConnection().getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        for (int c = br.read(); c != -1; c = br.read()) {
+            sb.append((char) c);
+        }
+        is.close(); br.close();
+        
+        OutputStream os = new URL(ftpUrl).openConnection().getOutputStream();
+        StatsUtils.addTransferredBytes(ftpUrl, ftpUrl);
+        sb.replace(sb.length() - 1, sb.length(), "");
+        sb.append(append);
+        sb.append("}");
+        
+        InputStream iss = new ByteArrayInputStream(sb.toString().getBytes());
+        byte[] buffer = new byte[8192];
+        int bytesRead = -1;
+        while((bytesRead = iss.read(buffer)) != -1) {
+        	os.write(buffer, 0, bytesRead);
+        }
+        os.close();
+	}
 }

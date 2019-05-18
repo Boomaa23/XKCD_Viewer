@@ -5,18 +5,18 @@ import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import org.json.JSONObject;
 
@@ -42,21 +42,56 @@ public class Leaderboard {
 			this.votes = String.valueOf(votes);
 		}
 		
+		@Override
 		public int compareTo(VoteStatus vs) {
 			return votes.compareTo(vs.votes);
 		}
 	}
 	
 	/** <p>URL for FTP uploads - HTTP doesn't work with some sites because of not having JS.</p> */
-	private final String FTP_URL = "ftp://b24_21343661:admin@ftpupload.net/htdocs/XKCD/votes.json";
+	private String FTP_URL;
+	/** <p>Displayed leaderboard frame.</p> */
+	private JFrame frame = new JFrame("Leaderboard");
+	/** <p>The panel that stores the login page.</p> */
+	private JPanel loginPanel = new JPanel();
 	
-	/** <p>Creates leaderboard with 3 columns for rank, number, and votes.</p> */
+	
+	/** <p>Creates leaderboard at login stage with full listener implementation.</p> */
 	public Leaderboard() {
-		JFrame frame = new JFrame("Leaderboard");
-		frame.setSize(250, 350);
-		frame.setVisible(true);
 		try {
 			frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		frame.setSize(250, 350);
+		frame.setVisible(true);
+		setupFTPLogin();
+	}
+	
+	/** <p>Sets up login before leaderboard, initializes FTP authentication.</p> */
+	private void setupFTPLogin() {
+		JButton submit = new JButton("Submit");
+		frame.getRootPane().setDefaultButton(submit);
+		submit.addActionListener(e -> { 
+			try {	
+				StringBuilder sb = new StringBuilder();
+				for(char c : ((JPasswordField) (loginPanel.getComponent(3))).getPassword()) { sb.append(c); }
+				FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
+				frame.remove(loginPanel); 
+				setupLeaderboard();
+			} catch (IllegalArgumentException e0) {
+				setupFTPLogin();
+			}
+		});
+		addLoginComponents(new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit);
+		frame.add(loginPanel);
+		frame.setVisible(true);
+		((JPasswordField) (loginPanel.getComponent(3))).requestFocus();
+	}
+	
+	/** <p>Sets up leaderboard in 3x11 grid with rank, number, and votes.</p> */
+	private void setupLeaderboard() {
+		try {
 			frame.setLayout(new GridLayout(11,3));
 			JSONObject voteJSON = DisplayUtils.getJSONFromFTP(FTP_URL);
 			StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico", FTP_URL);
@@ -88,6 +123,14 @@ public class Leaderboard {
 		
 		frame.revalidate();
 		frame.setVisible(true);
+	}
+	
+	/**
+	 * <p>A more efficient wrapper for adding JComponents</p>
+	 * @param comp as many JComponent objects as should be added.
+	 */
+	private void addLoginComponents(JComponent... comp) {
+		for(JComponent jc : comp) { loginPanel.add(jc); }
 	}
 	
 	/**
@@ -126,36 +169,6 @@ public class Leaderboard {
 		for(int i = voteJSON.length()+1;i < MainDisplay.LATEST_XKCD_NUM;i++) {
 			sb.append(", " + "\"" + i + "\": 0");
 		}
-		uploadToFTP(sb.toString());
-	}
-	
-	/**
-	 * <p>Uploads passed string to FTP.</p>
-	 * @param append the content to affix to the voting JSON.
-	 * @throws IOException if anything happens to the connections.
-	 */
-	private void uploadToFTP(String append) throws IOException {
-    	InputStream is = new URL(FTP_URL).openConnection().getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        for (int c = br.read(); c != -1; c = br.read()) {
-            sb.append((char) c);
-        }
-        is.close(); br.close();
-        
-        OutputStream os = new URL(FTP_URL).openConnection().getOutputStream();
-        StatsUtils.addTransferredBytes(FTP_URL, FTP_URL);
-        sb.replace(sb.length() - 1, sb.length(), "");
-        sb.append(append);
-        sb.append("}");
-        
-        InputStream iss = new ByteArrayInputStream(sb.toString().getBytes());
-        byte[] buffer = new byte[8192];
-        int bytesRead = -1;
-        while((bytesRead = iss.read(buffer)) != -1) {
-        	os.write(buffer, 0, bytesRead);
-        }
-        os.close();
-        
+		DisplayUtils.uploadToFTP(sb.toString(), FTP_URL);
 	}
 }
