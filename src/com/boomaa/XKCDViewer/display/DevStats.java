@@ -2,9 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +13,7 @@ public class DevStats {
     /** <p>Stats display frame.</p> */
 	private JFrame frame = new JFrame("XKCD Developer Statistics");
     /** <p>A temporary storage of the currently displayed JSON. </p> */
-    private JSONObject json;
+    private JsonObject json;
     /** <p>Main panel of stats display.</p> */
     private JPanel mainPanel = new JPanel();
     /** <p>Object of utils class.</p> */
@@ -38,7 +36,7 @@ public class DevStats {
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json");
-        } catch (JSONException | IOException e1) {
+        } catch (IOException e1) {
             e1.printStackTrace();
         }
     }

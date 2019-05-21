@@ -4,8 +4,7 @@ import com.boomaa.XKCDViewer.threading.ThreadManager;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.Listeners.SelectItemAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +25,7 @@ public class SelectList {
     /** <p>Storage of select menu change listener.</p> */
     private static SelectItemAction item = new SelectItemAction();
     /** <p>A temporary storage of the currently displayed JSON. </p> */
-    private static JSONObject json;
+    private static JsonObject json;
     /** <p>Main panel of stats display.</p> */
     private static JPanel mainPanel = new JPanel();
     /** <p>Object of utils class.</p> */
@@ -75,7 +74,7 @@ public class SelectList {
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + NUM + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + NUM + "/info.0.json");
-        } catch (JSONException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

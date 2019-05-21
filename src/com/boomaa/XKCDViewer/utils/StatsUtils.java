@@ -2,9 +2,9 @@ package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.utils.Listeners.HREFAction;
+import com.google.gson.JsonObject;
+
 import net.sf.image4j.codec.ico.ICODecoder;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ import java.net.URLConnection;
 /** <p>Utilities for the stats inspect and image list panels.</p> */
 public class StatsUtils {
     /** <p>Temporary JSON of each window's object.</p> */
-    private JSONObject json;
+    private JsonObject json;
     /** <p>Temporary passed mainPanel of each window's object.</p> */
     private JPanel mainPanel;
     /** <p>Temporary passed frame of each window's object.</p> */
@@ -30,7 +30,7 @@ public class StatsUtils {
      * @param mainPanel mainPanel from stats inspect/image list.
      * @param frame the frame from stats inspect/image list.
      */
-    public StatsUtils(JSONObject json, JPanel mainPanel, JFrame frame) {
+    public StatsUtils(JsonObject json, JPanel mainPanel, JFrame frame) {
         this.json = json;
         this.mainPanel = mainPanel;
         this.frame = frame;
@@ -85,11 +85,11 @@ public class StatsUtils {
     public long webResourceSize(String loc, boolean nested) {
         try {
             if (nested) {
-                return new URL(json.getString(loc)).openConnection().getContentLength();
+                return new URL(json.getAsJsonPrimitive(loc).getAsString()).openConnection().getContentLength();
             } else {
                 return new URL(loc).openConnection().getContentLength();
             }
-        } catch (JSONException | IOException e) {
+        } catch (IOException e) {
             return -1;
         }
     }
@@ -153,10 +153,10 @@ public class StatsUtils {
     
     /** <p>Adds duplicate panel items for DevStats and SelectList.</p> */
     public void addGenericPanelItems() {
-        addLabelPanel("Title: " + json.getString("title"));
-        addLabelPanel("Image #: " + json.getInt("num"));
-        addLabelPanel("Date Published: " + json.getInt("month") + "/" + json.getInt("day") + "/" + json.getInt("year"));
-        addLabelPanel("Image URL: " + json.getString("img"), true);
+        addLabelPanel("Title: " + json.getAsJsonPrimitive("title").getAsString());
+        addLabelPanel("Image #: " + json.getAsJsonPrimitive("num").getAsInt());
+        addLabelPanel("Date Published: " + json.getAsJsonPrimitive("month").getAsInt() + "/" + json.getAsJsonPrimitive("day").getAsInt() + "/" + json.getAsJsonPrimitive("year").getAsInt());
+        addLabelPanel("Image URL: " + json.getAsJsonPrimitive("img").getAsString(), true);
         addLabelPanel("Image Size: " + byteTranscribe(webResourceSize("img", true)));
     }
 }

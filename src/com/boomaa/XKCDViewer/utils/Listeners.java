@@ -3,7 +3,6 @@ package com.boomaa.XKCDViewer.utils;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 
-import org.json.JSONException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,37 +34,13 @@ public class Listeners {
         }
     }
 
-    /** <p>Increments displayed XKCD image upon actionPerformed().</p> */
-    public static class FwdAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e0) {
-            try {
-                MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM + 1);
-            } catch (JSONException e1) {
-                MainDisplay.resetOnJSONError();
-            }
-        }
-    }
-
-    /** <p>Decrements displayed XKCD image upon actionPerformed().</p> */
-    public static class BackAction implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e0) {
-            try {
-                MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM - 1);
-            } catch (JSONException e1) {
-                MainDisplay.resetOnJSONError();
-            }
-        }
-    }
-
     /** <p>Saves XKCD image currently displayed upon actionPerformed().</p> */
     public static class SaveAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 DisplayUtils.saveImage(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json"));
-            } catch (JSONException | IOException e1) {
+            } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
@@ -76,7 +51,7 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getString("img")));
+                Desktop.getDesktop().browse(new URI(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json").getAsJsonPrimitive("img").getAsString()));
             } catch (IOException | URISyntaxException e1) {
                 e1.printStackTrace();
             }

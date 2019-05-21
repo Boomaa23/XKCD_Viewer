@@ -4,9 +4,7 @@ import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
@@ -35,12 +33,11 @@ public class TitleThread implements Runnable {
     public void run() {
         for (int i = start; i <= end; i++) {
             SelectList.updateBar(false);
-            JSONObject json = null;
             try {
-                json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + i + "/info.0.json");
+                JsonObject json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + i + "/info.0.json");
                 StatsUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
-                SelectList.titles[i] = json.getInt("num") + " - " + json.getString("title");
-            } catch (JSONException | IOException e1) {
+                SelectList.titles[i] = json.getAsJsonPrimitive("num").getAsInt() + " - " + json.getAsJsonPrimitive("title").getAsString();
+            } catch (IOException e1) {
                 SelectList.titles[i] = i + " - NO IMAGE FOUND";
             }
         }
