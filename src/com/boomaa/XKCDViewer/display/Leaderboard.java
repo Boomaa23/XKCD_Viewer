@@ -18,10 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.json.JSONObject;
-
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+import com.google.gson.JsonObject;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -93,13 +92,13 @@ public class Leaderboard {
 	private void setupLeaderboard() {
 		try {
 			frame.setLayout(new GridLayout(11,3));
-			JSONObject voteJSON = DisplayUtils.getJSONFromFTP(FTP_URL);
+			JsonObject voteJSON = DisplayUtils.getJSONFromFTP(FTP_URL);
 			StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico", FTP_URL);
-			if(voteJSON.length() != MainDisplay.LATEST_XKCD_NUM) { updateToLatest(voteJSON); }
-			VoteStatus[] votes = new VoteStatus[voteJSON.length()+1];
+			if(voteJSON.size() != MainDisplay.LATEST_XKCD_NUM) { updateToLatest(voteJSON); }
+			VoteStatus[] votes = new VoteStatus[voteJSON.size() + 1];
 			votes[0] = new VoteStatus(-1,-1);
 			for(int i = 1;i < votes.length;i++) {
-				votes[i] = new VoteStatus(i, voteJSON.getInt(String.valueOf(i)));
+				votes[i] = new VoteStatus(i, voteJSON.getAsJsonPrimitive(String.valueOf(i)).getAsInt());
 			}
 			Arrays.sort(votes);
 			addBorderedObjects(frame, new JLabel("Rank"), new JLabel("XKCD#"), new JLabel("Votes"));
@@ -164,9 +163,9 @@ public class Leaderboard {
 	 * @param voteJSON the current JSON contents.
 	 * @throws IOException if the FTP upload fails.
 	 */
-	private void updateToLatest(JSONObject voteJSON) throws IOException {
+	private void updateToLatest(JsonObject voteJSON) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = voteJSON.length()+1;i < MainDisplay.LATEST_XKCD_NUM;i++) {
+		for(int i = voteJSON.size() + 1;i < MainDisplay.LATEST_XKCD_NUM;i++) {
 			sb.append(", " + "\"" + i + "\": 0");
 		}
 		DisplayUtils.uploadToFTP(sb.toString(), FTP_URL);

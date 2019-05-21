@@ -10,7 +10,7 @@
     <property name="source" value="1.8"/>
     <path id="XKCD_Viewer.classpath">
         <pathelement location="bin"/>
-        <pathelement location="json-20180813.jar"/>
+        <pathelement location="gson-2.8.5.jar"/>
     	<pathelement location="image4j-0.7.2.jar"/>
     </path>
     <target name="init">
@@ -63,7 +63,7 @@
   			<classpath>
 	  			<fileset dir="">
 	  				<include name="image4j-0.7.2.jar" />
-	  				<include name="json-20180813.jar" />
+	  				<include name="gson-2.8.5.jar"/>
 				</fileset>
 			</classpath>
   	      <arg value="-notimestamp" />

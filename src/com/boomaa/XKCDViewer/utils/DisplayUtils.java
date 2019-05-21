@@ -1,7 +1,8 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class DisplayUtils {
      * @return the JSON at the address in JSONObject form.
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
-    public static JSONObject getJSONFromHTTP(String url) throws IOException {
+    public static JsonObject getJSONFromHTTP(String url) throws IOException {
         InputStream is = new URL(url).openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -29,7 +30,7 @@ public class DisplayUtils {
             sb.append((char) c);
         }
         is.close();
-        return new JSONObject(sb.toString());
+        return new JsonParser().parse(sb.toString()).getAsJsonObject();
     }
     
     /**
@@ -38,7 +39,7 @@ public class DisplayUtils {
      * @return the JSON at the address in JSONObject form.
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
-    public static JSONObject getJSONFromFTP(String ftpurl) throws IOException {
+    public static JsonObject getJSONFromFTP(String ftpurl) throws IOException {
     	InputStream is = new URL(ftpurl).openConnection().getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -46,7 +47,7 @@ public class DisplayUtils {
             sb.append((char) c);
         }
         is.close(); br.close();
-        return new JSONObject(sb.toString());
+        return new JsonParser().parse(sb.toString()).getAsJsonObject();
     }
     
     /**
@@ -55,9 +56,9 @@ public class DisplayUtils {
      * @return an Image read from a URL location.
      * @throws MalformedURLException if a new URL could not be read from the "img" tag.
      */
-    public static Image getImageFromJSON(JSONObject jsonObj) throws IOException {
-    	StatsUtils.addTransferredBytes(jsonObj.getString("img"));
-        return resizeImage(ImageIO.read(new URL(jsonObj.getString("img"))));
+    public static Image getImageFromJSON(JsonObject jsonObj) throws IOException {
+    	StatsUtils.addTransferredBytes(jsonObj.getAsJsonPrimitive("img").getAsString());
+        return resizeImage(ImageIO.read(new URL(jsonObj.getAsJsonPrimitive("img").getAsString())));
     }
 
     /**
@@ -82,11 +83,11 @@ public class DisplayUtils {
      * @param json the JSONObject to get the Image from and save to file.
      * @throws IOException if an image could not be found from the JSONObject.
      */
-    public static void saveImage(JSONObject json) throws IOException {
+    public static void saveImage(JsonObject json) throws IOException {
         JFileChooser fileChooser = new JFileChooser("Save the displayed XKCD image");
-        fileChooser.setSelectedFile(new File(json.getString("safe_title").replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
+        fileChooser.setSelectedFile(new File(json.getAsJsonPrimitive("safe_title").getAsString().replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
-            ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getString("img")))), "jpeg", fileChooser.getSelectedFile());
+            ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getAsJsonPrimitive("img").getAsString()))), "jpeg", fileChooser.getSelectedFile());
         }
     }
     

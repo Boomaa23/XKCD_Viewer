@@ -2,11 +2,10 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+import com.google.gson.JsonObject;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,14 +44,13 @@ public class MainDisplay extends Listeners implements JDEC {
     
     /**
      * <p>Initializes and displays frame for first load-in.</p>
-     * @throws JSONException if the JSON found for the latest XKCD is incorrectly formatted.
      * @throws IOException if a connectivity problem is detected.
      */
-    private static void initAllFrame() throws JSONException, IOException {
-    	JSONObject jsonLatest = DisplayUtils.getJSONFromHTTP("https://xkcd.com/info.0.json");
+    private static void initAllFrame() throws IOException {
+    	JsonObject jsonLatest = DisplayUtils.getJSONFromHTTP("https://xkcd.com/info.0.json");
         StatsUtils.addTransferredBytes("https://xkcd.com/info.0.json", "https://xkcd.com/s/919f27.ico");
         Image image = DisplayUtils.getImageFromJSON(jsonLatest);
-        LATEST_XKCD_NUM = jsonLatest.getInt("num");
+        LATEST_XKCD_NUM = jsonLatest.getAsJsonPrimitive("num").getAsInt();
 
         FRAME.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
         MAIN_PANEL.setLayout(new BoxLayout(MAIN_PANEL, BoxLayout.Y_AXIS));
@@ -63,7 +61,7 @@ public class MainDisplay extends Listeners implements JDEC {
         setupScroll();
 
         JLabel imgTemp = new JLabel(new ImageIcon(image));
-        imgTemp.setToolTipText(jsonLatest.getString("alt"));
+        imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
         IMAGE_PANEL.add(imgTemp);
         addImagePopup();
         addFrameElements();
@@ -80,11 +78,11 @@ public class MainDisplay extends Listeners implements JDEC {
      * @param numReq the XKCD image number requested.
      */
     public static void panelRewrite(int numReq) {
-        JSONObject json = null;
+        JsonObject json = null;
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + numReq + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
-        } catch (JSONException | IOException e) {
+        } catch (IOException e) {
             resetOnJSONError();
         }
         TEXT_INPUT.reset();
@@ -97,11 +95,11 @@ public class MainDisplay extends Listeners implements JDEC {
         Image imgTemp = null;
         try {
             imgTemp = DisplayUtils.getImageFromJSON(json);
-        } catch (JSONException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
-        imgLabel.setToolTipText(json.getString("alt"));
+        imgLabel.setToolTipText(json.getAsJsonPrimitive("alt").getAsString());
         IMAGE_PANEL.add(imgLabel);
 
         setupFrame(imgTemp);
@@ -131,10 +129,10 @@ public class MainDisplay extends Listeners implements JDEC {
      * <p>Sets window title with currently displayed XKCD number.</p>
      * @param json the XKCD JSON to pull the displayed number from.
      */
-    private static void setupTitle(JSONObject json) {
-        TITLE_PANEL.add(new JLabel(json.getString("title") + " - #" + json.getInt("num")));
-        FRAME.setTitle("XKCD Viewer | #" + json.getInt("num"));
-        DISPLAYED_XKCD_NUM = json.getInt("num");
+    private static void setupTitle(JsonObject json) {
+        TITLE_PANEL.add(new JLabel(json.getAsJsonPrimitive("title").getAsString() + " - #" + json.getAsJsonPrimitive("num").getAsString()));
+        FRAME.setTitle("XKCD Viewer | #" + json.getAsJsonPrimitive("num").getAsInt());
+        DISPLAYED_XKCD_NUM = json.getAsJsonPrimitive("num").getAsInt();
     }
 
     /** <p>Determines if a vertical scrollbar is needed and displays if so.</p> */
@@ -184,12 +182,12 @@ public class MainDisplay extends Listeners implements JDEC {
         RANDOM_BTN.addActionListener(e -> { MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM)); });
         SELECT_LIST.addActionListener(e -> { SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM); });
         SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
+        FWD_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM + 1); });
+        BACK_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM - 1); });
         DEV_STATS.addActionListener(e -> { new DevStats(); });
         CONSOLE_OPEN.addActionListener(e -> { new Console(); });
         LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
         NUM_BTN.addActionListener(new NumSelect());
-        FWD_BTN.addActionListener(new FwdAction());
-        BACK_BTN.addActionListener(new BackAction());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
     }
