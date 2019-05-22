@@ -1,5 +1,6 @@
 package com.boomaa.XKCDViewer.utils;
 
+import com.boomaa.XKCDViewer.display.Login;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 
@@ -56,6 +57,33 @@ public class Listeners {
                 e1.printStackTrace();
             }
         }
+    }
+    
+    /** <p>Starts vote change process upon actionPerformed().</p> */
+    public static class VoteAction implements ActionListener {
+    	/** <p>Storage for the change in vote amount.</p> */
+    	private int mod;
+    	
+    	/**
+    	 * <p>Determines the direction of the vote.</p>
+    	 * @param mod the change in vote for the operation.
+    	 */
+    	public VoteAction(int mod) {
+    		this.mod = mod;
+    	}
+    	
+    	@Override
+        public void actionPerformed(ActionEvent e) {
+			try {
+	    		if(Login.FTP_URL != null) {
+	    			DisplayUtils.uploadToFTP("", mod);
+	    		} else {
+	    			new Login(mod == 1 ? "Upvote" : "Downvote");
+	    		}
+			} catch (IOException e0) {
+				e0.printStackTrace();
+			}
+    	}
     }
     
     /** <p>Opens a link to a webpage in default web browser.</p> */

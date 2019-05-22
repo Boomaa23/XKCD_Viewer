@@ -29,7 +29,6 @@ public class TitleThread implements Runnable {
     }
 
     @Override
-    /** <p>Gets title requests and adds to titles array.</p> */
     public void run() {
         for (int i = start; i <= end; i++) {
             SelectList.updateBar(false);

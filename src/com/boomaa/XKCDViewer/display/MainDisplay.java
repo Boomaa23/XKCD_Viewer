@@ -34,9 +34,9 @@ public class MainDisplay extends Listeners implements JDEC {
         try {
 	        initAllFrame();
         } catch(IOException e) {
-        	MAIN_PANEL.add(new JLabel("Internet connection not found..."));
+        	MAIN_PANEL.add(new JLabel("No Internet Connection..."));
         	FRAME.add(MAIN_PANEL);
-        	FRAME.setSize(300, 65);
+        	FRAME.setSize(300, 75);
         	FRAME.setVisible(true);
         	e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class MainDisplay extends Listeners implements JDEC {
         JLabel imgTemp = new JLabel(new ImageIcon(image));
         imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
         IMAGE_PANEL.add(imgTemp);
-        addImagePopup();
+        DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN);
         addFrameElements();
         addButtonListeners();
 
@@ -88,10 +88,10 @@ public class MainDisplay extends Listeners implements JDEC {
         TEXT_INPUT.reset();
         TITLE_PANEL.removeAll();
         ERROR_PANEL.removeAll();
+        IMAGE_PANEL.removeAll();
         setupTitle(json);
         FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
 
-        IMAGE_PANEL.removeAll();
         Image imgTemp = null;
         try {
             imgTemp = DisplayUtils.getImageFromJSON(json);
@@ -118,7 +118,7 @@ public class MainDisplay extends Listeners implements JDEC {
         int height = image.getHeight(FRAME);
         int maxHeight = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 
-        height += 12 * FRAME_BORDER;
+        height += 14 * FRAME_BORDER;
         height = (height >= maxHeight) ? maxHeight : height;
         width = (width < minWidth) ? minWidth : width;
 
@@ -137,9 +137,7 @@ public class MainDisplay extends Listeners implements JDEC {
 
     /** <p>Determines if a vertical scrollbar is needed and displays if so.</p> */
     private static void setupScroll() {
-        JScrollPane scroll = new JScrollPane(MAIN_PANEL,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scroll = new JScrollPane(MAIN_PANEL, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         FRAME.add(scroll);
     }
@@ -147,35 +145,17 @@ public class MainDisplay extends Listeners implements JDEC {
     /** <p>Adds individual items to Select and Main JPanels.</p> */
     private static void addFrameElements() {
         SCALING_PANEL.add(SCALE_CHECKBOX);
+        DisplayUtils.addPanelComponents(VOTING_PANEL, new JLabel("Vote: "), UPVOTE_BTN, DOWNVOTE_BTN);
 
-        SELECT_PANEL_UPPER.add(LATEST_BTN);
-        SELECT_PANEL_UPPER.add(RANDOM_BTN);
-        SELECT_PANEL_MIDDLE.add(TEXT_INPUT);
-        SELECT_PANEL_MIDDLE.add(NUM_BTN);
-        SELECT_PANEL_LOWER.add(BACK_BTN);
-        SELECT_PANEL_LOWER.add(FWD_BTN);
-
-        MAIN_PANEL.add(TITLE_PANEL);
-        MAIN_PANEL.add(IMAGE_PANEL);
-        MAIN_PANEL.add(SCALING_PANEL);
-        MAIN_PANEL.add(SELECT_PANEL_UPPER);
-        MAIN_PANEL.add(SELECT_PANEL_MIDDLE);
-        MAIN_PANEL.add(SELECT_PANEL_LOWER);
-        MAIN_PANEL.add(INET_CIRCLES);
+        DisplayUtils.addPanelComponents(SELECT_PANEL_UPPER, LATEST_BTN, RANDOM_BTN);
+        DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
+        DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
+        DisplayUtils.addPanelComponents(SELECT_PANEL_LOWER, BACK_BTN, FWD_BTN);
         
-        MAIN_PANEL.add(ERROR_PANEL);
+        DisplayUtils.addPanelComponents(MAIN_PANEL, TITLE_PANEL, IMAGE_PANEL, SCALING_PANEL, VOTING_PANEL,
+        		SELECT_PANEL_UPPER, SELECT_PANEL_MIDDLE, SELECT_PANEL_LOWER, INET_CIRCLES, ERROR_PANEL);
     }
     
-    /** <p>Adds options to rightclick on image popup.</p> */
-    private static void addImagePopup() {
-    	IMAGE_POPUP.add(SAVE_IMAGE);
-        IMAGE_POPUP.add(BROWSE_IMAGE);
-        IMAGE_POPUP.add(SELECT_LIST);
-        IMAGE_POPUP.add(LEADERBOARD);
-        IMAGE_POPUP.add(DEV_STATS);
-        IMAGE_POPUP.add(CONSOLE_OPEN);
-    }
-
     /** <p>Adds ActionListeners on buttons.</p> */
     private static void addButtonListeners() {
         LATEST_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM); });
@@ -187,6 +167,8 @@ public class MainDisplay extends Listeners implements JDEC {
         DEV_STATS.addActionListener(e -> { new DevStats(); });
         CONSOLE_OPEN.addActionListener(e -> { new Console(); });
         LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
+        UPVOTE_BTN.addActionListener(new VoteAction(1));
+        DOWNVOTE_BTN.addActionListener(new VoteAction(-1));
         NUM_BTN.addActionListener(new NumSelect());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());

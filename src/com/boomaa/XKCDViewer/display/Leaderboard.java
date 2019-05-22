@@ -10,14 +10,9 @@ import java.net.URL;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
+import javax.swing.JOptionPane;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
@@ -47,89 +42,59 @@ public class Leaderboard {
 		}
 	}
 	
-	/** <p>URL for FTP uploads - HTTP doesn't work with some sites because of not having JS.</p> */
-	private String FTP_URL;
-	/** <p>Displayed leaderboard frame.</p> */
+	/** <p>JFrame that stores leaderboard.</p> */
 	private JFrame frame = new JFrame("Leaderboard");
-	/** <p>The panel that stores the login page.</p> */
-	private JPanel loginPanel = new JPanel();
 	
-	
-	/** <p>Creates leaderboard at login stage with full listener implementation.</p> */
+	/** <p>Creates leaderboard and checks for login.</p> */
 	public Leaderboard() {
 		try {
 			frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+			if(Login.FTP_URL == null) {
+				new Login(this.getClass().getSimpleName());
+				frame.dispose();
+				return;
+			}
+			setupLeaderboard();
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Login Failed", "Login", JOptionPane.ERROR_MESSAGE);
+			new Login(this.getClass().getSimpleName());
+			return;
 		}
 		frame.setSize(250, 350);
-		frame.setVisible(true);
-		setupFTPLogin();
-	}
-	
-	/** <p>Sets up login before leaderboard, initializes FTP authentication.</p> */
-	private void setupFTPLogin() {
-		JButton submit = new JButton("Submit");
-		frame.getRootPane().setDefaultButton(submit);
-		submit.addActionListener(e -> { 
-			try {	
-				StringBuilder sb = new StringBuilder();
-				for(char c : ((JPasswordField) (loginPanel.getComponent(3))).getPassword()) { sb.append(c); }
-				FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
-				frame.remove(loginPanel); 
-				setupLeaderboard();
-			} catch (IllegalArgumentException e0) {
-				setupFTPLogin();
-			}
-		});
-		addLoginComponents(new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit);
-		frame.add(loginPanel);
-		frame.setVisible(true);
-		((JPasswordField) (loginPanel.getComponent(3))).requestFocus();
-	}
-	
-	/** <p>Sets up leaderboard in 3x11 grid with rank, number, and votes.</p> */
-	private void setupLeaderboard() {
-		try {
-			frame.setLayout(new GridLayout(11,3));
-			JsonObject voteJSON = DisplayUtils.getJSONFromFTP(FTP_URL);
-			StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico", FTP_URL);
-			if(voteJSON.size() != MainDisplay.LATEST_XKCD_NUM) { updateToLatest(voteJSON); }
-			VoteStatus[] votes = new VoteStatus[voteJSON.size() + 1];
-			votes[0] = new VoteStatus(-1,-1);
-			for(int i = 1;i < votes.length;i++) {
-				votes[i] = new VoteStatus(i, voteJSON.getAsJsonPrimitive(String.valueOf(i)).getAsInt());
-			}
-			Arrays.sort(votes);
-			addBorderedObjects(frame, new JLabel("Rank"), new JLabel("XKCD#"), new JLabel("Votes"));
-			for(int i = votes.length-1; i >= votes.length - 10;i--) {
-				JLabel rank = new JLabel(String.valueOf(-1 * (i - votes.length)));
-				JLabel number = new JLabel(votes[i].num);
-				JLabel vote = new JLabel(votes[i].votes);
-				final int curr_num = Integer.valueOf(votes[i].num);
-				MouseAdapter listen = new MouseAdapter() {
-					@Override
-			        public void mouseClicked(MouseEvent e) {
-			    		frame.dispose();
-			    		MainDisplay.panelRewrite(curr_num);
-			    	}
-				};
-				addBorderedObjects(frame, addMouseListeners(listen, rank, number, vote));
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		
 		frame.revalidate();
 		frame.setVisible(true);
 	}
 	
 	/**
-	 * <p>A more efficient wrapper for adding JComponents</p>
-	 * @param comp as many JComponent objects as should be added.
+	 * <p>Sets up leaderboard in 3x11 grid with rank, number, and votes.</p>
+	 * @throws IOException if authentication fails or resources are not available.
 	 */
-	private void addLoginComponents(JComponent... comp) {
-		for(JComponent jc : comp) { loginPanel.add(jc); }
+	private void setupLeaderboard() throws IOException {
+		frame.setLayout(new GridLayout(11,3));
+		JsonObject voteJSON = DisplayUtils.getJSONFromFTP(Login.FTP_URL);
+		StatsUtils.addTransferredBytes("https://xkcd.com/s/919f27.ico");
+		if(voteJSON.size() != MainDisplay.LATEST_XKCD_NUM) { updateToLatest(voteJSON); }
+		VoteStatus[] votes = new VoteStatus[voteJSON.size() + 1];
+		votes[0] = new VoteStatus(-1,-1);
+		for(int i = 1;i < votes.length;i++) {
+			votes[i] = new VoteStatus(i, voteJSON.getAsJsonPrimitive(String.valueOf(i)).getAsInt());
+		}
+		Arrays.sort(votes);
+		addBorderedObjects(frame, new JLabel(" Rank"), new JLabel(" XKCD#"), new JLabel(" Votes"));
+		for(int i = votes.length-1; i >= votes.length - 10;i--) {
+			JLabel rank = new JLabel(" " + String.valueOf(-1 * (i - votes.length)));
+			JLabel number = new JLabel(" " + votes[i].num);
+			JLabel vote = new JLabel(" " + votes[i].votes);
+			final int curr_num = Integer.valueOf(votes[i].num);
+			MouseAdapter listen = new MouseAdapter() {
+				@Override
+		        public void mouseClicked(MouseEvent e) {
+		    		frame.dispose();
+		    		MainDisplay.panelRewrite(curr_num);
+		    	}
+			};
+			addBorderedObjects(frame, addMouseListeners(listen, rank, number, vote));
+		}
 	}
 	
 	/**
@@ -165,9 +130,13 @@ public class Leaderboard {
 	 */
 	private void updateToLatest(JsonObject voteJSON) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = voteJSON.size() + 1;i < MainDisplay.LATEST_XKCD_NUM;i++) {
-			sb.append(", " + "\"" + i + "\": 0");
+		for(int i = voteJSON.size() + 1;i <= MainDisplay.LATEST_XKCD_NUM;i++) {
+			if(i != 1) {
+				sb.append("," + "\"" + i + "\":0");
+			} else {
+				sb.append("\"1\": 0");
+			}
 		}
-		DisplayUtils.uploadToFTP(sb.toString(), FTP_URL);
+		DisplayUtils.uploadToFTP(sb.toString(), 0);
 	}
 }

@@ -36,6 +36,9 @@ public interface JDEC {
 
     /** <p>Space reserved for potential errors below select panels.</p> */
     JPanel ERROR_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    
+    /** <p>Space for upvote and downvote buttons.</p> */
+    JPanel VOTING_PANEL = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 
     /** <p>Increments XKCD displayed number.</p> */
@@ -52,8 +55,14 @@ public interface JDEC {
 
     /** <p>Displays the most recent XKCD image.</p> */
     JButton LATEST_BTN = new JButton("Latest");
+    
+    /** <p>Upvotes the displayed XKCD image.</p> */
+    JButton UPVOTE_BTN = new JButton("+1");
+    
+    /** <p>Upvotes the displayed XKCD image.</p> */
+    JButton DOWNVOTE_BTN = new JButton("-1");
 
-
+    
     /** <p>Input for specific number XKCD image to be displayed.</p> */
     OverlayField TEXT_INPUT = new OverlayField(" XKCD Number", 10);
 
@@ -80,6 +89,7 @@ public interface JDEC {
     
     /** <p>Leaderboard of top voted xkcds.</p> */
     JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
+    
     
     /** <p>Pre-drawn circles for internet connectivity.</p> */
     InetCircles INET_CIRCLES = new InetCircles(8);

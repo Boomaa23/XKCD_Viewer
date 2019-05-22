@@ -17,7 +17,6 @@ import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.text.DefaultCaret;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -41,6 +40,8 @@ public class Console extends JFrame {
 		
 		@Override
 		public void write(int b) throws IOException {
+			textArea.setCaretPosition(textArea.getDocument().getLength());
+            textArea.update(textArea.getGraphics());
 			if (b == '\n') {
 				final String text = sb.toString() + "\n";
 				textArea.append(text);
@@ -68,7 +69,8 @@ public class Console extends JFrame {
     	textArea.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
-	    		((DefaultCaret) textArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+	    		textArea.setCaretPosition(textArea.getDocument().getLength());
+	            textArea.update(textArea.getGraphics());
 	    	}
 	    });
     	textArea.setEditable(false);

@@ -1,5 +1,6 @@
 package com.boomaa.XKCDViewer.utils;
 
+import com.boomaa.XKCDViewer.display.Login;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -47,7 +48,12 @@ public class DisplayUtils {
             sb.append((char) c);
         }
         is.close(); br.close();
-        return new JsonParser().parse(sb.toString()).getAsJsonObject();
+        try {
+        	JsonObject js = new JsonParser().parse(sb.toString()).getAsJsonObject();
+        	return js;
+        } catch (IllegalStateException e) {
+        	return new JsonObject();
+        }
     }
     
     /**
@@ -94,11 +100,11 @@ public class DisplayUtils {
     /**
 	 * <p>Uploads passed string to FTP.</p>
 	 * @param append the content to affix to the voting JSON.
-	 * @param ftpUrl the url to send the appended string to.
+	 * @param modValue the change in vote (+/-), if any.
 	 * @throws IOException if anything happens to the connections.
 	 */
-	public static void uploadToFTP(String append, String ftpUrl) throws IOException {
-    	InputStream is = new URL(ftpUrl).openConnection().getInputStream();
+	public static void uploadToFTP(String append, int modValue) throws IOException {
+    	InputStream is = new URL(Login.FTP_URL).openConnection().getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         for (int c = br.read(); c != -1; c = br.read()) {
@@ -106,9 +112,20 @@ public class DisplayUtils {
         }
         is.close(); br.close();
         
-        OutputStream os = new URL(ftpUrl).openConnection().getOutputStream();
-        StatsUtils.addTransferredBytes(ftpUrl, ftpUrl);
-        sb.replace(sb.length() - 1, sb.length(), "");
+        if(modValue != 0) {
+	        JsonObject json = new JsonParser().parse(sb.toString()).getAsJsonObject();
+	        json.addProperty(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM), json.getAsJsonPrimitive(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM)).getAsInt() + modValue);
+	        sb = new StringBuilder();
+	        sb.append(json.toString());
+        }
+        
+        OutputStream os = new URL(Login.FTP_URL).openConnection().getOutputStream();
+        StatsUtils.addTransferredBytes(Login.FTP_URL, Login.FTP_URL);
+        if(sb.length() >= 1) {
+        	sb.replace(sb.length() - 1, sb.length(), "");
+        } else {
+        	sb.append("{");
+        }
         sb.append(append);
         sb.append("}");
         
@@ -119,5 +136,14 @@ public class DisplayUtils {
         	os.write(buffer, 0, bytesRead);
         }
         os.close();
+	}
+	
+	/**
+	 * <p>A more efficient wrapper for adding JComponents</p>
+	 * @param panel the enclosing swing object to add the comp items to.
+	 * @param comp as many JComponent objects as should be added.
+	 */
+	public static void addPanelComponents(JComponent panel, JComponent... comp) {
+		for(JComponent jc : comp) { panel.add(jc); }
 	}
 }
