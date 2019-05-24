@@ -63,7 +63,7 @@ public class MainDisplay extends Listeners implements JDEC {
         JLabel imgTemp = new JLabel(new ImageIcon(image));
         imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
         IMAGE_PANEL.add(imgTemp);
-        DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN);
+        DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN, LOGIN);
         addFrameElements();
         addButtonListeners();
 
@@ -167,6 +167,7 @@ public class MainDisplay extends Listeners implements JDEC {
         DEV_STATS.addActionListener(e -> { new DevStats(); });
         CONSOLE_OPEN.addActionListener(e -> { new Console(); });
         LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
+        LOGIN.addActionListener(e -> { new Login("Main"); });
         UPVOTE_BTN.addActionListener(new VoteAction(1));
         DOWNVOTE_BTN.addActionListener(new VoteAction(-1));
         NUM_BTN.addActionListener(new NumSelect());

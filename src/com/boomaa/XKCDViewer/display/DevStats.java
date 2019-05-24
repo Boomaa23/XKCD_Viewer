@@ -26,7 +26,7 @@ public class DevStats {
         addPanelItems();
         setupCloseButton();
         
-        frame.setSize(450, 350);
+        frame.setSize(450, 375);
         frame.add(mainPanel);
         frame.setVisible(true);
     }
@@ -57,6 +57,9 @@ public class DevStats {
         statsUtils.addLabelPanel("JSON Size: " + statsUtils.byteTranscribe(statsUtils.webResourceSize("https://xkcd.com/" + MainDisplay.DISPLAYED_XKCD_NUM + "/info.0.json", false)));
         statsUtils.addLabelPanel("IP Address: " + StatsUtils.getHostIP());
         statsUtils.addLabelPanel("Data Transferred: " + statsUtils.byteTranscribe(MainDisplay.TRANSFERRED_BYTES));
-        statsUtils.addLabelPanel("Response Time:  " + StatsUtils.getResponseTime("https://xkcd.com/") + "ms");
+        statsUtils.addLabelPanel("XCKD Response Time:  " + StatsUtils.getResponseTime("https://xkcd.com/") + "ms");
+        if(Login.FTP_URL != null) {
+        	statsUtils.addLabelPanel("Voting Response Time: " + StatsUtils.getResponseTime(Login.FTP_URL) + "ms");
+        }
     }
 }

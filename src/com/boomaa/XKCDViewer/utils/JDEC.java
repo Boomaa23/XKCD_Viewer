@@ -90,6 +90,9 @@ public interface JDEC {
     /** <p>Leaderboard of top voted xkcds.</p> */
     JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
     
+    /** <p>Opens new FTP authentication window.</p> */
+    JMenuItem LOGIN = new JMenuItem("Login");
+    
     
     /** <p>Pre-drawn circles for internet connectivity.</p> */
     InetCircles INET_CIRCLES = new InetCircles(8);

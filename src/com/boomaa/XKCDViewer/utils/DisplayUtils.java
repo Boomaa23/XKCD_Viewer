@@ -77,8 +77,8 @@ public class DisplayUtils {
         double height = image.getHeight(JDEC.FRAME);
         Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 
-        if (height >= screen.getHeight() - 12 * MainDisplay.FRAME_BORDER) {
-            height = (screen.getHeight()) - (12 * MainDisplay.FRAME_BORDER);
+        if (height >= screen.getHeight() - 14 * MainDisplay.FRAME_BORDER) {
+            height = (screen.getHeight()) - (14 * MainDisplay.FRAME_BORDER);
             width -= height / (screen.getHeight() / screen.getWidth());
         }
         return JDEC.SCALE_CHECKBOX.isSelected() && height != image.getHeight(JDEC.FRAME) ? image.getScaledInstance((int) (width), (int) (height), Image.SCALE_SMOOTH) : image;

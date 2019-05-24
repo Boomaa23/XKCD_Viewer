@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.JDEC;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -68,6 +69,7 @@ public class Login {
 				case "Leaderboard": new Leaderboard(); break;
 				case "Upvote": DisplayUtils.uploadToFTP("", 1); break;
 				case "Downvote": DisplayUtils.uploadToFTP("", -1); break;
+				case "Main": JDEC.IMAGE_POPUP.remove(JDEC.LOGIN); break;
 				default: break;
 			}
 		} catch (IOException e) {
