@@ -8,7 +8,6 @@ import java.awt.*;
 
 /** <p><b>J</b>ava <b>D</b>isplay <b>E</b>lement <b>C</b>onstants.</p> */
 public interface JDEC {
-
     /** <p>JFrame displayed which everything is added to.</p> */
     JFrame FRAME = new JFrame("XKCD Viewer");
 
@@ -62,12 +61,6 @@ public interface JDEC {
     /** <p>Upvotes the displayed XKCD image.</p> */
     JButton DOWNVOTE_BTN = new JButton("-1");
 
-    
-    /** <p>Input for specific number XKCD image to be displayed.</p> */
-    OverlayField TEXT_INPUT = new OverlayField(" XKCD Number", 10);
-
-    /** <p>A check box to toggle image scaling.</p> */
-    JCheckBox SCALE_CHECKBOX = new JCheckBox("Image Scaling");
 
     /** <p>Right-click dialog box while over image to save.</p> */
     JPopupMenu IMAGE_POPUP = new JPopupMenu();
@@ -93,6 +86,12 @@ public interface JDEC {
     /** <p>Opens new FTP authentication window.</p> */
     JMenuItem LOGIN = new JMenuItem("Login");
     
+    
+    /** <p>Input for specific number XKCD image to be displayed.</p> */
+    OverlayField TEXT_INPUT = new OverlayField(" XKCD Number", 10);
+
+    /** <p>A check box to toggle image scaling.</p> */
+    JCheckBox SCALE_CHECKBOX = new JCheckBox("Image Scaling");
     
     /** <p>Pre-drawn circles for internet connectivity.</p> */
     InetCircles INET_CIRCLES = new InetCircles(8);

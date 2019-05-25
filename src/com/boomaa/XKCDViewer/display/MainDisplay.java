@@ -15,7 +15,7 @@ import java.net.URL;
 /** <p>Instigates display and houses main method</p> */
 public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of pixels of the frame border.</p> */
-    public static final int FRAME_BORDER = 20;
+    public static final int FRAME_BORDER = 280;
     /** <p>The number of the latest XKCD comic number.</p> */
     public static int LATEST_XKCD_NUM = 844;
     /** <p>The number of the currently displayed XKCD comic.</p> */
@@ -114,11 +114,11 @@ public class MainDisplay extends Listeners implements JDEC {
      */
     private static void setupFrame(Image image) {
         int minWidth = 300;
-        int width = image.getWidth(FRAME) + 2 * FRAME_BORDER;
+        int width = image.getWidth(FRAME) + FRAME_BORDER / 10;
         int height = image.getHeight(FRAME);
         int maxHeight = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 
-        height += 14 * FRAME_BORDER;
+        height += FRAME_BORDER;
         height = (height >= maxHeight) ? maxHeight : height;
         width = (width < minWidth) ? minWidth : width;
 

@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -55,16 +54,11 @@ public class Console extends JFrame {
 		setTitle("XKCD Developer Console");
 		try {
 			setTitle(getTitle() + " @ " + InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
+			setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		try {
-            setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    	
     	JTextArea textArea = new JTextArea(15, 45);
     	textArea.addMouseListener(new MouseAdapter() {
 	    	@Override

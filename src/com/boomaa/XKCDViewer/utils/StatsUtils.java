@@ -21,8 +21,6 @@ public class StatsUtils {
     private JsonObject json;
     /** <p>Temporary passed mainPanel of each window's object.</p> */
     private JPanel mainPanel;
-    /** <p>Temporary passed frame of each window's object.</p> */
-    private JFrame frame;
 
     /**
      * <p>Constructs panel for each window object.</p>
@@ -33,12 +31,6 @@ public class StatsUtils {
     public StatsUtils(JsonObject json, JPanel mainPanel, JFrame frame) {
         this.json = json;
         this.mainPanel = mainPanel;
-        this.frame = frame;
-        frameInit();
-    }
-
-    /** <p>Initializes frame and sets size.</p> */
-    private void frameInit() {
         try {
             frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
         } catch (IOException e) {
@@ -47,6 +39,7 @@ public class StatsUtils {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         frame.setSize(415, 230);
     }
+        
 
     /**
      * <p>Overloads String and boolean parameter addLabelPanel as false boolean.</p>
@@ -155,7 +148,8 @@ public class StatsUtils {
     public void addGenericPanelItems() {
         addLabelPanel("Title: " + json.getAsJsonPrimitive("title").getAsString());
         addLabelPanel("Image #: " + json.getAsJsonPrimitive("num").getAsInt());
-        addLabelPanel("Date Published: " + json.getAsJsonPrimitive("month").getAsInt() + "/" + json.getAsJsonPrimitive("day").getAsInt() + "/" + json.getAsJsonPrimitive("year").getAsInt());
+        addLabelPanel("Date Published: " + json.getAsJsonPrimitive("month").getAsInt() + "/" + 
+        		json.getAsJsonPrimitive("day").getAsInt() + "/" + json.getAsJsonPrimitive("year").getAsInt());
         addLabelPanel("Image URL: " + json.getAsJsonPrimitive("img").getAsString(), true);
         addLabelPanel("Image Size: " + byteTranscribe(webResourceSize("img", true)));
     }

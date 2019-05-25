@@ -15,13 +15,13 @@ public class SelectList {
     /** <p>Stats display frame.</p> */
     private static JFrame frame = new JFrame("XKCD Image Selector");
     /** <p>Storage of all titles for all xkcd.</p> */
-    public static String[] titles;
+    public static String[] TITLES;
     /** <p>Progress bar showing number of requests out of total.</p> */
     private static JProgressBar jpb = new JProgressBar();
     /** <p>Display for all image titles.</p> */
     protected static JComboBox<String> select;
     /** <p>Currently displayed image number.</p> */
-    private static int NUM;
+    private static int num;
     /** <p>Storage of select menu change listener.</p> */
     private static SelectItemAction item = new SelectItemAction();
     /** <p>A temporary storage of the currently displayed JSON. </p> */
@@ -38,12 +38,12 @@ public class SelectList {
      * @param num the number of the image to display.
      */
     public static void createSelectList(int num) {
-        SelectList.NUM = num;
+        SelectList.num = num;
         JSONInit();
         jpb.setMaximum(MainDisplay.LATEST_XKCD_NUM);
         statsUtils = new StatsUtils(json, mainPanel, frame);
 
-        if (titles == null || titlesEmpty()) {
+        if (TITLES == null || titlesEmpty()) {
             new ThreadManager();
             mainPanel.add(jpb);
             JPanel loading = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -60,7 +60,7 @@ public class SelectList {
      */
     private static boolean titlesEmpty() {
         boolean empty = true;
-        for (Object ob : titles) {
+        for (Object ob : TITLES) {
             if (ob != null) {
                 empty = false;
                 break;
@@ -72,8 +72,8 @@ public class SelectList {
     /** <p>Reads JSON from URL.</p> */
     private static void JSONInit() {
         try {
-            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + NUM + "/info.0.json");
-            StatsUtils.addTransferredBytes("https://xkcd.com/" + NUM + "/info.0.json");
+            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
+            StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,10 +81,10 @@ public class SelectList {
 
     /** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
     public static void selectPanelInit() {
-        for (int i = titles.length - 1; i >= 1; i--) {
-            select.addItem(titles[i]);
+        for (int i = TITLES.length - 1; i >= 1; i--) {
+            select.addItem(TITLES[i]);
         }
-        select.setSelectedIndex(titles.length - NUM - 1);
+        select.setSelectedIndex(TITLES.length - num - 1);
         select.addItemListener(item);
         refreshSelector();
     }
@@ -108,7 +108,7 @@ public class SelectList {
         close.addActionListener(e -> { frame.dispose(); });
         view.addActionListener(e -> {
             frame.dispose();
-            MainDisplay.panelRewrite(NUM);
+            MainDisplay.panelRewrite(num);
         });
 
         buttonPanel.add(view);
@@ -126,11 +126,11 @@ public class SelectList {
         } else {
             jpb.setValue(jpb.getValue() + 1);
         }
-        if (finished >= ThreadManager.titleThreads.length && isFinished) {
+        if (finished >= ThreadManager.TITLE_THREADS.length && isFinished) {
             jpb.setValue(jpb.getMinimum());
             finished = 0;
             select.removeItemListener(item);
-            createSelectList(NUM);
+            createSelectList(num);
             selectPanelInit();
         }
     }

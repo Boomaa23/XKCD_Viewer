@@ -8,17 +8,16 @@ import javax.swing.*;
 /** <p>Manager for all title lookup threads.</p> */
 public class ThreadManager extends SelectList {
     /** <p>Storage of all title threads, utilized for isAlive().</p> */
-    public static TitleThread[] titleThreads = new TitleThread[16];
-    public static long time;
+    public static TitleThread[] TITLE_THREADS = new TitleThread[16];
     
     /** <p>Runs each thread to get all titles.</p> */
     public ThreadManager() {
-        SelectList.titles = new String[MainDisplay.LATEST_XKCD_NUM + 1];
+        SelectList.TITLES = new String[MainDisplay.LATEST_XKCD_NUM + 1];
         SelectList.select = new JComboBox<String>();
-        int reqpt = MainDisplay.LATEST_XKCD_NUM / titleThreads.length;
-        for (int i = 0; i < titleThreads.length; i++) {
-            titleThreads[i] = new TitleThread(i * reqpt, reqpt + 1);
-            new Thread(titleThreads[i]).start();
+        int reqpt = MainDisplay.LATEST_XKCD_NUM / TITLE_THREADS.length;
+        for (int i = 0; i < TITLE_THREADS.length; i++) {
+            TITLE_THREADS[i] = new TitleThread(i * reqpt, reqpt + 1);
+            new Thread(TITLE_THREADS[i]).start();
         }
     }
 }

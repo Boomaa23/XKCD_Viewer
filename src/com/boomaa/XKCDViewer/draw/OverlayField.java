@@ -10,7 +10,6 @@ import java.awt.event.FocusListener;
 public class OverlayField extends JTextField implements FocusListener {
     /** <p>The text of the hint.</p> */
     private final String hint;
-
     /** <p>The status of whether the hint is showing or not.</p> */
     private boolean showingHint;
 
