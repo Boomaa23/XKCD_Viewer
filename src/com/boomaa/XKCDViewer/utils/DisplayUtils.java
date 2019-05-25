@@ -15,6 +15,27 @@ import java.net.URL;
 
 /** <p>Assorted utils for JSON reading and image manipulation.</p> */
 public class DisplayUtils {
+	/**
+     * <p>Retrieves web content in String form.</p>
+     * @param url the url to retrieve content from.
+     * @return the web content requested as a String.
+     */
+    private static StringBuilder retrieveWebContent(String url) {
+    	try {
+	    	InputStream is = new URL(url).openStream();
+	        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+	        StringBuilder sb = new StringBuilder();
+	        for (int c = br.read(); c != -1; c = br.read()) {
+	            sb.append((char) c);
+	        }
+	        is.close();
+	        return sb;
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    		return new StringBuilder();
+    	}
+    }
+	
     /**
      * <p>Reads the address of a URL of a JSON and returns it back.</p>
      * @param url the address of the JSON requested to read.
@@ -22,16 +43,9 @@ public class DisplayUtils {
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
     public static JsonObject getJSONFromHTTP(String url) throws IOException {
-        InputStream is = new URL(url).openStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        for (int c = br.read(); c != -1; c = br.read()) {
-            sb.append((char) c);
-        }
-        is.close();
-        return new JsonParser().parse(sb.toString()).getAsJsonObject();
+        return new JsonParser().parse(retrieveWebContent(url).toString()).getAsJsonObject();
     }
-    
+
     /**
      * <p>Reads the address of an FTP URL of a JSON and returns it back.</p>
      * @param ftpurl the address of the JSON requested to read.
@@ -39,20 +53,48 @@ public class DisplayUtils {
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
     public static JsonObject getJSONFromFTP(String ftpurl) throws IOException {
-    	InputStream is = new URL(ftpurl).openConnection().getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        for (int c = br.read(); c != -1; c = br.read()) {
-            sb.append((char) c);
-        }
-        is.close(); br.close();
         try {
-        	JsonObject js = new JsonParser().parse(sb.toString()).getAsJsonObject();
+        	JsonObject js = new JsonParser().parse(retrieveWebContent(ftpurl).toString()).getAsJsonObject();
         	return js;
         } catch (IllegalStateException e) {
         	return new JsonObject();
         }
     }
+    
+    /**
+	 * <p>Uploads passed string to FTP.</p>
+	 * @param append the content to affix to the voting JSON.
+	 * @param modValue the change in vote (+/-), if any.
+	 * @throws IOException if anything happens to the connections.
+	 */
+	public static void uploadToFTP(String append, int modValue) throws IOException {
+		StringBuilder sb = retrieveWebContent(Login.FTP_URL);
+        
+        if(modValue != 0) {
+	        JsonObject json = new JsonParser().parse(sb.toString()).getAsJsonObject();
+	        json.addProperty(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM), json.getAsJsonPrimitive(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM)).getAsInt() + modValue);
+	        sb = new StringBuilder();
+	        sb.append(json.toString());
+        }
+        
+        OutputStream os = new URL(Login.FTP_URL).openConnection().getOutputStream();
+        StatsUtils.addTransferredBytes(Login.FTP_URL, Login.FTP_URL);
+        if(sb.length() >= 1) {
+        	sb.replace(sb.length() - 1, sb.length(), "");
+        } else {
+        	sb.append("{");
+        }
+        sb.append(append);
+        sb.append("}");
+        
+        InputStream iss = new ByteArrayInputStream(sb.toString().getBytes());
+        byte[] buffer = new byte[8192];
+        int bytesRead = -1;
+        while((bytesRead = iss.read(buffer)) != -1) {
+        	os.write(buffer, 0, bytesRead);
+        }
+        os.close();
+	}
     
     /**
      * <p>Reads and image from a JSONObject.</p>
@@ -94,47 +136,6 @@ public class DisplayUtils {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getAsJsonPrimitive("img").getAsString()))), "jpeg", fileChooser.getSelectedFile());
         }
     }
-    
-    /**
-	 * <p>Uploads passed string to FTP.</p>
-	 * @param append the content to affix to the voting JSON.
-	 * @param modValue the change in vote (+/-), if any.
-	 * @throws IOException if anything happens to the connections.
-	 */
-	public static void uploadToFTP(String append, int modValue) throws IOException {
-    	InputStream is = new URL(Login.FTP_URL).openConnection().getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        for (int c = br.read(); c != -1; c = br.read()) {
-            sb.append((char) c);
-        }
-        is.close(); br.close();
-        
-        if(modValue != 0) {
-	        JsonObject json = new JsonParser().parse(sb.toString()).getAsJsonObject();
-	        json.addProperty(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM), json.getAsJsonPrimitive(String.valueOf(MainDisplay.DISPLAYED_XKCD_NUM)).getAsInt() + modValue);
-	        sb = new StringBuilder();
-	        sb.append(json.toString());
-        }
-        
-        OutputStream os = new URL(Login.FTP_URL).openConnection().getOutputStream();
-        StatsUtils.addTransferredBytes(Login.FTP_URL, Login.FTP_URL);
-        if(sb.length() >= 1) {
-        	sb.replace(sb.length() - 1, sb.length(), "");
-        } else {
-        	sb.append("{");
-        }
-        sb.append(append);
-        sb.append("}");
-        
-        InputStream iss = new ByteArrayInputStream(sb.toString().getBytes());
-        byte[] buffer = new byte[8192];
-        int bytesRead = -1;
-        while((bytesRead = iss.read(buffer)) != -1) {
-        	os.write(buffer, 0, bytesRead);
-        }
-        os.close();
-	}
 	
 	/**
 	 * <p>A more efficient wrapper for adding JComponents</p>

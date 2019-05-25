@@ -23,13 +23,11 @@ public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of bytes transferred in total.</p> */
     public static long TRANSFERRED_BYTES = 0;
 
-    public MainDisplay() {}
-
     /**
      * <p>Displays JFrame with everything added to it. Main running method.</p>
      * @param args default main method.
      */
-    public static void main(String[] args) {
+    public MainDisplay() {
         SCALE_CHECKBOX.setSelected(true);
         try {
 	        initAllFrame();
@@ -77,32 +75,31 @@ public class MainDisplay extends Listeners implements JDEC {
      * <p>Reformats main panel and frame with new XKCD image from JSON.</p>
      * @param numReq the XKCD image number requested.
      */
-    public static void panelRewrite(int numReq) {
-        JsonObject json = null;
+    public static void panelRewrite(int numReq){
+        JsonObject json = null; Image imgTemp = null;
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + numReq + "/info.0.json");
+            imgTemp = DisplayUtils.getImageFromJSON(json);
             StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
         } catch (IOException e) {
             resetOnJSONError();
+        }
+        if(IMAGE_POPUP.isAncestorOf(LOGIN) && Login.FTP_URL != null) {
+        	IMAGE_POPUP.remove(LOGIN);
+        	IMAGE_POPUP.repaint();
         }
         TEXT_INPUT.reset();
         TITLE_PANEL.removeAll();
         ERROR_PANEL.removeAll();
         IMAGE_PANEL.removeAll();
         setupTitle(json);
-        FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
-
-        Image imgTemp = null;
-        try {
-            imgTemp = DisplayUtils.getImageFromJSON(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
         JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
         imgLabel.setToolTipText(json.getAsJsonPrimitive("alt").getAsString());
         IMAGE_PANEL.add(imgLabel);
-
         setupFrame(imgTemp);
+        
+        FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
         FRAME.setLocationRelativeTo(null);
         FRAME.revalidate();
         FRAME.repaint();
