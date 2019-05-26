@@ -33,7 +33,6 @@ public class TitleThread implements Runnable {
         for (int i = start; i <= end; i++) {
             SelectList.updateBar(false);
             try {
-            	System.out.println(i);
                 JsonObject json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + i + "/info.0.json");
                 StatsUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
                 SelectList.TITLES[i] = json.getAsJsonPrimitive("num").getAsInt() + " - " + json.getAsJsonPrimitive("title").getAsString();

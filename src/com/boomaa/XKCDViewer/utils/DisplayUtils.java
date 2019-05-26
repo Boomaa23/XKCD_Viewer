@@ -19,21 +19,17 @@ public class DisplayUtils {
      * <p>Retrieves web content in String form.</p>
      * @param url the url to retrieve content from.
      * @return the web content requested as a String.
+	 * @throws IOException 
      */
-    private static StringBuilder retrieveWebContent(String url) {
-    	try {
-	    	InputStream is = new URL(url).openStream();
-	        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-	        StringBuilder sb = new StringBuilder();
-	        for (int c = br.read(); c != -1; c = br.read()) {
-	            sb.append((char) c);
-	        }
-	        is.close();
-	        return sb;
-    	} catch(IOException e) {
-    		e.printStackTrace();
-    		return new StringBuilder();
-    	}
+    private static StringBuilder retrieveWebContent(String url) throws IOException {
+    	InputStream is = new URL(url).openStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        for (int c = br.read(); c != -1; c = br.read()) {
+            sb.append((char) c);
+        }
+        is.close();
+        return sb;
     }
 	
     /**

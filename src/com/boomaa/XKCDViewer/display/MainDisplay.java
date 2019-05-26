@@ -15,7 +15,7 @@ import java.net.URL;
 /** <p>Instigates display and houses main method</p> */
 public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of pixels of the frame border.</p> */
-    public static final int FRAME_BORDER = 280;
+    public static final int FRAME_BORDER = 300;
     /** <p>The number of the latest XKCD comic number.</p> */
     public static int LATEST_XKCD_NUM = 844;
     /** <p>The number of the currently displayed XKCD comic.</p> */

@@ -64,6 +64,7 @@ public class Instructions extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setAlwaysOnTop(true);
 		this.setTitle("Instructions");
 		this.setSize(400,475);
