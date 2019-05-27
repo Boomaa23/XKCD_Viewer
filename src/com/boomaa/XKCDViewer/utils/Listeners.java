@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.Timer;
+
 /** <p>Nested ActionListener classes.</p> */
 public class Listeners {
     /** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
@@ -119,5 +121,38 @@ public class Listeners {
                 SelectList.refreshSelector();
             }
         }
+    }
+    
+    /** <p>Adds the TTS checkbox to the screen if a double click is detected on the main frame.</p> */
+    public static class TTSEnable extends MouseAdapter implements ActionListener {
+	    /** <p>The timer to regulate click doubling.</p> */
+	    private Timer timer = new Timer((Integer)Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval"), this);
+	    
+	    /** <p>Adds TTS button to scaling panel if a double click is detected.</p> */
+	    public void doubleClick() {
+	    	if(JDEC.SCALING_PANEL.isAncestorOf(JDEC.TTS_CHECKBOX)) {
+	    		JDEC.SCALING_PANEL.remove(JDEC.TTS_CHECKBOX); 
+	    	} else {
+		    	JDEC.SCALING_PANEL.add(JDEC.TTS_CHECKBOX); 
+	    	}
+	    	JDEC.MAIN_PANEL.revalidate(); 
+	    	JDEC.MAIN_PANEL.repaint();
+	    }
+
+	    @Override
+	    public void mouseClicked (MouseEvent e) {
+	        if (e.getClickCount() > 2) { return; }
+	        if (timer.isRunning()) {
+	            timer.stop();
+	            doubleClick();
+	        } else {
+	            timer.restart();
+	        }
+	    }
+	    
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+	        timer.stop();
+	    }
     }
 }

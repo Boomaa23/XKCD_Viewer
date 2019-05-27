@@ -10,8 +10,15 @@
     <property name="source" value="1.8"/>
     <path id="XKCD_Viewer.classpath">
         <pathelement location="bin"/>
-        <pathelement location="gson-2.8.5.jar"/>
-    	<pathelement location="image4j-0.7.2.jar"/>
+        <pathelement location="lib/gson-2.8.5.jar"/>
+    	<pathelement location="lib/image4j-0.7.2.jar"/>
+    	<pathelement location="lib/fretts.jar"/>
+    	<pathelement location="lib/fretts-jsapi10.jar"/>
+    	<pathelement location="lib/cmulex.jar"/>
+    	<pathelement location="lib/cmultilex.jar"/>
+    	<pathelement location="lib/cmu_us_kal.jar"/>
+    	<pathelement location="lib/en_us.jar"/>
+    	<pathelement location="lib/mbrola.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -62,8 +69,15 @@
   			<fileset dir="src" />
   			<classpath>
 	  			<fileset dir="">
-	  				<include name="image4j-0.7.2.jar" />
-	  				<include name="gson-2.8.5.jar"/>
+	  				<include name="lib/image4j-0.7.2.jar" />
+	  				<include name="lib/gson-2.8.5.jar"/>
+	  				<include name="lib/fretts.jar"/>
+			    	<include name="lib/fretts-jsapi10.jar"/>
+			    	<include name="lib/cmulex.jar"/>
+			    	<include name="lib/cmultilex.jar"/>
+			    	<include name="lib/cmu_us_kal.jar"/>
+			    	<include name="lib/en_us.jar"/>
+			    	<include name="lib/mbrola.jar"/>
 				</fileset>
 			</classpath>
   	      <arg value="-notimestamp" />

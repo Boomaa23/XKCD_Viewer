@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+import com.boomaa.XKCDViewer.utils.TTS;
 import com.google.gson.JsonObject;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
@@ -25,7 +26,6 @@ public class MainDisplay extends Listeners implements JDEC {
 
     /**
      * <p>Displays JFrame with everything added to it. Main running method.</p>
-     * @param args default main method.
      */
     public MainDisplay() {
         SCALE_CHECKBOX.setSelected(true);
@@ -60,6 +60,7 @@ public class MainDisplay extends Listeners implements JDEC {
 
         JLabel imgTemp = new JLabel(new ImageIcon(image));
         imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
+        imgTemp.addMouseListener(new TTSEnable());
         IMAGE_PANEL.add(imgTemp);
         DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN, LOGIN);
         addFrameElements();
@@ -96,6 +97,7 @@ public class MainDisplay extends Listeners implements JDEC {
         
         JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
         imgLabel.setToolTipText(json.getAsJsonPrimitive("alt").getAsString());
+        imgLabel.addMouseListener(new TTSEnable());
         IMAGE_PANEL.add(imgLabel);
         setupFrame(imgTemp);
         
@@ -128,6 +130,7 @@ public class MainDisplay extends Listeners implements JDEC {
      */
     private static void setupTitle(JsonObject json) {
         TITLE_PANEL.add(new JLabel(json.getAsJsonPrimitive("title").getAsString() + " - #" + json.getAsJsonPrimitive("num").getAsString()));
+        if(TTS_CHECKBOX.isSelected()) { new Thread(new TTS(json.getAsJsonPrimitive("title").getAsString())).start(); }
         FRAME.setTitle("XKCD Viewer | #" + json.getAsJsonPrimitive("num").getAsInt());
         DISPLAYED_XKCD_NUM = json.getAsJsonPrimitive("num").getAsInt();
     }
@@ -141,11 +144,10 @@ public class MainDisplay extends Listeners implements JDEC {
 
     /** <p>Adds individual items to Select and Main JPanels.</p> */
     private static void addFrameElements() {
-        SCALING_PANEL.add(SCALE_CHECKBOX);
+    	DisplayUtils.addPanelComponents(SCALING_PANEL, SCALE_CHECKBOX);
         DisplayUtils.addPanelComponents(VOTING_PANEL, new JLabel("Vote: "), UPVOTE_BTN, DOWNVOTE_BTN);
 
         DisplayUtils.addPanelComponents(SELECT_PANEL_UPPER, LATEST_BTN, RANDOM_BTN);
-        DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
         DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
         DisplayUtils.addPanelComponents(SELECT_PANEL_LOWER, BACK_BTN, FWD_BTN);
         
@@ -170,6 +172,7 @@ public class MainDisplay extends Listeners implements JDEC {
         NUM_BTN.addActionListener(new NumSelect());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
+        MAIN_PANEL.addMouseListener(new TTSEnable());
     }
     
     /** <p>Error message display for JSON retrieval error.</p> */

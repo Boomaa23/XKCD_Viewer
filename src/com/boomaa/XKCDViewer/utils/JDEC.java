@@ -93,6 +93,9 @@ public interface JDEC {
     /** <p>A check box to toggle image scaling.</p> */
     JCheckBox SCALE_CHECKBOX = new JCheckBox("Image Scaling");
     
+    /** <p>A check box to toggle text-to-speech.</p> */
+    JCheckBox TTS_CHECKBOX = new JCheckBox("TTS");
+    
     /** <p>Pre-drawn circles for internet connectivity.</p> */
     InetCircles INET_CIRCLES = new InetCircles(8);
 }

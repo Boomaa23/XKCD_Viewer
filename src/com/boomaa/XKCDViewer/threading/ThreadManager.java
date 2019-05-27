@@ -8,7 +8,7 @@ import javax.swing.*;
 /** <p>Manager for all title lookup threads.</p> */
 public class ThreadManager extends SelectList {
     /** <p>Storage of all title threads, utilized for isAlive().</p> */
-    public static TitleThread[] TITLE_THREADS = new TitleThread[16];
+    public static TitleThread[] TITLE_THREADS = new TitleThread[Runtime.getRuntime().availableProcessors() * 4];
     
     /** <p>Runs each thread to get all titles.</p> */
     public ThreadManager() {

@@ -19,7 +19,7 @@ public class DisplayUtils {
      * <p>Retrieves web content in String form.</p>
      * @param url the url to retrieve content from.
      * @return the web content requested as a String.
-	 * @throws IOException 
+	 * @throws IOException if the content cannot be retrieved.
      */
     private static StringBuilder retrieveWebContent(String url) throws IOException {
     	InputStream is = new URL(url).openStream();
