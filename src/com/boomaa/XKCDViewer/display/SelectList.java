@@ -98,7 +98,7 @@ public class SelectList {
         setupButtons();
         frame.setVisible(true);
     }
-
+    
     /** <p>Adds button at bottom of stats frame to close window.</p> */
     private static void setupButtons() {
         JButton close = new JButton("Close");

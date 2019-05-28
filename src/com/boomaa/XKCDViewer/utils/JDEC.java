@@ -88,7 +88,7 @@ public interface JDEC {
     
     
     /** <p>Input for specific number XKCD image to be displayed.</p> */
-    OverlayField TEXT_INPUT = new OverlayField(" XKCD Number", 10);
+    OverlayField TEXT_INPUT = new OverlayField(" XKCD # or Name", 10);
 
     /** <p>A check box to toggle image scaling.</p> */
     JCheckBox SCALE_CHECKBOX = new JCheckBox("Image Scaling");

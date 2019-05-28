@@ -3,6 +3,7 @@ package com.boomaa.XKCDViewer.utils;
 import com.boomaa.XKCDViewer.display.Login;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
+import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ import javax.swing.Timer;
 
 /** <p>Nested ActionListener classes.</p> */
 public class Listeners {
-    /** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
+    /** <p>Navigates to and displays input XKCD image upon actionPerformed().</p> */
     public static class NumSelect implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -32,8 +33,23 @@ public class Listeners {
                     MainDisplay.resetOnJSONError();
                 }
             } catch (NumberFormatException e0) {
+                if(ThreadManager.TITLES != null && !containsNull()) {
+                	for(int i = 0;i < ThreadManager.TITLES.length;i++) {
+                		if(JDEC.TEXT_INPUT.getText().trim().equals(ThreadManager.TITLES[i].trim())) {
+                			MainDisplay.panelRewrite(i);
+                		}
+                	}
+                }
                 MainDisplay.resetOnJSONError();
             }
+        }
+        
+        /** <p>Checks to make sure ThreadManager.TITLES is not still filling.</p> */
+        private boolean containsNull() {
+        	for(Object obj : ThreadManager.TITLES) {
+        		if(obj == null) { return true; }
+        	}
+        	return false;
         }
     }
 
