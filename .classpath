@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/image4j-0.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.8.5.jar"/>
 	<classpathentry kind="lib" path="lib/freetts.jar"/>
+	<classpathentry kind="lib" path="lib/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="lib/cmulex.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

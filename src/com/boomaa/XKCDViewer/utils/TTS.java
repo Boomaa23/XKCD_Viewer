@@ -1,12 +1,12 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.sun.speech.freetts.Voice;
-import com.sun.speech.freetts.VoiceManager;
+import com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory;
 
 /** <p>Text-to-Speech on individual threads with passed String text.</p> */
 public class TTS implements Runnable {
 	/** <p>The voice in which to say the TTS message.</p> */
-	private Voice voice = VoiceManager.getInstance().getVoice("kevin16");
+	private Voice voice;
 	/** <p>The message to speak when run.</p> */
 	private String message;
 	
@@ -15,6 +15,7 @@ public class TTS implements Runnable {
 	 * @param message the text to speak.
 	 */
 	public TTS(String message) {
+		voice = new KevinVoiceDirectory().getVoices()[1];
 		this.message = message;
 	}
 	
