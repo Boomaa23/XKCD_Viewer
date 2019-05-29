@@ -30,21 +30,27 @@ public class Listeners {
                 if (!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= MainDisplay.LATEST_XKCD_NUM && numRequest > 0) {
                     MainDisplay.panelRewrite(numRequest);
                 } else {
-                    MainDisplay.resetOnJSONError();
+                    ErrorMessages.numInvalid();
                 }
             } catch (NumberFormatException e0) {
                 if(ThreadManager.TITLES != null && !containsNull()) {
                 	for(int i = 0;i < ThreadManager.TITLES.length;i++) {
                 		if(JDEC.TEXT_INPUT.getText().trim().equals(ThreadManager.TITLES[i].trim())) {
                 			MainDisplay.panelRewrite(i);
+                			return;
                 		}
                 	}
+                	ErrorMessages.nameInvalid();
+                } else {
+                	ErrorMessages.namesNotLoaded();
                 }
-                MainDisplay.resetOnJSONError();
             }
         }
         
-        /** <p>Checks to make sure ThreadManager.TITLES is not still filling.</p> */
+        /** 
+         * <p>Checks to make sure ThreadManager.TITLES is not still filling.</p>
+         * @return true if a null object is found, false if not.
+         */
         private boolean containsNull() {
         	for(Object obj : ThreadManager.TITLES) {
         		if(obj == null) { return true; }
@@ -147,8 +153,10 @@ public class Listeners {
 	    /** <p>Adds TTS button to scaling panel if a double click is detected.</p> */
 	    public void doubleClick() {
 	    	if(JDEC.SCALING_PANEL.isAncestorOf(JDEC.TTS_CHECKBOX)) {
+	    		JDEC.TTS_CHECKBOX.setSelected(false);
 	    		JDEC.SCALING_PANEL.remove(JDEC.TTS_CHECKBOX); 
 	    	} else {
+	    		JDEC.TTS_CHECKBOX.setSelected(true);
 		    	JDEC.SCALING_PANEL.add(JDEC.TTS_CHECKBOX); 
 	    	}
 	    	JDEC.MAIN_PANEL.revalidate(); 

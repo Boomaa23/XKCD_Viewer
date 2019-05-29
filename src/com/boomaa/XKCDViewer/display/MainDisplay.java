@@ -5,6 +5,7 @@ import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.boomaa.XKCDViewer.utils.TTS;
 import com.google.gson.JsonObject;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.ErrorMessages;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -83,7 +84,7 @@ public class MainDisplay extends Listeners implements JDEC {
             imgTemp = DisplayUtils.getImageFromJSON(json);
             StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
         } catch (IOException e) {
-            resetOnJSONError();
+            ErrorMessages.numInvalid();
         }
         if(IMAGE_POPUP.isAncestorOf(LOGIN) && Login.FTP_URL != null) {
         	IMAGE_POPUP.remove(LOGIN);
@@ -173,13 +174,5 @@ public class MainDisplay extends Listeners implements JDEC {
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
         MAIN_PANEL.addMouseListener(new TTSEnable());
-    }
-    
-    /** <p>Error message display for JSON retrieval error.</p> */
-    public static void resetOnJSONError() {
-        ERROR_PANEL.removeAll();
-        ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
-        FRAME.revalidate();
-        FRAME.repaint();
     }
 }

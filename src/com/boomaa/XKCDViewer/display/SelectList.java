@@ -81,7 +81,7 @@ public class SelectList {
 
     /** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
     public static void selectPanelInit() {
-        for (int i = TITLES.length - 1; i >= 1; i--) {
+        for(int i = TITLES.length - 1; i >= 1; i--) {
             select.addItem(i + " - " + TITLES[i]);
         }
         select.setSelectedIndex(TITLES.length - num - 1);

@@ -38,6 +38,7 @@ public class Login {
 			e.printStackTrace();
 		}
 		frame.setSize(250, 125);
+		frame.setLocationRelativeTo(null);
 		setupFTPLogin();
 	}
 

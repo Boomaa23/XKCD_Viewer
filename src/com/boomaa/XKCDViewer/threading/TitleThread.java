@@ -37,7 +37,7 @@ public class TitleThread implements Runnable {
                 StatsUtils.addTransferredBytes("https://xkcd.com/" + i + "/info.0.json");
                 SelectList.TITLES[i] = json.getAsJsonPrimitive("title").getAsString();
             } catch (IOException e1) {
-                SelectList.TITLES[i] = i + " - NO IMAGE FOUND";
+                SelectList.TITLES[i] = "NO IMAGE FOUND";
             }
         }
         SelectList.updateBar(true);
