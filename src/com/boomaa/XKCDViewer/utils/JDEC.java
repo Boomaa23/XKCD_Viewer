@@ -58,7 +58,7 @@ public interface JDEC {
     /** <p>Upvotes the displayed XKCD image.</p> */
     JButton UPVOTE_BTN = new JButton("+1");
     
-    /** <p>Upvotes the displayed XKCD image.</p> */
+    /** <p>Downvotes the displayed XKCD image.</p> */
     JButton DOWNVOTE_BTN = new JButton("-1");
 
 

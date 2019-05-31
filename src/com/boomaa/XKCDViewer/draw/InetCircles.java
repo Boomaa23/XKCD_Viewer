@@ -44,5 +44,6 @@ public class InetCircles extends JComponent {
 		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : green, g);
+		System.out.println("[" + this.getClass().getSimpleName() + "] Drawing completed with correct coloring");
 	}
 }

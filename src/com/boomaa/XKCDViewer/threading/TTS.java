@@ -1,4 +1,4 @@
-package com.boomaa.XKCDViewer.utils;
+package com.boomaa.XKCDViewer.threading;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory;
@@ -21,6 +21,7 @@ public class TTS implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("[" + this.getClass().getSimpleName() + "] TTS active");
 		voice.allocate();
 		voice.speak(this.message);
 		voice.deallocate();

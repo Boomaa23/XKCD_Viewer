@@ -50,8 +50,10 @@ public class SelectList {
             loading.add(new JLabel("Loading..."));
             mainPanel.add(loading);
         }
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.add(mainPanel);
         frame.setVisible(true);
+        System.out.println("[" + SelectList.class.getSimpleName() + "] All items loaded and threads finished");
     }
 
     /**
@@ -74,6 +76,7 @@ public class SelectList {
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
+            System.out.println("[" + SelectList.class.getSimpleName() + "] Selected xkcd JSON retrieved");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,6 +90,7 @@ public class SelectList {
         select.setSelectedIndex(TITLES.length - num - 1);
         select.addItemListener(item);
         refreshSelector();
+        System.out.println("[" + SelectList.class.getSimpleName() + "] Titles added to frame");
     }
 
     /** <p>Refresh display after select num changes.</p> */
@@ -97,6 +101,7 @@ public class SelectList {
         statsUtils.addGenericPanelItems();
         setupButtons();
         frame.setVisible(true);
+        System.out.println("[" + SelectList.class.getSimpleName() + "] Current information displayed");
     }
     
     /** <p>Adds button at bottom of stats frame to close window.</p> */
@@ -114,6 +119,7 @@ public class SelectList {
         buttonPanel.add(view);
         buttonPanel.add(close);
         mainPanel.add(buttonPanel);
+        System.out.println("[" + SelectList.class.getSimpleName() + "] Buttons setup successfully");
     }
 
     /**
@@ -132,6 +138,7 @@ public class SelectList {
             select.removeItemListener(item);
             createSelectList(num);
             selectPanelInit();
+            System.out.println("[" + SelectList.class.getSimpleName() + "] All title threads finished");
         }
     }
 }

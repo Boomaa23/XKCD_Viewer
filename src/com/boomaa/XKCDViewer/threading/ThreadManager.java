@@ -19,5 +19,6 @@ public class ThreadManager extends SelectList {
             TITLE_THREADS[i] = new TitleThread(i * reqpt, reqpt + 1);
             new Thread(TITLE_THREADS[i]).start();
         }
+        System.out.println("[" + this.getClass().getSimpleName() + "] All title threads initialized and running");
     }
 }
