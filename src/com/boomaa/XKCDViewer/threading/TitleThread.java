@@ -3,6 +3,7 @@ package com.boomaa.XKCDViewer.threading;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
 
@@ -30,7 +31,7 @@ public class TitleThread implements Runnable {
 
     @Override
     public void run() {
-    	System.out.println("[" + this.getClass().getSimpleName() + "] Starting title thread from " + start + " to " + end);
+    	System.out.println(PackageMap.threading.TITLE_THREAD + "Starting title thread from " + start + " to " + end);
         for (int i = start; i <= end; i++) {
             SelectList.updateBar(false);
             try {
@@ -42,6 +43,6 @@ public class TitleThread implements Runnable {
             }
         }
         SelectList.updateBar(true);
-        System.out.println("[" + this.getClass().getSimpleName() + "] Title thread from " + start + " to " + end + " completed");
+        System.out.println(PackageMap.threading.TITLE_THREAD + "Title thread from " + start + " to " + end + " completed");
     }
 }

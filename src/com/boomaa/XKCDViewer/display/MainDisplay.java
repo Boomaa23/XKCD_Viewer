@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
 import com.boomaa.XKCDViewer.threading.TTS;
@@ -33,7 +34,7 @@ public class MainDisplay extends Listeners implements JDEC {
         try {
 	        initAllFrame();
         } catch(IOException e) {
-        	System.err.println("[" + MainDisplay.class.getSimpleName() + "] ERROR: No internet connection");
+        	System.err.println(PackageMap.display.MAIN_DISPLAY + "ERROR: No internet connection");
         	MAIN_PANEL.add(new JLabel("No Internet Connection..."));
         	FRAME.add(MAIN_PANEL);
         	FRAME.setSize(300, 75);
@@ -72,7 +73,7 @@ public class MainDisplay extends Listeners implements JDEC {
         FRAME.setLocationRelativeTo(null);
         FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FRAME.setVisible(true);
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] Frame initialized correctly with components");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Frame initialized correctly with components");
     }
 
     /**
@@ -108,7 +109,7 @@ public class MainDisplay extends Listeners implements JDEC {
         FRAME.setLocationRelativeTo(null);
         FRAME.revalidate();
         FRAME.repaint();
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] Display reset to image " + numReq + " successfully");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Display reset to image " + numReq + " successfully");
     }
 
     /**
@@ -126,7 +127,7 @@ public class MainDisplay extends Listeners implements JDEC {
         width = (width < minWidth) ? minWidth : width;
 
         FRAME.setSize(width, height);
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] Frame size determined and set");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Frame size determined and set");
     }
 
     /**
@@ -138,7 +139,7 @@ public class MainDisplay extends Listeners implements JDEC {
         if(TTS_CHECKBOX.isSelected()) { new Thread(new TTS(json.getAsJsonPrimitive("title").getAsString())).start(); }
         FRAME.setTitle("XKCD Viewer | #" + json.getAsJsonPrimitive("num").getAsInt());
         DISPLAYED_XKCD_NUM = json.getAsJsonPrimitive("num").getAsInt();
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] Title setup finished");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Title setup finished");
     }
 
     /** <p>Determines if a vertical scrollbar is needed and displays if so.</p> */
@@ -146,7 +147,7 @@ public class MainDisplay extends Listeners implements JDEC {
         JScrollPane scroll = new JScrollPane(MAIN_PANEL, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         FRAME.add(scroll);
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] Scroll bar setup finished");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Scroll bar setup finished");
     }
 
     /** <p>Adds individual items to Select and Main JPanels.</p> */
@@ -160,7 +161,7 @@ public class MainDisplay extends Listeners implements JDEC {
         
         DisplayUtils.addPanelComponents(MAIN_PANEL, TITLE_PANEL, IMAGE_PANEL, SCALING_PANEL, VOTING_PANEL,
         		SELECT_PANEL_UPPER, SELECT_PANEL_MIDDLE, SELECT_PANEL_LOWER, INET_CIRCLES, ERROR_PANEL);
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] All panel items added to respective super panels");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "All panel items added to respective super panels");
     }
     
     /** <p>Adds ActionListeners on buttons.</p> */
@@ -181,6 +182,6 @@ public class MainDisplay extends Listeners implements JDEC {
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
         MAIN_PANEL.addMouseListener(new TTSEnable());
-        System.out.println("[" + MainDisplay.class.getSimpleName() + "] All button listeners added");
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "All button listeners added");
     }
 }

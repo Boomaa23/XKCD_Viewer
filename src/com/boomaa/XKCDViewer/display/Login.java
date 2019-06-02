@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -40,7 +41,7 @@ public class Login {
 		frame.setSize(250, 125);
 		frame.setLocationRelativeTo(null);
 		setupFTPLogin();
-		System.out.println("[" + this.getClass().getSimpleName() + "] Login page displayed");
+		System.out.println(PackageMap.display.LOGIN + "Login page displayed");
 	}
 
 	/** <p>Adds login panel items and listeners.</p> */
@@ -54,9 +55,9 @@ public class Login {
 				FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
 				reopenClosedClass();
 				frame.dispose();
-				System.out.println("[" + this.getClass().getSimpleName() + "] Last class reopened");
+				System.out.println(PackageMap.display.LOGIN + "Last class reopened");
 			} catch (IllegalArgumentException e0) {
-				System.err.println("[" + this.getClass().getSimpleName() + "] Login not successful, trying again...");
+				System.err.println(PackageMap.display.LOGIN + "Login not successful, trying again...");
 				setupFTPLogin();
 			}
 		});

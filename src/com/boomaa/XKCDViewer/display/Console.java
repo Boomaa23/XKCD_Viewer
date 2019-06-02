@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -77,7 +77,7 @@ public class Console extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
 				System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-				System.out.println("[" + DisplayUtils.class.getSimpleName() + "] System.out and System.err reset back to IDE/command console");
+				System.out.println(PackageMap.display.CONSOLE + "System.out and System.err reset back to IDE/command console");
 			}
 		});
  	   	
@@ -88,6 +88,6 @@ public class Console extends JFrame {
         System.setOut(new PrintStream(outStream));
         System.setErr(new PrintStream(outStream));
         setVisible(true);
-        System.out.println("[" + DisplayUtils.class.getSimpleName() + "] System.out and System.err set to standalone console");
+        System.out.println(PackageMap.display.CONSOLE + "System.out and System.err set to standalone console");
 	}
 }

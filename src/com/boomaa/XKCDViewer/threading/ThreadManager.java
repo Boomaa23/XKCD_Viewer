@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.threading;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 
 import javax.swing.*;
 
@@ -19,6 +20,6 @@ public class ThreadManager extends SelectList {
             TITLE_THREADS[i] = new TitleThread(i * reqpt, reqpt + 1);
             new Thread(TITLE_THREADS[i]).start();
         }
-        System.out.println("[" + this.getClass().getSimpleName() + "] All title threads initialized and running");
+        System.out.println(PackageMap.threading.THREAD_MANAGER + "All title threads initialized and running");
     }
 }

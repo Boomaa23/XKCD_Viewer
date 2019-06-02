@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.threading.ThreadManager;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.Listeners.SelectItemAction;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
@@ -53,7 +54,7 @@ public class SelectList {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.add(mainPanel);
         frame.setVisible(true);
-        System.out.println("[" + SelectList.class.getSimpleName() + "] All items loaded and threads finished");
+        System.out.println(PackageMap.display.SELECT_LIST + "All items loaded and threads finished");
     }
 
     /**
@@ -76,7 +77,7 @@ public class SelectList {
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
-            System.out.println("[" + SelectList.class.getSimpleName() + "] Selected xkcd JSON retrieved");
+            System.out.println(PackageMap.display.SELECT_LIST + "Selected xkcd JSON retrieved");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ public class SelectList {
         select.setSelectedIndex(TITLES.length - num - 1);
         select.addItemListener(item);
         refreshSelector();
-        System.out.println("[" + SelectList.class.getSimpleName() + "] Titles added to frame");
+        System.out.println(PackageMap.display.SELECT_LIST + "Titles added to frame");
     }
 
     /** <p>Refresh display after select num changes.</p> */
@@ -101,7 +102,7 @@ public class SelectList {
         statsUtils.addGenericPanelItems();
         setupButtons();
         frame.setVisible(true);
-        System.out.println("[" + SelectList.class.getSimpleName() + "] Current information displayed");
+        System.out.println(PackageMap.display.SELECT_LIST + "Current information displayed");
     }
     
     /** <p>Adds button at bottom of stats frame to close window.</p> */
@@ -119,7 +120,7 @@ public class SelectList {
         buttonPanel.add(view);
         buttonPanel.add(close);
         mainPanel.add(buttonPanel);
-        System.out.println("[" + SelectList.class.getSimpleName() + "] Buttons setup successfully");
+        System.out.println(PackageMap.display.SELECT_LIST + "Buttons setup successfully");
     }
 
     /**
@@ -138,7 +139,7 @@ public class SelectList {
             select.removeItemListener(item);
             createSelectList(num);
             selectPanelInit();
-            System.out.println("[" + SelectList.class.getSimpleName() + "] All title threads finished");
+            System.out.println(PackageMap.display.SELECT_LIST + "All title threads finished");
         }
     }
 }

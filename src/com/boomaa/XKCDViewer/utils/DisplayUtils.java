@@ -22,7 +22,7 @@ public class DisplayUtils {
 	 * @throws IOException if the content cannot be retrieved.
      */
     private static StringBuilder retrieveWebContent(String url) throws IOException {
-    	System.out.println("[" + DisplayUtils.class.getSimpleName() + "] Web content retrieval finished");
+    	System.out.println(PackageMap.utils.DISPLAY_UTILS + "Web content retrieval finished");
     	InputStream is = new URL(url).openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -40,7 +40,7 @@ public class DisplayUtils {
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
     public static JsonObject getJSONFromHTTP(String url) throws IOException {
-    	System.out.println("[" + DisplayUtils.class.getSimpleName() + "] HTTP content retrieved as JsonObject");
+    	System.out.println(PackageMap.utils.DISPLAY_UTILS + "HTTP content retrieved as JsonObject");
         return new JsonParser().parse(retrieveWebContent(url).toString()).getAsJsonObject();
     }
 
@@ -53,7 +53,7 @@ public class DisplayUtils {
     public static JsonObject getJSONFromFTP(String ftpurl) throws IOException {
         try {
         	JsonObject js = new JsonParser().parse(retrieveWebContent(ftpurl).toString()).getAsJsonObject();
-        	System.out.println("[" + DisplayUtils.class.getSimpleName() + "] FTP content retrieved as JsonObject");
+        	System.out.println(PackageMap.utils.DISPLAY_UTILS + "FTP content retrieved as JsonObject");
         	return js;
         } catch (IllegalStateException e) {
         	return new JsonObject();
@@ -93,7 +93,7 @@ public class DisplayUtils {
         	os.write(buffer, 0, bytesRead);
         }
         os.close();
-        System.out.println("[" + DisplayUtils.class.getSimpleName() + "] FTP upload completed");
+        System.out.println(PackageMap.utils.DISPLAY_UTILS + "FTP upload completed");
 	}
     
     /**
@@ -104,7 +104,7 @@ public class DisplayUtils {
      */
     public static Image getImageFromJSON(JsonObject jsonObj) throws IOException {
     	StatsUtils.addTransferredBytes(jsonObj.getAsJsonPrimitive("img").getAsString());
-    	System.out.println("[" + DisplayUtils.class.getSimpleName() + "] Image extracted from JsonObject");
+    	System.out.println(PackageMap.utils.DISPLAY_UTILS + "Image extracted from JsonObject");
         return resizeImage(ImageIO.read(new URL(jsonObj.getAsJsonPrimitive("img").getAsString())));
     }
 
@@ -122,7 +122,7 @@ public class DisplayUtils {
             height = screen.getHeight() - MainDisplay.FRAME_BORDER;
             width -= height / (screen.getHeight() / screen.getWidth());
         }
-        System.out.println("[" + DisplayUtils.class.getSimpleName() + "] Image passed for potential resizing");
+        System.out.println(PackageMap.utils.DISPLAY_UTILS + "Image passed for potential resizing");
         return JDEC.SCALE_CHECKBOX.isSelected() && height != image.getHeight(JDEC.FRAME) ? image.getScaledInstance((int) (width), (int) (height), Image.SCALE_SMOOTH) : image;
     }
 
@@ -136,7 +136,7 @@ public class DisplayUtils {
         fileChooser.setSelectedFile(new File(json.getAsJsonPrimitive("safe_title").getAsString().replaceAll("\\s+", "_").toLowerCase() + ".jpeg"));
         if (fileChooser.showSaveDialog(JDEC.FRAME) == JFileChooser.APPROVE_OPTION) {
             ImageIO.write((RenderedImage) (ImageIO.read(new URL(json.getAsJsonPrimitive("img").getAsString()))), "jpeg", fileChooser.getSelectedFile());
-            System.out.println("[" + DisplayUtils.class.getSimpleName() + "] Image downloaded to local computer");
+            System.out.println(PackageMap.utils.DISPLAY_UTILS + "Image downloaded to local computer");
         }
     }
 	

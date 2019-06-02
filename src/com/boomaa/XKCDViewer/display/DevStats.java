@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
+import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
 
@@ -29,7 +30,7 @@ public class DevStats {
         frame.setSize(450, 375);
         frame.add(mainPanel);
         frame.setVisible(true);
-        System.out.println("[" + this.getClass().getSimpleName() + "] All statistic information displaying correctly");
+        System.out.println(PackageMap.display.DEV_STATS + "All statistic information displaying correctly");
     }
 
     /** <p>Initializes JSON from URL.</p> */
@@ -40,7 +41,7 @@ public class DevStats {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        System.out.println("[" + this.getClass().getSimpleName() + "] JSON initialized correctly");
+        System.out.println(PackageMap.display.DEV_STATS + "JSON initialized correctly");
     }
 
     /** <p>Adds button at bottom of stats frame to close window.</p> */
@@ -50,7 +51,7 @@ public class DevStats {
         close.addActionListener(e -> { frame.dispose(); });
         closePanel.add(close);
         mainPanel.add(closePanel);
-        System.out.println("[" + this.getClass().getSimpleName() + "] Close button setup and listened");
+        System.out.println(PackageMap.display.DEV_STATS + "Close button setup and listened");
     }
 
     /** <p>Adds each statistic item to the main panel.</p> */
@@ -67,6 +68,6 @@ public class DevStats {
         if(Login.FTP_URL != null) {
         	statsUtils.addLabelPanel("Voting Response Time: " + StatsUtils.getResponseTime(Login.FTP_URL) + "ms");
         }
-        System.out.println("[" + this.getClass().getSimpleName() + "] Statistic item adding finished");
+        System.out.println(PackageMap.display.DEV_STATS + "Statistic item adding finished");
     }
 }
