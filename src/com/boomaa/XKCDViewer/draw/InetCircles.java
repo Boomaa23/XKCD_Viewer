@@ -6,8 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.JDEC;
-import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 
 /** <p>Draws circles corresponding to the status of various web services.</p> */

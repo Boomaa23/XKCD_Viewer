@@ -1,15 +1,14 @@
-package com.boomaa.XKCDViewer.utils;
+package com.boomaa.XKCDViewer.reporting;
 
 import com.boomaa.XKCDViewer.display.*;
 import com.boomaa.XKCDViewer.draw.*;
 import com.boomaa.XKCDViewer.threading.*;
+import com.boomaa.XKCDViewer.utils.*;
 
 /** <p>Stores names for all classes in nested interfaces (organized by package).</p> */
 public interface PackageMap {
 	/** <p>Name storage for classes in the display package.</p> */
 	public static interface display {
-		/** Stores name for {@link com.boomaa.XKCDViewer.display.Console} */
-		final String CONSOLE = "[" + Console.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.DevStats} */
 		final String DEV_STATS = "[" + DevStats.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.Leaderboard} */
@@ -44,15 +43,21 @@ public interface PackageMap {
 	public static interface utils {
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.DisplayUtils} */
 		final String DISPLAY_UTILS = "[" + DisplayUtils.class.getSimpleName() + "] ";
-		/** Stores name for {@link com.boomaa.XKCDViewer.utils.ErrorMessages} */
-		final String ERROR_MESSAGES = "[" + ErrorMessages.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.JDEC} */
 		final String JDEC = "[" + JDEC.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.Listeners} */
 		final String LISTENERS = "[" + Listeners.class.getSimpleName() + "] ";
-		/** Stores name for {@link com.boomaa.XKCDViewer.utils.PackageMap} */
-		final String PACKAGE_MAP = "[" + PackageMap.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.StatsUtils} */
 		final String STATS_UTILS = "[" + StatsUtils.class.getSimpleName() + "] ";
+	}
+	
+	/** <p>Name storage for classes in the reporting package.</p> */
+	public static interface reporting {
+		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.Console} */
+		final String CONSOLE = "[" + Console.class.getSimpleName() + "] ";
+		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.ErrorMessages} */
+		final String ERROR_MESSAGES = "[" + ErrorMessages.class.getSimpleName() + "] ";
+		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.PackageMap} */
+		final String PACKAGE_MAP = "[" + PackageMap.class.getSimpleName() + "] ";
 	}
 }

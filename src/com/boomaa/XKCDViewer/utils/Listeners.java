@@ -3,6 +3,7 @@ package com.boomaa.XKCDViewer.utils;
 import com.boomaa.XKCDViewer.display.Login;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
+import com.boomaa.XKCDViewer.reporting.ErrorMessages;
 import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 import java.awt.*;

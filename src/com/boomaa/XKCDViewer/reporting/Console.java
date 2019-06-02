@@ -1,4 +1,4 @@
-package com.boomaa.XKCDViewer.display;
+package com.boomaa.XKCDViewer.reporting;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -16,8 +16,6 @@ import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import com.boomaa.XKCDViewer.utils.PackageMap;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 
@@ -77,7 +75,7 @@ public class Console extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
 				System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-				System.out.println(PackageMap.display.CONSOLE + "System.out and System.err reset back to IDE/command console");
+				System.out.println(PackageMap.reporting.CONSOLE + "System.out and System.err reset back to IDE/command console");
 			}
 		});
  	   	
@@ -88,6 +86,6 @@ public class Console extends JFrame {
         System.setOut(new PrintStream(outStream));
         System.setErr(new PrintStream(outStream));
         setVisible(true);
-        System.out.println(PackageMap.display.CONSOLE + "System.out and System.err set to standalone console");
+        System.out.println(PackageMap.reporting.CONSOLE + "System.out and System.err set to standalone console");
 	}
 }

@@ -2,7 +2,7 @@ package com.boomaa.XKCDViewer.threading;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
-import com.boomaa.XKCDViewer.utils.PackageMap;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 
 import javax.swing.*;
 

@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.Listeners.HREFAction;
 import com.google.gson.JsonObject;
 

@@ -10,9 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
-import com.boomaa.XKCDViewer.utils.PackageMap;
 
 import net.sf.image4j.codec.ico.ICODecoder;
 

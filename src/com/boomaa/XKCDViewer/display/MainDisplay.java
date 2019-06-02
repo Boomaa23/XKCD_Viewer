@@ -1,12 +1,13 @@
 package com.boomaa.XKCDViewer.display;
 
 import com.boomaa.XKCDViewer.utils.Listeners;
-import com.boomaa.XKCDViewer.utils.PackageMap;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
+import com.boomaa.XKCDViewer.reporting.Console;
+import com.boomaa.XKCDViewer.reporting.ErrorMessages;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.threading.TTS;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
-import com.boomaa.XKCDViewer.utils.ErrorMessages;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
 

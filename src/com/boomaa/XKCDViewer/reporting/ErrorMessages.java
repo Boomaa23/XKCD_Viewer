@@ -1,24 +1,26 @@
-package com.boomaa.XKCDViewer.utils;
+package com.boomaa.XKCDViewer.reporting;
 
 import javax.swing.JLabel;
+
+import com.boomaa.XKCDViewer.utils.JDEC;
 
 /** <p>Common error messages to display to user on JDEC.ERROR_PANEL.</p> */
 public class ErrorMessages {
 	/** <p>Error for unaccessible or badly formatted xkcd number.</p> */
 	public static void numInvalid() {
-		System.err.println(PackageMap.utils.ERROR_MESSAGES + "No XKCD found for this number");
+		System.err.println(PackageMap.reporting.ERROR_MESSAGES + "No XKCD found for this number");
 		errorDisplay("No XKCD found for this number");
 	}
 	
 	/** <p>Error for unaccessible or invalid xkcd name.</p> */
 	public static void nameInvalid() {
-		System.err.println(PackageMap.utils.ERROR_MESSAGES + "No XKCD found for this name");
+		System.err.println(PackageMap.reporting.ERROR_MESSAGES + "No XKCD found for this name");
 		errorDisplay("No XKCD found for this name");
 	}
 	
 	/** <p>Error for names not loaded - unsearchable b/c all null.</p> */
 	public static void namesNotLoaded() {
-		System.err.println(PackageMap.utils.ERROR_MESSAGES + "XKCD names not loaded");
+		System.err.println(PackageMap.reporting.ERROR_MESSAGES + "XKCD names not loaded");
 		errorDisplay("XKCD names not loaded");
 	}
 	
