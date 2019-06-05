@@ -15,28 +15,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.boomaa.XKCDViewer.utils.DisplayUtils;
-
 import net.sf.image4j.codec.ico.ICODecoder;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class Instructions extends JFrame {
-	/* Temporary until this isn't used any more, then @Deprecated */
-	public static void main(String[] args) {
-		new Instructions();
-	}
-	
 	/** <p>Creates instructions panel and content.</p> */
 	public Instructions() {
 		JPanel header = new JPanel();
 		JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JLabel title = new JLabel("XKCD Viewer - Instructions");
-		JLabel name = new JLabel("Nikhil Ograin");
-		
-		namePanel.add(name);
+	
 		titlePanel.add(title);
-		DisplayUtils.addPanelComponents(header, titlePanel, namePanel);
+		header.add(titlePanel);
 		
 		header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
 		title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 18));

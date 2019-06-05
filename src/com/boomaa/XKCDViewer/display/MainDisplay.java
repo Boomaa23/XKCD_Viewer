@@ -27,10 +27,11 @@ public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of bytes transferred in total.</p> */
     public static long TRANSFERRED_BYTES = 0;
 
-    /**
-     * <p>Displays JFrame with everything added to it. Main running method.</p>
-     */
-    public MainDisplay() {
+    /** 
+     * <p>Displays JFrame with everything added to it. Main running method.</p> 
+     * @param args the default main method parameters.
+     * */
+    public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);
         try {
 	        initAllFrame();
