@@ -13,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
@@ -63,6 +65,7 @@ public class Leaderboard {
 		frame.setSize(250, 350);
 		frame.revalidate();
 		frame.setVisible(true);
+		System.out.println(PackageMap.display.LEADERBOARD + "Leaderboard initialized and displayed successfully");
 	}
 	
 	/**
@@ -80,7 +83,9 @@ public class Leaderboard {
 			votes[i] = new VoteStatus(i, voteJSON.getAsJsonPrimitive(String.valueOf(i)).getAsInt());
 		}
 		Arrays.sort(votes);
+		System.out.println(PackageMap.display.LEADERBOARD + "Content retrieved and sorted");
 		addBorderedObjects(frame, new JLabel(" Rank"), new JLabel(" XKCD#"), new JLabel(" Votes"));
+		System.out.println(PackageMap.display.LEADERBOARD + "Headers added");
 		for(int i = votes.length-1; i >= votes.length - 10;i--) {
 			JLabel rank = new JLabel(" " + String.valueOf(-1 * (i - votes.length)));
 			JLabel number = new JLabel(" " + votes[i].num);
@@ -95,6 +100,7 @@ public class Leaderboard {
 			};
 			addBorderedObjects(frame, addMouseListeners(listen, rank, number, vote));
 		}
+		System.out.println(PackageMap.display.LEADERBOARD + "Display set up completed");
 	}
 	
 	/**
@@ -138,5 +144,6 @@ public class Leaderboard {
 			}
 		}
 		DisplayUtils.uploadToFTP(sb.toString(), 0);
+		System.out.println(PackageMap.display.LEADERBOARD + "Remote JSON updated to latest xkcd number index");
 	}
 }

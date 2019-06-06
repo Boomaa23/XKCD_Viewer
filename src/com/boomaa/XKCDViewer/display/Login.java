@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 
@@ -38,7 +39,9 @@ public class Login {
 			e.printStackTrace();
 		}
 		frame.setSize(250, 125);
+		frame.setLocationRelativeTo(null);
 		setupFTPLogin();
+		System.out.println(PackageMap.display.LOGIN + "Login page displayed");
 	}
 
 	/** <p>Adds login panel items and listeners.</p> */
@@ -52,11 +55,18 @@ public class Login {
 				FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
 				reopenClosedClass();
 				frame.dispose();
+				System.out.println(PackageMap.display.LOGIN + "Last class reopened");
 			} catch (IllegalArgumentException e0) {
+				System.err.println(PackageMap.display.LOGIN + "Login not successful, trying again...");
 				setupFTPLogin();
 			}
 		});
-		DisplayUtils.addPanelComponents(loginPanel, new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit);
+		JButton reset = new JButton("Reset");
+		reset.addActionListener(e -> {
+			((JTextField) (loginPanel.getComponent(1))).setText("");
+			((JPasswordField) (loginPanel.getComponent(3))).setText("");
+		});
+		DisplayUtils.addPanelComponents(loginPanel, new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit, reset);
 		frame.add(loginPanel);
 		frame.setVisible(true);
 		((JPasswordField) (loginPanel.getComponent(3))).requestFocus();

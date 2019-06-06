@@ -1,4 +1,4 @@
-package com.boomaa.XKCDViewer.display;
+package com.boomaa.XKCDViewer.reporting;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -75,6 +75,7 @@ public class Console extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
 				System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+				System.out.println(PackageMap.reporting.CONSOLE + "System.out and System.err reset back to IDE/command console");
 			}
 		});
  	   	
@@ -85,5 +86,6 @@ public class Console extends JFrame {
         System.setOut(new PrintStream(outStream));
         System.setErr(new PrintStream(outStream));
         setVisible(true);
+        System.out.println(PackageMap.reporting.CONSOLE + "System.out and System.err set to standalone console");
 	}
 }

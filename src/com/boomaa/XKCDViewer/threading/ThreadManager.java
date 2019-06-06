@@ -2,6 +2,7 @@ package com.boomaa.XKCDViewer.threading;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 
 import javax.swing.*;
 
@@ -16,8 +17,9 @@ public class ThreadManager extends SelectList {
         SelectList.select = new JComboBox<String>();
         int reqpt = MainDisplay.LATEST_XKCD_NUM / TITLE_THREADS.length;
         for (int i = 0; i < TITLE_THREADS.length; i++) {
-            TITLE_THREADS[i] = new TitleThread(i * reqpt, reqpt + 1);
+            TITLE_THREADS[i] = new TitleThread(i, i * reqpt, reqpt + 1);
             new Thread(TITLE_THREADS[i]).start();
         }
+        System.out.println(PackageMap.threading.THREAD_MANAGER + "All title threads initialized and running");
     }
 }

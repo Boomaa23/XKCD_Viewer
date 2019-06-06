@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 
@@ -44,5 +45,6 @@ public class InetCircles extends JComponent {
 		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : green, g);
+		System.out.println(PackageMap.draw.INET_CIRCLES + "Drawing completed with correct coloring");
 	}
 }

@@ -3,6 +3,8 @@ package com.boomaa.XKCDViewer.utils;
 import com.boomaa.XKCDViewer.display.Login;
 import com.boomaa.XKCDViewer.display.MainDisplay;
 import com.boomaa.XKCDViewer.display.SelectList;
+import com.boomaa.XKCDViewer.reporting.ErrorMessages;
+import com.boomaa.XKCDViewer.threading.ThreadManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,9 +17,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.Timer;
+
 /** <p>Nested ActionListener classes.</p> */
 public class Listeners {
-    /** <p>Navigates to and displays input XKCD imgage upon actionPerformed().</p> */
+    /** <p>Navigates to and displays input XKCD image upon actionPerformed().</p> */
     public static class NumSelect implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -27,11 +31,32 @@ public class Listeners {
                 if (!JDEC.TEXT_INPUT.getText().isEmpty() && numRequest <= MainDisplay.LATEST_XKCD_NUM && numRequest > 0) {
                     MainDisplay.panelRewrite(numRequest);
                 } else {
-                    MainDisplay.resetOnJSONError();
+                    ErrorMessages.numInvalid();
                 }
             } catch (NumberFormatException e0) {
-                MainDisplay.resetOnJSONError();
+                if(ThreadManager.TITLES != null && !containsNull()) {
+                	for(int i = 0;i < ThreadManager.TITLES.length;i++) {
+                		if(JDEC.TEXT_INPUT.getText().trim().equals(ThreadManager.TITLES[i].trim())) {
+                			MainDisplay.panelRewrite(i);
+                			return;
+                		}
+                	}
+                	ErrorMessages.nameInvalid();
+                } else {
+                	ErrorMessages.namesNotLoaded();
+                }
             }
+        }
+        
+        /** 
+         * <p>Checks to make sure ThreadManager.TITLES is not still filling.</p>
+         * @return true if a null object is found, false if not.
+         */
+        private boolean containsNull() {
+        	for(Object obj : ThreadManager.TITLES) {
+        		if(obj == null) { return true; }
+        	}
+        	return false;
         }
     }
 
@@ -119,5 +144,41 @@ public class Listeners {
                 SelectList.refreshSelector();
             }
         }
+    }
+    
+    @Deprecated
+    /** <p>Adds the TTS checkbox to the screen if a double click is detected on the main frame.</p> */
+    public static class TTSEnable extends MouseAdapter implements ActionListener {
+	    /** <p>The timer to regulate click doubling.</p> */
+	    private Timer timer = new Timer((Integer)Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval"), this);
+	    
+	    /** <p>Adds TTS button to scaling panel if a double click is detected.</p> */
+	    public void doubleClick() {
+	    	if(JDEC.SCALING_PANEL.isAncestorOf(JDEC.TTS_CHECKBOX)) {
+	    		JDEC.TTS_CHECKBOX.setSelected(false);
+	    		JDEC.SCALING_PANEL.remove(JDEC.TTS_CHECKBOX); 
+	    	} else {
+	    		JDEC.TTS_CHECKBOX.setSelected(true);
+		    	JDEC.SCALING_PANEL.add(JDEC.TTS_CHECKBOX); 
+	    	}
+	    	JDEC.MAIN_PANEL.revalidate(); 
+	    	JDEC.MAIN_PANEL.repaint();
+	    }
+
+	    @Override
+	    public void mouseClicked (MouseEvent e) {
+	        if (e.getClickCount() > 2) { return; }
+	        if (timer.isRunning()) {
+	            timer.stop();
+	            doubleClick();
+	        } else {
+	            timer.restart();
+	        }
+	    }
+	    
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+	        timer.stop();
+	    }
     }
 }

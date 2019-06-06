@@ -1,6 +1,7 @@
 package com.boomaa.XKCDViewer.utils;
 
 import com.boomaa.XKCDViewer.display.MainDisplay;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.Listeners.HREFAction;
 import com.google.gson.JsonObject;
 
@@ -38,6 +39,7 @@ public class StatsUtils {
         }
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         frame.setSize(415, 230);
+        System.out.println(PackageMap.utils.STATS_UTILS + "Passed swing objects initialized");
     }
         
 
@@ -152,5 +154,6 @@ public class StatsUtils {
         		json.getAsJsonPrimitive("day").getAsInt() + "/" + json.getAsJsonPrimitive("year").getAsInt());
         addLabelPanel("Image URL: " + json.getAsJsonPrimitive("img").getAsString(), true);
         addLabelPanel("Image Size: " + byteTranscribe(webResourceSize("img", true)));
+        System.out.println(PackageMap.utils.STATS_UTILS + "Generic statistic items added");
     }
 }

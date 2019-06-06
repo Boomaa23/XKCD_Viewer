@@ -3,6 +3,10 @@ package com.boomaa.XKCDViewer.display;
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
+import com.boomaa.XKCDViewer.reporting.Console;
+import com.boomaa.XKCDViewer.reporting.ErrorMessages;
+import com.boomaa.XKCDViewer.reporting.PackageMap;
+import com.boomaa.XKCDViewer.threading.TTS;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.JDEC;
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -12,10 +16,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+@SuppressWarnings("deprecation")
 /** <p>Instigates display and houses main method</p> */
 public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of pixels of the frame border.</p> */
-    public static final int FRAME_BORDER = 280;
+    public static final int FRAME_BORDER = 300;
     /** <p>The number of the latest XKCD comic number.</p> */
     public static int LATEST_XKCD_NUM = 844;
     /** <p>The number of the currently displayed XKCD comic.</p> */
@@ -23,17 +28,16 @@ public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of bytes transferred in total.</p> */
     public static long TRANSFERRED_BYTES = 0;
 
-    public MainDisplay() {}
-
-    /**
-     * <p>Displays JFrame with everything added to it. Main running method.</p>
-     * @param args default main method.
-     */
+    /** 
+     * <p>Displays JFrame with everything added to it. Main running method.</p> 
+     * @param args the default main method parameters.
+     * */
     public static void main(String[] args) {
         SCALE_CHECKBOX.setSelected(true);
         try {
 	        initAllFrame();
         } catch(IOException e) {
+        	System.err.println(PackageMap.display.MAIN_DISPLAY + "ERROR: No internet connection");
         	MAIN_PANEL.add(new JLabel("No Internet Connection..."));
         	FRAME.add(MAIN_PANEL);
         	FRAME.setSize(300, 75);
@@ -62,6 +66,7 @@ public class MainDisplay extends Listeners implements JDEC {
 
         JLabel imgTemp = new JLabel(new ImageIcon(image));
         imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
+        imgTemp.addMouseListener(new TTSEnable());
         IMAGE_PANEL.add(imgTemp);
         DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN, LOGIN);
         addFrameElements();
@@ -71,41 +76,43 @@ public class MainDisplay extends Listeners implements JDEC {
         FRAME.setLocationRelativeTo(null);
         FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FRAME.setVisible(true);
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Frame initialized correctly with components");
     }
 
     /**
      * <p>Reformats main panel and frame with new XKCD image from JSON.</p>
      * @param numReq the XKCD image number requested.
      */
-    public static void panelRewrite(int numReq) {
-        JsonObject json = null;
+    public static void panelRewrite(int numReq){
+        JsonObject json = null; Image imgTemp = null;
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + numReq + "/info.0.json");
+            imgTemp = DisplayUtils.getImageFromJSON(json);
             StatsUtils.addTransferredBytes("https://xkcd.com/" + numReq + "/info.0.json");
         } catch (IOException e) {
-            resetOnJSONError();
+            ErrorMessages.numInvalid();
+        }
+        if(IMAGE_POPUP.isAncestorOf(LOGIN) && Login.FTP_URL != null) {
+        	IMAGE_POPUP.remove(LOGIN);
+        	IMAGE_POPUP.repaint();
         }
         TEXT_INPUT.reset();
         TITLE_PANEL.removeAll();
         ERROR_PANEL.removeAll();
         IMAGE_PANEL.removeAll();
         setupTitle(json);
-        FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
-
-        Image imgTemp = null;
-        try {
-            imgTemp = DisplayUtils.getImageFromJSON(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
         JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
         imgLabel.setToolTipText(json.getAsJsonPrimitive("alt").getAsString());
+        imgLabel.addMouseListener(new TTSEnable());
         IMAGE_PANEL.add(imgLabel);
-
         setupFrame(imgTemp);
+        
+        FWD_BTN.setVisible(!(DISPLAYED_XKCD_NUM == LATEST_XKCD_NUM));
         FRAME.setLocationRelativeTo(null);
         FRAME.revalidate();
         FRAME.repaint();
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Display reset to image " + numReq + " successfully");
     }
 
     /**
@@ -123,16 +130,19 @@ public class MainDisplay extends Listeners implements JDEC {
         width = (width < minWidth) ? minWidth : width;
 
         FRAME.setSize(width, height);
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Frame size determined and set");
     }
 
     /**
      * <p>Sets window title with currently displayed XKCD number.</p>
      * @param json the XKCD JSON to pull the displayed number from.
      */
-    private static void setupTitle(JsonObject json) {
+	private static void setupTitle(JsonObject json) {
         TITLE_PANEL.add(new JLabel(json.getAsJsonPrimitive("title").getAsString() + " - #" + json.getAsJsonPrimitive("num").getAsString()));
+        if(TTS_CHECKBOX.isSelected()) { new Thread(new TTS(json.getAsJsonPrimitive("title").getAsString())).start(); }
         FRAME.setTitle("XKCD Viewer | #" + json.getAsJsonPrimitive("num").getAsInt());
         DISPLAYED_XKCD_NUM = json.getAsJsonPrimitive("num").getAsInt();
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Title setup finished");
     }
 
     /** <p>Determines if a vertical scrollbar is needed and displays if so.</p> */
@@ -140,20 +150,21 @@ public class MainDisplay extends Listeners implements JDEC {
         JScrollPane scroll = new JScrollPane(MAIN_PANEL, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         FRAME.add(scroll);
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "Scroll bar setup finished");
     }
 
     /** <p>Adds individual items to Select and Main JPanels.</p> */
     private static void addFrameElements() {
-        SCALING_PANEL.add(SCALE_CHECKBOX);
+    	DisplayUtils.addPanelComponents(SCALING_PANEL, SCALE_CHECKBOX);
         DisplayUtils.addPanelComponents(VOTING_PANEL, new JLabel("Vote: "), UPVOTE_BTN, DOWNVOTE_BTN);
 
         DisplayUtils.addPanelComponents(SELECT_PANEL_UPPER, LATEST_BTN, RANDOM_BTN);
-        DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
         DisplayUtils.addPanelComponents(SELECT_PANEL_MIDDLE, TEXT_INPUT, NUM_BTN);
         DisplayUtils.addPanelComponents(SELECT_PANEL_LOWER, BACK_BTN, FWD_BTN);
         
         DisplayUtils.addPanelComponents(MAIN_PANEL, TITLE_PANEL, IMAGE_PANEL, SCALING_PANEL, VOTING_PANEL,
         		SELECT_PANEL_UPPER, SELECT_PANEL_MIDDLE, SELECT_PANEL_LOWER, INET_CIRCLES, ERROR_PANEL);
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "All panel items added to respective super panels");
     }
     
     /** <p>Adds ActionListeners on buttons.</p> */
@@ -173,13 +184,7 @@ public class MainDisplay extends Listeners implements JDEC {
         NUM_BTN.addActionListener(new NumSelect());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
-    }
-    
-    /** <p>Error message display for JSON retrieval error.</p> */
-    public static void resetOnJSONError() {
-        ERROR_PANEL.removeAll();
-        ERROR_PANEL.add(new JLabel("ERROR: No XKCD found for this number"));
-        FRAME.revalidate();
-        FRAME.repaint();
+        MAIN_PANEL.addMouseListener(new TTSEnable());
+        System.out.println(PackageMap.display.MAIN_DISPLAY + "All button listeners added");
     }
 }

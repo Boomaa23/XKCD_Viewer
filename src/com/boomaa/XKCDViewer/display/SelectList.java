@@ -1,5 +1,6 @@
 package com.boomaa.XKCDViewer.display;
 
+import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.threading.ThreadManager;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.Listeners.SelectItemAction;
@@ -50,8 +51,10 @@ public class SelectList {
             loading.add(new JLabel("Loading..."));
             mainPanel.add(loading);
         }
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.add(mainPanel);
         frame.setVisible(true);
+        System.out.println(PackageMap.display.SELECT_LIST + "All items loaded and threads finished");
     }
 
     /**
@@ -74,6 +77,7 @@ public class SelectList {
         try {
             json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
             StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
+            System.out.println(PackageMap.display.SELECT_LIST + "Selected xkcd JSON retrieved");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,12 +85,13 @@ public class SelectList {
 
     /** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
     public static void selectPanelInit() {
-        for (int i = TITLES.length - 1; i >= 1; i--) {
+    	for(int i = TITLES.length - 1; i >= 1; i--) {
             select.addItem(TITLES[i]);
         }
         select.setSelectedIndex(TITLES.length - num - 1);
         select.addItemListener(item);
         refreshSelector();
+        System.out.println(PackageMap.display.SELECT_LIST + "Titles added to frame");
     }
 
     /** <p>Refresh display after select num changes.</p> */
@@ -97,8 +102,9 @@ public class SelectList {
         statsUtils.addGenericPanelItems();
         setupButtons();
         frame.setVisible(true);
+        System.out.println(PackageMap.display.SELECT_LIST + "Current information displayed");
     }
-
+    
     /** <p>Adds button at bottom of stats frame to close window.</p> */
     private static void setupButtons() {
         JButton close = new JButton("Close");
@@ -114,6 +120,7 @@ public class SelectList {
         buttonPanel.add(view);
         buttonPanel.add(close);
         mainPanel.add(buttonPanel);
+        System.out.println(PackageMap.display.SELECT_LIST + "Buttons setup successfully");
     }
 
     /**
@@ -132,6 +139,7 @@ public class SelectList {
             select.removeItemListener(item);
             createSelectList(num);
             selectPanelInit();
+            System.out.println(PackageMap.display.SELECT_LIST + "All title threads finished");
         }
     }
 }
