@@ -23,7 +23,6 @@ public class DisplayUtils {
 	 * @throws IOException if the content cannot be retrieved.
      */
     private static StringBuilder retrieveWebContent(String url) throws IOException {
-    	System.out.println(PackageMap.utils.DISPLAY_UTILS + "Web content retrieval finished");
     	InputStream is = new URL(url).openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -41,7 +40,6 @@ public class DisplayUtils {
      * @throws IOException if a URL stream could not be opened or data could not be read.
      */
     public static JsonObject getJSONFromHTTP(String url) throws IOException {
-    	System.out.println(PackageMap.utils.DISPLAY_UTILS + "HTTP content retrieved as JsonObject");
         return new JsonParser().parse(retrieveWebContent(url).toString()).getAsJsonObject();
     }
 

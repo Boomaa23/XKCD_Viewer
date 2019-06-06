@@ -16,6 +16,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
+@SuppressWarnings("deprecation")
 /** <p>Instigates display and houses main method</p> */
 public class MainDisplay extends Listeners implements JDEC {
     /** <p>The number of pixels of the frame border.</p> */
@@ -136,7 +137,7 @@ public class MainDisplay extends Listeners implements JDEC {
      * <p>Sets window title with currently displayed XKCD number.</p>
      * @param json the XKCD JSON to pull the displayed number from.
      */
-    private static void setupTitle(JsonObject json) {
+	private static void setupTitle(JsonObject json) {
         TITLE_PANEL.add(new JLabel(json.getAsJsonPrimitive("title").getAsString() + " - #" + json.getAsJsonPrimitive("num").getAsString()));
         if(TTS_CHECKBOX.isSelected()) { new Thread(new TTS(json.getAsJsonPrimitive("title").getAsString())).start(); }
         FRAME.setTitle("XKCD Viewer | #" + json.getAsJsonPrimitive("num").getAsInt());

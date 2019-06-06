@@ -36,6 +36,7 @@ public interface PackageMap {
 		/** Stores name for {@link com.boomaa.XKCDViewer.threading.TitleThread} */
 		final String TITLE_THREAD = "[" + TitleThread.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.threading.TTS} */
+		@SuppressWarnings("deprecation")
 		final String TTS = "[" + TTS.class.getSimpleName() + "] ";
 	}
 	

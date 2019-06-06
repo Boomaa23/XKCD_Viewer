@@ -146,6 +146,7 @@ public class Listeners {
         }
     }
     
+    @Deprecated
     /** <p>Adds the TTS checkbox to the screen if a double click is detected on the main frame.</p> */
     public static class TTSEnable extends MouseAdapter implements ActionListener {
 	    /** <p>The timer to regulate click doubling.</p> */
