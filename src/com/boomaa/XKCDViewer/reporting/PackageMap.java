@@ -19,6 +19,8 @@ public interface PackageMap {
 		final String MAIN_DISPLAY = "[" + MainDisplay.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.SelectList} */
 		final String SELECT_LIST = "[" + SelectList.class.getSimpleName() + "] ";
+		/** Stores name for {@link com.boomaa.XKCDViewer.display.Download} */
+		final String DOWNLOAD = "[" + Download.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the draw package.</p> */

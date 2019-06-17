@@ -57,6 +57,8 @@ public interface JDEC {
     JMenuItem CONSOLE_OPEN = new JMenuItem("Developer Console");
     /** <p>Menu item of popup box to open multithreaded selection window.</p> */
     JMenuItem SELECT_LIST = new JMenuItem("Image List/Selector");
+    /** <p>Menu item of popup box to download multiple xkcd images.</p> **/
+    JMenuItem DOWNLOAD = new JMenuItem("Download Images");
     /** <p>Leaderboard of top voted xkcds.</p> */
     JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
     /** <p>Opens new FTP authentication window.</p> */

@@ -68,7 +68,7 @@ public class MainDisplay extends Listeners implements JDEC {
         imgTemp.setToolTipText(jsonLatest.getAsJsonPrimitive("alt").getAsString());
         imgTemp.addMouseListener(new TTSEnable());
         IMAGE_PANEL.add(imgTemp);
-        DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, SAVE_IMAGE, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN, LOGIN);
+        DisplayUtils.addPanelComponents(IMAGE_POPUP, SAVE_IMAGE, DOWNLOAD, SELECT_LIST, LEADERBOARD, DEV_STATS, CONSOLE_OPEN, LOGIN);
         addFrameElements();
         addButtonListeners();
 
@@ -178,6 +178,7 @@ public class MainDisplay extends Listeners implements JDEC {
         DEV_STATS.addActionListener(e -> { new DevStats(); });
         CONSOLE_OPEN.addActionListener(e -> { new Console(); });
         LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
+        DOWNLOAD.addActionListener(e -> { new Download(); });
         LOGIN.addActionListener(e -> { new Login("Main"); });
         UPVOTE_BTN.addActionListener(new VoteAction(1));
         DOWNVOTE_BTN.addActionListener(new VoteAction(-1));
