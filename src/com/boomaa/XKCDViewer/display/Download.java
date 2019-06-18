@@ -14,7 +14,9 @@ import javax.swing.JTextArea;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 
 @SuppressWarnings("serial")
+/** <p>A downloader to download a bunch of xkcd images.</p> */
 public class Download extends JFrame {
+	/** <p>Creates all items on frame.</p> */
 	public Download() {
 		this.setSize(300, 300);
 		JPanel header = new JPanel();
@@ -34,10 +36,13 @@ public class Download extends JFrame {
 		
 		this.getContentPane().add(header, BorderLayout.PAGE_START);
 		this.getContentPane().add(downloadButton, BorderLayout.PAGE_END);
-		
 		this.setVisible(true);
 	}
 	
+	/**
+	 * <p>Instigates download of each image w/ array handling/processing.</p>
+	 * @param downloadStrs the CSV formatted string of images to download.
+	 */
 	private void imageDownloadHandler(String downloadStrs) {
 		String[] toDownload = downloadStrs.split(", ");
 		for(String download : toDownload) {
