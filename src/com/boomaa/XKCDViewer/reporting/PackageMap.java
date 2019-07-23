@@ -19,8 +19,10 @@ public interface PackageMap {
 		final String MAIN_DISPLAY = "[" + MainDisplay.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.SelectList} */
 		final String SELECT_LIST = "[" + SelectList.class.getSimpleName() + "] ";
-		/** Stores name for {@link com.boomaa.XKCDViewer.display.DownloadAll} */
+		/** Stores name for {@link com.boomaa.XKCDViewer.display.Download} */
 		final String DOWNLOAD = "[" + Download.class.getSimpleName() + "] ";
+		/** Stores name for {@link com.boomaa.XKCDViewer.display.ExplainXKCD} */
+		final String EXPLAIN_XKCD = "[" + ExplainXKCD.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the draw package.</p> */
@@ -52,6 +54,8 @@ public interface PackageMap {
 		final String LISTENERS = "[" + Listeners.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.StatsUtils} */
 		final String STATS_UTILS = "[" + StatsUtils.class.getSimpleName() + "] ";
+		/** Stores name for {@link com.boomaa.XKCDViewer.utils.HTMLToPlainText} */
+		final String HTML_PLAINTEXT = "[" + HTMLToPlainText.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the reporting package.</p> */

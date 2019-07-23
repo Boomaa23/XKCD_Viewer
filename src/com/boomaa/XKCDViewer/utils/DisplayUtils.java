@@ -138,7 +138,7 @@ public class DisplayUtils {
             System.out.println(PackageMap.utils.DISPLAY_UTILS + "Image downloaded to local computer");
         }
     }
-	
+    
 	/**
 	 * <p>A more efficient wrapper for adding JComponents</p>
 	 * @param panel the enclosing swing object to add the comp items to.

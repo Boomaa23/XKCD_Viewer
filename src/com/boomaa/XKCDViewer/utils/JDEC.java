@@ -59,6 +59,8 @@ public interface JDEC {
     JMenuItem SELECT_LIST = new JMenuItem("Image List/Selector");
     /** <p>Menu item of popup box to download multiple xkcd images.</p> **/
     JMenuItem DOWNLOAD = new JMenuItem("Download Images");
+    /** <p>Menu item of popup box to open ExplainXKCD explanation.</p> **/
+    JMenuItem EXPLAIN = new JMenuItem("ExplainXKCD");
     /** <p>Leaderboard of top voted xkcds.</p> */
     JMenuItem LEADERBOARD = new JMenuItem("Leaderboard");
     /** <p>Opens new FTP authentication window.</p> */
