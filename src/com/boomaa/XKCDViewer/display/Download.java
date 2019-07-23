@@ -44,7 +44,7 @@ public class Download extends JFrame {
 	 * @param downloadStrs the CSV formatted string of images to download.
 	 */
 	private void imageDownloadHandler(String downloadStrs) {
-		String[] toDownload = downloadStrs.split(", ");
+		String[] toDownload = downloadStrs.split(",");
 		for(String download : toDownload) {
 			try {
 				DisplayUtils.saveImage(DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + download.trim() + "/info.0.json"));

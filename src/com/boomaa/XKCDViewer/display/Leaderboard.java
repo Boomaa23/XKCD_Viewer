@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.utils.DisplayUtils;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
+import com.boomaa.XKCDViewer.utils.Listeners.LeaderboardAdvance;
 import com.google.gson.JsonObject;
 
 import net.sf.image4j.codec.ico.ICODecoder;
@@ -91,13 +91,7 @@ public class Leaderboard {
 			JLabel number = new JLabel(" " + votes[i].num);
 			JLabel vote = new JLabel(" " + votes[i].votes);
 			final int curr_num = Integer.valueOf(votes[i].num);
-			MouseAdapter listen = new MouseAdapter() {
-				@Override
-		        public void mouseClicked(MouseEvent e) {
-		    		frame.dispose();
-		    		MainDisplay.panelRewrite(curr_num);
-		    	}
-			};
+			MouseAdapter listen = new LeaderboardAdvance(frame, curr_num);
 			addBorderedObjects(frame, addMouseListeners(listen, rank, number, vote));
 		}
 		System.out.println(PackageMap.display.LEADERBOARD + "Display set up completed");

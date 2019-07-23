@@ -147,4 +147,12 @@ public class DisplayUtils {
 	public static void addPanelComponents(JComponent panel, JComponent... comp) {
 		for(JComponent jc : comp) { panel.add(jc); }
 	}
+	
+	/**
+     * <p>Helper to remove all elements from panels.</p>
+     * @param panels the array of panels to remove all from.
+     */
+    public static void removeAll(JPanel... panels) {
+    	for(JPanel panel : panels) { panel.removeAll(); }
+    }
 }

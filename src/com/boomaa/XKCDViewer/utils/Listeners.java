@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 /** <p>Nested ActionListener classes.</p> */
@@ -146,6 +147,30 @@ public class Listeners {
         }
     }
     
+    /** <p>Displays selected xkcd image from leaderboard.</p> **/
+    public static class LeaderboardAdvance extends MouseAdapter {
+    	/** <p>Leaderboard frame to dispose.</p> **/
+    	private final JFrame frame;
+    	/** <p>Requested image number.</p> **/
+    	private final int req_num;
+    	
+    	/**
+    	 * <p></p>
+    	 * @param frame Leaderboard frame.
+    	 * @param req_num Requested xkcd image number.
+    	 */
+    	public LeaderboardAdvance(JFrame frame, int req_num) {
+    		this.frame = frame;
+    		this.req_num = req_num;
+    	}
+    	
+    	@Override
+    	public void mouseClicked(MouseEvent e) {
+    		frame.dispose();
+    		MainDisplay.panelRewrite(req_num);
+    	}
+    }
+    
     @Deprecated
     /** <p>Adds the TTS checkbox to the screen if a double click is detected on the main frame.</p> */
     public static class TTSEnable extends MouseAdapter implements ActionListener {
@@ -166,7 +191,7 @@ public class Listeners {
 	    }
 
 	    @Override
-	    public void mouseClicked (MouseEvent e) {
+	    public void mouseClicked(MouseEvent e) {
 	        if (e.getClickCount() > 2) { return; }
 	        if (timer.isRunning()) {
 	            timer.stop();

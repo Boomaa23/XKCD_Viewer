@@ -97,9 +97,7 @@ public class MainDisplay extends Listeners implements JDEC {
         	IMAGE_POPUP.repaint();
         }
         TEXT_INPUT.reset();
-        TITLE_PANEL.removeAll();
-        ERROR_PANEL.removeAll();
-        IMAGE_PANEL.removeAll();
+        DisplayUtils.removeAll(TITLE_PANEL, ERROR_PANEL, IMAGE_PANEL);
         setupTitle(json);
         
         JLabel imgLabel = new JLabel(new ImageIcon(imgTemp));
