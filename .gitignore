@@ -6,3 +6,6 @@
 *.kotlin_module
 /bin/
 ftpurl.txt
+/target/
+/.gradle/
+/build/
