@@ -155,7 +155,7 @@ public class Listeners {
     	private final int req_num;
     	
     	/**
-    	 * <p></p>
+    	 * <p>Passes in Leaderboard frame and xkcd image number.</p>
     	 * @param frame Leaderboard frame.
     	 * @param req_num Requested xkcd image number.
     	 */

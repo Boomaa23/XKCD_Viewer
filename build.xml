@@ -10,6 +10,9 @@
     <property name="source" value="1.8"/>
     <path id="XKCD_Viewer.classpath">
         <pathelement location="bin"/>
+        <pathelement location="lib/gson-2.8.5.jar"/>
+    	<pathelement location="lib/image4j-0.7.2.jar"/>
+    	<pathelement location="lib/jsoup-1.12.1.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -60,6 +63,9 @@
   			<fileset dir="src" />
   			<classpath>
 	  			<fileset dir="">
+	  			    <include name="lib/image4j-0.7.2.jar" />
+	  				<include name="lib/gson-2.8.5.jar"/>
+	  				<include name="lib/jsoup-1.12.1.jar"/>
 				</fileset>
 			</classpath>
   	      <arg value="-notimestamp" />
