@@ -37,7 +37,8 @@ public class Listeners {
             } catch (NumberFormatException e0) {
                 if(ThreadManager.TITLES != null && !containsNull()) {
                 	for(int i = 0;i < ThreadManager.TITLES.length;i++) {
-                		if(JDEC.TEXT_INPUT.getText().trim().equals(ThreadManager.TITLES[i].trim())) {
+                		if(ThreadManager.TITLES[i].trim().toLowerCase()
+                                .contains(JDEC.TEXT_INPUT.getText().trim().toLowerCase())) {
                 			MainDisplay.panelRewrite(i);
                 			return;
                 		}

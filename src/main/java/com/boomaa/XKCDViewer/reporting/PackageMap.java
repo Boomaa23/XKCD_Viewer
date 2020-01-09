@@ -8,63 +8,63 @@ import com.boomaa.XKCDViewer.utils.*;
 /** <p>Stores names for all classes in nested interfaces (organized by package).</p> */
 public interface PackageMap {
 	/** <p>Name storage for classes in the display package.</p> */
-	public static interface display {
+	interface display {
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.DevStats} */
-		final String DEV_STATS = "[" + DevStats.class.getSimpleName() + "] ";
+		String DEV_STATS = "[" + DevStats.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.Leaderboard} */
-		final String LEADERBOARD = "[" + Leaderboard.class.getSimpleName() + "] ";
+		String LEADERBOARD = "[" + Leaderboard.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.Login} */
-		final String LOGIN = "[" + Login.class.getSimpleName() + "] ";
+		String LOGIN = "[" + Login.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.MainDisplay} */
-		final String MAIN_DISPLAY = "[" + MainDisplay.class.getSimpleName() + "] ";
+		String MAIN_DISPLAY = "[" + MainDisplay.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.SelectList} */
-		final String SELECT_LIST = "[" + SelectList.class.getSimpleName() + "] ";
+		String SELECT_LIST = "[" + SelectList.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.Download} */
-		final String DOWNLOAD = "[" + Download.class.getSimpleName() + "] ";
+		String DOWNLOAD = "[" + Download.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.display.ExplainXKCD} */
-		final String EXPLAIN_XKCD = "[" + ExplainXKCD.class.getSimpleName() + "] ";
+		String EXPLAIN_XKCD = "[" + ExplainXKCD.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the draw package.</p> */
-	public static interface draw {
+	interface draw {
 		/** Stores name for {@link com.boomaa.XKCDViewer.draw.InetCircles} */
-		final String INET_CIRCLES = "[" + InetCircles.class.getSimpleName() + "] ";
+		String INET_CIRCLES = "[" + InetCircles.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.draw.OverlayField} */
-		final String OVERLAY_FIELD = "[" + OverlayField.class.getSimpleName() + "] ";
+		String OVERLAY_FIELD = "[" + OverlayField.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the threading package.</p> */
-	public static interface threading {
+	interface threading {
 		/** Stores name for {@link com.boomaa.XKCDViewer.threading.ThreadManager} */
-		final String THREAD_MANAGER = "[" + ThreadManager.class.getSimpleName() + "] ";
+		String THREAD_MANAGER = "[" + ThreadManager.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.threading.TitleThread} */
-		final String TITLE_THREAD = "[" + TitleThread.class.getSimpleName() + "] ";
+		String TITLE_THREAD = "[" + TitleThread.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.threading.TTS} */
 		@SuppressWarnings("deprecation")
-		final String TTS = "[" + TTS.class.getSimpleName() + "] ";
+		String TTS = "[" + TTS.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the utils package.</p> */
-	public static interface utils {
+	interface utils {
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.DisplayUtils} */
-		final String DISPLAY_UTILS = "[" + DisplayUtils.class.getSimpleName() + "] ";
+		String DISPLAY_UTILS = "[" + DisplayUtils.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.JDEC} */
-		final String JDEC = "[" + JDEC.class.getSimpleName() + "] ";
+		String JDEC = "[" + JDEC.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.Listeners} */
-		final String LISTENERS = "[" + Listeners.class.getSimpleName() + "] ";
+		String LISTENERS = "[" + Listeners.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.StatsUtils} */
-		final String STATS_UTILS = "[" + StatsUtils.class.getSimpleName() + "] ";
+		String STATS_UTILS = "[" + StatsUtils.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.utils.HTMLToPlainText} */
-		final String HTML_PLAINTEXT = "[" + HTMLToPlainText.class.getSimpleName() + "] ";
+		String HTML_PLAINTEXT = "[" + HTMLToPlainText.class.getSimpleName() + "] ";
 	}
 	
 	/** <p>Name storage for classes in the reporting package.</p> */
-	public static interface reporting {
+	interface reporting {
 		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.Console} */
-		final String CONSOLE = "[" + Console.class.getSimpleName() + "] ";
+		String CONSOLE = "[" + Console.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.ErrorMessages} */
-		final String ERROR_MESSAGES = "[" + ErrorMessages.class.getSimpleName() + "] ";
+		String ERROR_MESSAGES = "[" + ErrorMessages.class.getSimpleName() + "] ";
 		/** Stores name for {@link com.boomaa.XKCDViewer.reporting.PackageMap} */
-		final String PACKAGE_MAP = "[" + PackageMap.class.getSimpleName() + "] ";
+		String PACKAGE_MAP = "[" + PackageMap.class.getSimpleName() + "] ";
 	}
 }
