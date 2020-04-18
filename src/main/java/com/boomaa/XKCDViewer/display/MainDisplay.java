@@ -184,7 +184,7 @@ public class MainDisplay extends Listeners implements JDEC {
         NUM_BTN.addActionListener(new NumSelect());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
-        // MAIN_PANEL.addMouseListener(new TTSEnable());
+         MAIN_PANEL.addMouseListener(new TTSEnable());
         System.out.println(PackageMap.display.MAIN_DISPLAY + "All button listeners added");
     }
 }

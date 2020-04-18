@@ -9,3 +9,4 @@ ftpurl.txt
 /target/
 /.gradle/
 /build/
+out/*
