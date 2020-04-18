@@ -69,7 +69,7 @@ public class Login {
 		DisplayUtils.addPanelComponents(loginPanel, new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit, reset);
 		frame.add(loginPanel);
 		frame.setVisible(true);
-		((JPasswordField) (loginPanel.getComponent(3))).requestFocus();
+		loginPanel.getComponent(3).requestFocus();
 	}
 	
 	/** <p>Opens a new instance of the linking class to get to the login page.</p> */

@@ -1,9 +1,9 @@
 package com.boomaa.XKCDViewer.display;
 
+import com.boomaa.XKCDViewer.reporting.Console;
 import com.boomaa.XKCDViewer.utils.Listeners;
 import com.boomaa.XKCDViewer.utils.StatsUtils;
 import com.google.gson.JsonObject;
-import com.boomaa.XKCDViewer.reporting.Console;
 import com.boomaa.XKCDViewer.reporting.ErrorMessages;
 import com.boomaa.XKCDViewer.reporting.PackageMap;
 import com.boomaa.XKCDViewer.threading.TTS;
@@ -124,8 +124,8 @@ public class MainDisplay extends Listeners implements JDEC {
         int maxHeight = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
 
         height += FRAME_BORDER;
-        height = (height >= maxHeight) ? maxHeight : height;
-        width = (width < minWidth) ? minWidth : width;
+        height = Math.min(height, maxHeight);
+        width = Math.max(width, minWidth);
 
         FRAME.setSize(width, height);
         System.out.println(PackageMap.display.MAIN_DISPLAY + "Frame size determined and set");
@@ -167,24 +167,24 @@ public class MainDisplay extends Listeners implements JDEC {
     
     /** <p>Adds ActionListeners on buttons.</p> */
     private static void addButtonListeners() {
-        LATEST_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM); });
-        RANDOM_BTN.addActionListener(e -> { MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM)); });
-        SELECT_LIST.addActionListener(e -> { SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM); });
-        SCALE_CHECKBOX.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM); });
-        FWD_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM + 1); });
-        BACK_BTN.addActionListener(e -> { MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM - 1); });
-        DEV_STATS.addActionListener(e -> { new DevStats(); });
-        CONSOLE_OPEN.addActionListener(e -> { new Console(); });
-        LEADERBOARD.addActionListener(e -> { new Leaderboard(); });
-        DOWNLOAD.addActionListener(e -> { new Download(); });
-        EXPLAIN.addActionListener(e -> { new ExplainXKCD(); });
-        LOGIN.addActionListener(e -> { new Login("Main"); });
+        LATEST_BTN.addActionListener(e -> MainDisplay.panelRewrite(MainDisplay.LATEST_XKCD_NUM));
+        RANDOM_BTN.addActionListener(e -> MainDisplay.panelRewrite((int) (Math.random() * MainDisplay.LATEST_XKCD_NUM)));
+        SELECT_LIST.addActionListener(e -> SelectList.createSelectList(MainDisplay.DISPLAYED_XKCD_NUM));
+        SCALE_CHECKBOX.addActionListener(e -> MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM));
+        FWD_BTN.addActionListener(e -> MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM + 1));
+        BACK_BTN.addActionListener(e -> MainDisplay.panelRewrite(MainDisplay.DISPLAYED_XKCD_NUM - 1));
+        DEV_STATS.addActionListener(e -> new DevStats());
+        CONSOLE_OPEN.addActionListener(e -> Console.build());
+        LEADERBOARD.addActionListener(e -> new Leaderboard());
+        DOWNLOAD.addActionListener(e -> new Download());
+        EXPLAIN.addActionListener(e -> new ExplainXKCD());
+        LOGIN.addActionListener(e -> new Login("Main"));
         UPVOTE_BTN.addActionListener(new VoteAction(1));
         DOWNVOTE_BTN.addActionListener(new VoteAction(-1));
         NUM_BTN.addActionListener(new NumSelect());
         SAVE_IMAGE.addActionListener(new SaveAction());
         BROWSE_IMAGE.addActionListener(new BrowseAction());
-        MAIN_PANEL.addMouseListener(new TTSEnable());
+        // MAIN_PANEL.addMouseListener(new TTSEnable());
         System.out.println(PackageMap.display.MAIN_DISPLAY + "All button listeners added");
     }
 }

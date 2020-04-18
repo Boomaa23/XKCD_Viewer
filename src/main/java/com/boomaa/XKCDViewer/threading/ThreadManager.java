@@ -14,7 +14,7 @@ public class ThreadManager extends SelectList {
     /** <p>Runs each thread to get all titles.</p> */
     public ThreadManager() {
         SelectList.TITLES = new String[MainDisplay.LATEST_XKCD_NUM + 1];
-        SelectList.select = new JComboBox<String>();
+        SelectList.select = new JComboBox<>();
         int reqpt = MainDisplay.LATEST_XKCD_NUM / TITLE_THREADS.length;
         for (int i = 0; i < TITLE_THREADS.length; i++) {
             TITLE_THREADS[i] = new TitleThread(i, i * reqpt, reqpt + 1);

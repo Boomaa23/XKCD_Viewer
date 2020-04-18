@@ -40,9 +40,9 @@ public class InetCircles extends JComponent {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		spacing = (int) (JDEC.FRAME.getWidth() - (diameter * 5));
+		spacing = JDEC.FRAME.getWidth() - (diameter * 5);
 		Color green = new Color(0, 180, 0);
-		circle(StatsUtils.getHostIP() == "Could not find hostname or IP address" ? Color.RED : green, g);
+		circle(StatsUtils.getHostIP().equals("Could not find hostname or IP address") ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("https://xkcd.com/") == -1 ? Color.RED : green, g);
 		circle(StatsUtils.getResponseTime("http://phptest123.byethost24.com/") == -1 ? Color.RED : green, g);
 		System.out.println(PackageMap.draw.INET_CIRCLES + "Drawing completed with correct coloring");

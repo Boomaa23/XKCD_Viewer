@@ -111,7 +111,7 @@ public class SelectList {
         JButton view = new JButton("View");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        close.addActionListener(e -> { frame.dispose(); });
+        close.addActionListener(e -> frame.dispose());
         view.addActionListener(e -> {
             frame.dispose();
             MainDisplay.panelRewrite(num);

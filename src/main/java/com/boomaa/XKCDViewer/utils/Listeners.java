@@ -176,7 +176,7 @@ public class Listeners {
     /** <p>Adds the TTS checkbox to the screen if a double click is detected on the main frame.</p> */
     public static class TTSEnable extends MouseAdapter implements ActionListener {
 	    /** <p>The timer to regulate click doubling.</p> */
-	    private Timer timer = new Timer((Integer)Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval"), this);
+	    private Timer timer = new Timer((int) Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval"), this);
 	    
 	    /** <p>Adds TTS button to scaling panel if a double click is detected.</p> */
 	    public void doubleClick() {

@@ -1,5 +1,0 @@
-language: java
-jdk: openjdk8
-
-git:
-  submodules: false
