@@ -10,11 +10,15 @@ import com.google.gson.JsonObject;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** <p>Displays a selection screen of all possible JSON images with stats.</p> */
 public class SelectList {
     /** <p>Stats display frame.</p> */
     private static JFrame frame = new JFrame("XKCD Image Selector");
+    /** <p>Storage of all json files for all xkcd.</p> */
+    public static JsonObject[] JSONS;
     /** <p>Storage of all titles for all xkcd.</p> */
     public static String[] TITLES;
     /** <p>Progress bar showing number of requests out of total.</p> */
@@ -74,13 +78,17 @@ public class SelectList {
 
     /** <p>Reads JSON from URL.</p> */
     private static void JSONInit() {
-        try {
-            json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
-            StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
-            System.out.println(PackageMap.display.SELECT_LIST + "Selected xkcd JSON retrieved");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (JSONS != null) {
+            json = JSONS[num];
+        } else {
+            try {
+                json = DisplayUtils.getJSONFromHTTP("https://xkcd.com/" + num + "/info.0.json");
+                StatsUtils.addTransferredBytes("https://xkcd.com/" + num + "/info.0.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        System.out.println(PackageMap.display.SELECT_LIST + "Selected xkcd JSON switched");
     }
 
     /** <p>Adds title items from title array to select menu and onto mainPanel.</p> */
@@ -109,6 +117,7 @@ public class SelectList {
     private static void setupButtons() {
         JButton close = new JButton("Close");
         JButton view = new JButton("View");
+        JButton export = new JButton("Export JSONs");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         close.addActionListener(e -> frame.dispose());
@@ -116,9 +125,11 @@ public class SelectList {
             frame.dispose();
             MainDisplay.panelRewrite(num);
         });
+        export.addActionListener(e -> jsonExport());
 
         buttonPanel.add(view);
         buttonPanel.add(close);
+        buttonPanel.add(export);
         mainPanel.add(buttonPanel);
         System.out.println(PackageMap.display.SELECT_LIST + "Buttons setup successfully");
     }
@@ -140,6 +151,22 @@ public class SelectList {
             createSelectList(num);
             selectPanelInit();
             System.out.println(PackageMap.display.SELECT_LIST + "All title threads finished");
+        }
+    }
+
+    /** <p>Exports all xkcd JSONs to a single file for reference.</p> */
+    public static void jsonExport() {
+        StringBuilder output = new StringBuilder();
+        for (JsonObject json : JSONS) {
+            try {
+                output.append(json.toString() + "\n");
+            } catch (NullPointerException ignored) {
+            }
+        }
+        try {
+            Files.writeString(Path.of("xkcd.json"), output.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

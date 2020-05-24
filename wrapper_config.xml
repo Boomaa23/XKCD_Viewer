@@ -18,10 +18,10 @@
     <mainClass>com.boomaa.XKCDViewer.display.MainDisplay</mainClass>
   </classPath>
   <jre>
-    <path>C:\Program Files\Java\jdk1.8.0_251</path>
+    <path>C:\Program Files\Java\jdk-11.0.6</path>
     <bundledJre64Bit>true</bundledJre64Bit>
     <bundledJreAsFallback>true</bundledJreAsFallback>
-    <minVersion>1.8</minVersion>
+    <minVersion>11</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
