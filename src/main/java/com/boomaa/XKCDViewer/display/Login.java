@@ -18,72 +18,72 @@ import net.sf.image4j.codec.ico.ICODecoder;
 
 /** <p>Authenticates FTP credentials for voting/leaderboard systems.</p> */
 public class Login {
-	/** <p>Root URL for the FTP server, along with retrieved credentials.</p> */
-	public static String FTP_URL;
-	/** <p>Frame containing login elements in mainPanel.</p> */
-	private JFrame frame = new JFrame("Login");
-	/** <p>Panel containing login elements.</p> */
-	private JPanel loginPanel = new JPanel();
-	/** <p>The name of the class redirecting to the login page.</p> */
-	private String lastClass = "";
-	
-	/**
-	 * <p>Authenticates FTP credentials through GUI.</p>
-	 * @param lastClass the class that was closed to get to login.
-	 */
-	public Login(String lastClass) {
-		this.lastClass = lastClass;
-		try {
-			frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		frame.setSize(250, 125);
-		frame.setLocationRelativeTo(null);
-		setupFTPLogin();
-		System.out.println(PackageMap.display.LOGIN + "Login page displayed");
-	}
+    /** <p>Root URL for the FTP server, along with retrieved credentials.</p> */
+    public static String FTP_URL;
+    /** <p>Frame containing login elements in mainPanel.</p> */
+    private JFrame frame = new JFrame("Login");
+    /** <p>Panel containing login elements.</p> */
+    private JPanel loginPanel = new JPanel();
+    /** <p>The name of the class redirecting to the login page.</p> */
+    private String lastClass = "";
 
-	/** <p>Adds login panel items and listeners.</p> */
-	private void setupFTPLogin() {
-		JButton submit = new JButton("Submit");
-		frame.getRootPane().setDefaultButton(submit);
-		submit.addActionListener(e -> { 
-			try {	
-				StringBuilder sb = new StringBuilder();
-				for(char c : ((JPasswordField) (loginPanel.getComponent(3))).getPassword()) { sb.append(c); }
-				FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
-				reopenClosedClass();
-				frame.dispose();
-				System.out.println(PackageMap.display.LOGIN + "Last class reopened");
-			} catch (IllegalArgumentException e0) {
-				System.err.println(PackageMap.display.LOGIN + "Login not successful, trying again...");
-				setupFTPLogin();
-			}
-		});
-		JButton reset = new JButton("Reset");
-		reset.addActionListener(e -> {
-			((JTextField) (loginPanel.getComponent(1))).setText("");
-			((JPasswordField) (loginPanel.getComponent(3))).setText("");
-		});
-		DisplayUtils.addPanelComponents(loginPanel, new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit, reset);
-		frame.add(loginPanel);
-		frame.setVisible(true);
-		loginPanel.getComponent(3).requestFocus();
-	}
-	
-	/** <p>Opens a new instance of the linking class to get to the login page.</p> */
-	private void reopenClosedClass() {
-		try {
-			switch(lastClass) {
-				case "Leaderboard": new Leaderboard(); break;
-				case "Upvote": DisplayUtils.uploadToFTP("", 1); break;
-				case "Downvote": DisplayUtils.uploadToFTP("", -1); break;
-				case "Main": JDEC.IMAGE_POPUP.remove(JDEC.LOGIN); break;
-				default: break;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * <p>Authenticates FTP credentials through GUI.</p>
+     * @param lastClass the class that was closed to get to login.
+     */
+    public Login(String lastClass) {
+        this.lastClass = lastClass;
+        try {
+            frame.setIconImages(ICODecoder.read(new URL("https://xkcd.com/s/919f27.ico").openStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        frame.setSize(250, 125);
+        frame.setLocationRelativeTo(null);
+        setupFTPLogin();
+        System.out.println(PackageMap.display.LOGIN + "Login page displayed");
+    }
+
+    /** <p>Adds login panel items and listeners.</p> */
+    private void setupFTPLogin() {
+        JButton submit = new JButton("Submit");
+        frame.getRootPane().setDefaultButton(submit);
+        submit.addActionListener(e -> {
+            try {
+                StringBuilder sb = new StringBuilder();
+                for(char c : ((JPasswordField) (loginPanel.getComponent(3))).getPassword()) { sb.append(c); }
+                FTP_URL = "ftp://" + ((JTextField) (loginPanel.getComponent(1))).getText() + ":"  + sb.toString() + "@ftpupload.net/htdocs/XKCD/votes.json";
+                reopenClosedClass();
+                frame.dispose();
+                System.out.println(PackageMap.display.LOGIN + "Last class reopened");
+            } catch (IllegalArgumentException e0) {
+                System.err.println(PackageMap.display.LOGIN + "Login not successful, trying again...");
+                setupFTPLogin();
+            }
+        });
+        JButton reset = new JButton("Reset");
+        reset.addActionListener(e -> {
+            ((JTextField) (loginPanel.getComponent(1))).setText("");
+            ((JPasswordField) (loginPanel.getComponent(3))).setText("");
+        });
+        DisplayUtils.addPanelComponents(loginPanel, new JLabel("FTP Username: "), new JTextField("b24_21343661", 10), new JLabel("FTP Password: "), new JPasswordField(10), submit, reset);
+        frame.add(loginPanel);
+        frame.setVisible(true);
+        loginPanel.getComponent(3).requestFocus();
+    }
+
+    /** <p>Opens a new instance of the linking class to get to the login page.</p> */
+    private void reopenClosedClass() {
+        try {
+            switch(lastClass) {
+                case "Leaderboard": new Leaderboard(); break;
+                case "Upvote": DisplayUtils.uploadToFTP("", 1); break;
+                case "Downvote": DisplayUtils.uploadToFTP("", -1); break;
+                case "Main": JDEC.IMAGE_POPUP.remove(JDEC.LOGIN); break;
+                default: break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

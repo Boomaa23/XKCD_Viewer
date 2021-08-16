@@ -10,3 +10,6 @@ ftpurl.txt
 /.gradle/
 /build/
 out/*
+*.classpath
+*.project
+*.settings
